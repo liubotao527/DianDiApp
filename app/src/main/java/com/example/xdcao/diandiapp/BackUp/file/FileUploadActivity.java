@@ -1,11 +1,12 @@
-package com.example.xdcao.diandiapp;
+package com.example.xdcao.diandiapp.BackUp.file;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.xdcao.diandiapp.R;
 
 import java.io.File;
 
@@ -62,7 +63,7 @@ public class FileUploadActivity extends Activity{
         });
     }
 
-
+//上传一条单个文件的数据
     private void sdscUpload(File file) {
 
         final BmobFile bmobFile=new BmobFile(file);
@@ -75,6 +76,9 @@ public class FileUploadActivity extends Activity{
         });
 
     }
+
+
+
 
 
 }

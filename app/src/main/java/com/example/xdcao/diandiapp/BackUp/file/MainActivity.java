@@ -1,10 +1,13 @@
-package com.example.xdcao.diandiapp;
+package com.example.xdcao.diandiapp.BackUp.file;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.xdcao.diandiapp.BackUp.usermanage.LoginActivity;
+import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobConfig;
@@ -18,6 +21,7 @@ public class MainActivity extends Activity {
     private Button toSubmitAc;
     private Button toScanAc;
     private Button toUploadAc;
+    private Button toLoginAc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class MainActivity extends Activity {
         toSubmitAc=(Button)findViewById(R.id.toSubmitAc);
         toScanAc=(Button)findViewById(R.id.toScanAc);
         toUploadAc=(Button)findViewById(R.id.toUploadac);
+        toLoginAc=(Button)findViewById(R.id.toLoginAc);
         toSubmitAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +55,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,FileUploadActivity.class);
+                startActivity(intent);
+            }
+        });
+        toLoginAc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
         });

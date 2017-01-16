@@ -6,23 +6,30 @@
 
 
     <Button
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:id="@+id/toSubmitAc"
         android:text="提交失物信息"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:id="@+id/toScanAc"
         android:text="查找失物信息"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:id="@+id/toUploadac"
         android:text="上传文件"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="60dp"
+        android:text="用户登录"
+        android:id="@+id/toLoginAc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

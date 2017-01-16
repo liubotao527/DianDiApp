@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
 
     private Button toSubmitAc;
     private Button toScanAc;
+    private Button toUploadAc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
     private void initActivity(){
         toSubmitAc=(Button)findViewById(R.id.toSubmitAc);
         toScanAc=(Button)findViewById(R.id.toScanAc);
+        toUploadAc=(Button)findViewById(R.id.toUploadac);
         toSubmitAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +43,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,ScanActivity.class);
+                startActivity(intent);
+            }
+        });
+        toUploadAc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,FileUploadActivity.class);
                 startActivity(intent);
             }
         });

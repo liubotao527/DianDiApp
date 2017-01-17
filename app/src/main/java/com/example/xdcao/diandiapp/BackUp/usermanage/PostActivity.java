@@ -1,10 +1,12 @@
 package com.example.xdcao.diandiapp.BackUp.usermanage;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.xdcao.diandiapp.R;
 
@@ -20,24 +22,47 @@ public class PostActivity extends Activity {
 
     private static final String TAG = "PostActivity";
 
+    private EditText post_text;
+    private EditText post_title;
     private Button post_btn;
+    private Button logout_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_layout);
+        initActivity();
+    }
+
+    private void initActivity() {
         post_btn=(Button)findViewById(R.id.post_btn);
+        logout_btn=(Button)findViewById(R.id.logout_btn);
+        post_text=(EditText)findViewById(R.id.post_text_input);
+        post_title=(EditText)findViewById(R.id.title_input);
         post_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userPost();
             }
         });
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userLogout();
+            }
+        });
     }
 
-    public static void userPost(){
+    private void userLogout() {
+        BmobUser.logOut();
+        BmobUser currentUser=BmobUser.getCurrentUser();
+        Intent intent=new Intent(PostActivity.this,LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void userPost(){
         MyUser user= BmobUser.getCurrentUser(MyUser.class);
-        Post post=new Post("第一个帖子","这是我的第一个帖子",user);
+        Post post=new Post(post_title.getText().toString(),post_text.getText().toString(),user);
         post.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {

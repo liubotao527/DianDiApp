@@ -53,7 +53,7 @@ public class RegisterActivity extends Activity {
         MyUser user=new MyUser();
         user.setUsername(userInput.getText().toString());
         user.setPassword(pwdInput.getText().toString());
-        user.setSex(pwdInput.getText().toString().equals("男")?true:false);
+        user.setSex(sexInput.getText().toString().equals("男")?true:false);
         user.setAge(Integer.parseInt(ageInput.getText().toString()));
         user.signUp(new SaveListener<MyUser>() {
             @Override

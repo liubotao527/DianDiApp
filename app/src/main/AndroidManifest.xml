@@ -29,6 +29,7 @@
         <activity android:name=".BackUp.usermanage.PostActivity"/>
         <activity android:name=".BackUp.usermanage.LoginActivity"/>
         <activity android:name=".BackUp.usermanage.RegisterActivity"/>
+        <activity android:name=".BackUp.usermanage.FriendsActivity"/>
 
     </application>
 

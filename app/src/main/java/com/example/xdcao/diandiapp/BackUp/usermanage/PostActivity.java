@@ -26,6 +26,7 @@ public class PostActivity extends Activity {
     private EditText post_title;
     private Button post_btn;
     private Button logout_btn;
+    private Button toFriendsAcBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class PostActivity extends Activity {
     private void initActivity() {
         post_btn=(Button)findViewById(R.id.post_btn);
         logout_btn=(Button)findViewById(R.id.logout_btn);
+        toFriendsAcBtn=(Button)findViewById(R.id.toFriendsAc);
         post_text=(EditText)findViewById(R.id.post_text_input);
         post_title=(EditText)findViewById(R.id.title_input);
         post_btn.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +51,13 @@ public class PostActivity extends Activity {
             @Override
             public void onClick(View v) {
                 userLogout();
+            }
+        });
+        toFriendsAcBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(PostActivity.this,FriendsActivity.class);
+                startActivity(intent);
             }
         });
     }

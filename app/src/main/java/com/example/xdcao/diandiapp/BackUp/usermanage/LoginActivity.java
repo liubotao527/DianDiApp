@@ -30,8 +30,19 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        autoLogin();
         setContentView(R.layout.login_layout);
         initActivity();
+    }
+
+    private void autoLogin() {
+        MyUser currentUser=BmobUser.getCurrentUser(MyUser.class);
+        if(currentUser!=null){
+            Intent intent=new Intent(LoginActivity.this,PostActivity.class);
+            startActivity(intent);
+        }else {
+            return;
+        }
     }
 
     private void initActivity() {

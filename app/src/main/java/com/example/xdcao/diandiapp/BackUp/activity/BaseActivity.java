@@ -18,6 +18,12 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BaseActivity extends Activity {
 
+
+
+
+
+
+
     public static String TAG = "bmob";
     protected ListView mListview;
     protected BaseAdapter mAdapter;

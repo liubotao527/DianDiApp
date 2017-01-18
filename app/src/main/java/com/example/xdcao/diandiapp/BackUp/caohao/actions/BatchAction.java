@@ -1,6 +1,5 @@
-package com.example.xdcao.diandiapp.BackUp.actions;
+package com.example.xdcao.diandiapp.BackUp.caohao.actions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobBatch;
@@ -9,8 +8,8 @@ import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListListener;
 
-import static com.example.xdcao.diandiapp.BackUp.activity.BaseActivity.log;
-import static com.example.xdcao.diandiapp.BackUp.activity.BaseActivity.loge;
+import static com.example.xdcao.diandiapp.BackUp.caohao.activity.BaseActivity.log;
+import static com.example.xdcao.diandiapp.BackUp.caohao.activity.BaseActivity.loge;
 
 /**
  * Created by xdcao on 2017/1/18.

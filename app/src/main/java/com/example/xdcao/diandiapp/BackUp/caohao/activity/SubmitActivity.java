@@ -1,12 +1,11 @@
-package com.example.xdcao.diandiapp.BackUp.activity;
+package com.example.xdcao.diandiapp.BackUp.caohao.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.xdcao.diandiapp.BackUp.bean.Lost;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Lost;
 import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.exception.BmobException;

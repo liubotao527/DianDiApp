@@ -1,4 +1,4 @@
-﻿package com.example.xdcao.diandiapp.BackUp.activity;
+package com.example.xdcao.diandiapp.BackUp.caohao.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,8 +15,6 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by xdcao on 2017/1/18.
  */
-
-
 
 public class BaseActivity extends Activity {
 

@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.bean;
+package com.example.xdcao.diandiapp.BackUp.caohao.bean;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;

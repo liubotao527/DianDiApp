@@ -1,6 +1,6 @@
-package com.example.xdcao.diandiapp.BackUp.actions;
+package com.example.xdcao.diandiapp.BackUp.caohao.actions;
 
-import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by xdcao on 2017/1/18.
+ * 用户登录查询操作
  */
 
 public class UserAction {
@@ -24,7 +24,7 @@ public class UserAction {
     /**
      * 更新用户操作并同步更新本地的用户信息
      */
-    private void updateUser() {
+    public static void updateUser() {
 
     }
 
@@ -56,7 +56,7 @@ public class UserAction {
     /**
      * 重置密码
      */
-    private void ResetPasswrod(final String email) {
+    public static void ResetPasswrod(final String email) {
         BmobUser.resetPasswordByEmail(email, new UpdateListener() {
 
             @Override
@@ -73,7 +73,7 @@ public class UserAction {
     /**
      * 查询用户
      */
-    private void FindBmobUser() {
+    public static void FindBmobUser() {
         BmobQuery<MyUser> query = new BmobQuery<MyUser>();
         query.addWhereEqualTo("username", "lucky");
         query.findObjects(new FindListener<MyUser>() {
@@ -93,7 +93,7 @@ public class UserAction {
     /**
      * 验证邮件
      */
-    private void emailVerify(final String email) {
+    public static void emailVerify(final String email) {
 
         BmobUser.requestEmailVerify(email, new UpdateListener() {
 
@@ -109,7 +109,7 @@ public class UserAction {
         });
     }
 
-    private void loginByEmailPwd(String email,String pwd){
+    public static void loginByEmailPwd(String email,String pwd){
             BmobUser.loginByAccount(email, pwd, new LogInListener<MyUser>() {
 
             @Override
@@ -121,7 +121,7 @@ public class UserAction {
         });
     }
 
-    private void loginByPhonePwd(String phoneNum,String pwd){
+    public static void loginByPhonePwd(String phoneNum, String pwd){
 
         BmobUser.loginByAccount(phoneNum, pwd, new LogInListener<MyUser>() {
 
@@ -154,12 +154,13 @@ public class UserAction {
 
     }
 
-
+    /*
+    手机号短信验证码登录
+     */
     public static void loginByPhoneCode(String phoneNum,String smsCode){
 
 
         BmobUser.loginBySMSCode(phoneNum, smsCode, new LogInListener<MyUser>() {
-
             @Override
             public void done(MyUser user, BmobException e) {
                 if(user!=null){
@@ -174,114 +175,47 @@ public class UserAction {
     }
 
 
-
-    /** 一键注册登录
-     * @method signOrLogin
-     * @return void
-     * @exception
-     */
-    private void signOrLogin(){
-        //1、调用请求验证码接口
-//		BmobSMS.requestSMSCode("18312662735", "模板名称",new QueryListener<Integer>() {
-//
-//			@Override
-//			public void done(Integer smsId,BmobException ex) {
-//				if(ex==null){//验证码发送成功
-//					log("smile", "短信id："+smsId);
-//				}
-//			}
-//
-//		});
-        String number = et_number.getText().toString();
-        String code = et_code.getText().toString();
-        //2、使用手机号和短信验证码进行一键注册登录,这步有两种方式可以选择
-//		//第一种：
-//		BmobUser.signOrLoginByMobilePhone(number, code,new LogInListener<MyUser>() {
-//
-//			@Override
-//			public void done(MyUser user, BmobException e) {
-//				if(user!=null){
-//					toast("登录成功");
-//					log(""+user.getUsername()+"-"+user.getAge()+"-"+user.getObjectId()+"-"+user.getEmail());
-//				}else{
-//					toast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
-//				}
-//			}
-//		});
-        //第二种：这种方式比较灵活，可以在注册或登录的同时设置保存多个字段值
-        final MyUser user = new MyUser();
-        user.setPassword("123456");
-        user.setMobilePhoneNumber("15018879340");
-        addSubscription(user.signOrLogin(code, new SaveListener<MyUser>() {
-
-            @Override
-            public void done(MyUser myUser, BmobException e) {
-                if(e==null){
-                    toast("登录成功");
-                    log(""+myUser.getAge()+"-"+myUser.getObjectId()+"-"+myUser.getEmail());
-                }else{
-                    loge(e);
-                }
-            }
-
-        }));
-    }
-
     /** 通过短信验证码来重置用户密码
      * @method requestSmsCode
      * @return void
      * 注：整体流程是先调用请求验证码的接口获取短信验证码，随后调用短信验证码重置密码接口来重置该手机号对应的用户的密码
      */
-    private void resetPasswordBySMS(){
-        //1、请求短信验证码
-//		BmobSMS.requestSMSCode("手机号码", "模板名称",new QueryListener<Integer>() {
-//
-//			@Override
-//			public void done(Integer smsId,BmobException ex) {
-//				if(ex==null){//验证码发送成功
-//					log("短信id："+smsId);
-//				}
-//			}
-//		});
-        String code = et_code.getText().toString();
-        //2、重置的是绑定了该手机号的账户的密码
-        addSubscription(BmobUser.resetPasswordBySMSCode(code,"1234567", new UpdateListener() {
+    public static void resetPasswordBySMS(String smsCode,String newPwd){
+
+        //重置的是绑定了该手机号的账户的密码
+        BmobUser.resetPasswordBySMSCode(smsCode,newPwd, new UpdateListener() {
 
             @Override
             public void done(BmobException e) {
                 if(e==null){
-                    toast("密码重置成功");
+                    System.out.print("密码重置成功");
                 }else{
-                    toast("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
+                    System.out.print("错误码："+e.getErrorCode()+",错误原因："+e.getLocalizedMessage());
                 }
             }
-        }));
+        });
     }
 
     /**修改当前用户密码
      * @return void
      * @exception
      */
-    private void updateCurrentUserPwd(){
-        addSubscription(BmobUser.updateCurrentUserPassword("旧密码", "新密码", new UpdateListener() {
+    public static void updateCurrentUserPwd(String oldPwd,String newPwd){
+        BmobUser.updateCurrentUserPassword(oldPwd, newPwd, new UpdateListener() {
 
             @Override
             public void done(BmobException e) {
                 if(e==null){
-                    toast("密码修改成功，可以用新密码进行登录");
+                    System.out.print("密码修改成功，可以用新密码进行登录");
                 }else{
-                    loge(e);
+                    System.out.print(e);
                 }
             }
-        }));
+        });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+
 }
 
 
 
-}

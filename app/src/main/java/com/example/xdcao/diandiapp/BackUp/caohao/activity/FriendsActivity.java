@@ -1,12 +1,10 @@
-package com.example.xdcao.diandiapp.BackUp.activity;
+package com.example.xdcao.diandiapp.BackUp.caohao.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.example.xdcao.diandiapp.BackUp.adapters.FriendAdapter;
-import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.adapters.FriendAdapter;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.List;

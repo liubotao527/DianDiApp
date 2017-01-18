@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.adapters;
+package com.example.xdcao.diandiapp.BackUp.caohao.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.List;

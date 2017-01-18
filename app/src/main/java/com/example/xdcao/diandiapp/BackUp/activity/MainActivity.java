@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.file;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.xdcao.diandiapp.BackUp.usermanage.LoginActivity;
 import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.Bmob;
@@ -16,7 +15,7 @@ import cn.bmob.v3.BmobConfig;
  * Created by xdcao on 2017/1/14.
  */
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private Button toSubmitAc;
     private Button toScanAc;

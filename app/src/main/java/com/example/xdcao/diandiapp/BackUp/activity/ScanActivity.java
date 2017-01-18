@@ -1,9 +1,11 @@
-package com.example.xdcao.diandiapp.BackUp.file;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.xdcao.diandiapp.BackUp.bean.Lost;
+import com.example.xdcao.diandiapp.BackUp.adapters.LostAdapter;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import cn.bmob.v3.listener.FindListener;
  * Created by xdcao on 2017/1/14.
  */
 
-public class ScanActivity extends Activity{
+public class ScanActivity extends BaseActivity{
 
     private ListView scanlist;
     private LostAdapter lostAdapter=null;

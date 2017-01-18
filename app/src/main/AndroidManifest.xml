@@ -15,21 +15,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BackUp.file.MainActivity">
+        <activity android:name=".BackUp.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".BackUp.file.SubmitActivity"/>
-        <activity android:name=".BackUp.file.ScanActivity"/>
-        <activity android:name=".BackUp.file.FileUploadActivity"/>
+        <activity android:name=".BackUp.activity.SubmitActivity"/>
+        <activity android:name=".BackUp.activity.ScanActivity"/>
+        <activity android:name=".BackUp.activity.FileUploadActivity"/>
 
-        <activity android:name=".BackUp.usermanage.PostActivity"/>
-        <activity android:name=".BackUp.usermanage.LoginActivity"/>
-        <activity android:name=".BackUp.usermanage.RegisterActivity"/>
-        <activity android:name=".BackUp.usermanage.FriendsActivity"/>
+        <activity android:name=".BackUp.activity.PostActivity"/>
+        <activity android:name=".BackUp.activity.LoginActivity"/>
+        <activity android:name=".BackUp.activity.RegisterActivity"/>
+        <activity android:name=".BackUp.activity.FriendsActivity"/>
 
     </application>
 

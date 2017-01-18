@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.file;
+package com.example.xdcao.diandiapp.BackUp.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.xdcao.diandiapp.BackUp.bean.Lost;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.List;

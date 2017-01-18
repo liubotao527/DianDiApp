@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.usermanage;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.bean.Post;
 import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.BmobUser;
@@ -18,7 +20,7 @@ import cn.bmob.v3.listener.SaveListener;
  * Created by xdcao on 2017/1/16.
  */
 
-public class PostActivity extends Activity {
+public class PostActivity extends BaseActivity {
 
     private static final String TAG = "PostActivity";
 

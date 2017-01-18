@@ -1,16 +1,13 @@
-package com.example.xdcao.diandiapp.BackUp.usermanage;
+package com.example.xdcao.diandiapp.BackUp.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.xdcao.diandiapp.BackUp.file.Lost;
-import com.example.xdcao.diandiapp.BackUp.file.LostAdapter;
+import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.List;

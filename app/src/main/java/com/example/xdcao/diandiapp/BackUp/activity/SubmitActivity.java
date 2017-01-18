@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.file;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.xdcao.diandiapp.BackUp.bean.Lost;
 import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.exception.BmobException;
@@ -15,7 +16,7 @@ import cn.bmob.v3.listener.SaveListener;
  * Created by xdcao on 2017/1/14.
  */
 
-public class SubmitActivity extends Activity{
+public class SubmitActivity extends BaseActivity{
 
     private EditText title;
     private EditText describe;

@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.usermanage;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.exception.BmobException;
@@ -17,7 +18,7 @@ import cn.bmob.v3.listener.SaveListener;
  * Created by xdcao on 2017/1/16.
  */
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends BaseActivity {
 
     private EditText userInput;
     private EditText pwdInput;

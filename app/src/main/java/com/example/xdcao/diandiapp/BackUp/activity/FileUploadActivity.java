@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.BackUp.file;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.xdcao.diandiapp.BackUp.bean.music;
 import com.example.xdcao.diandiapp.R;
 
 import java.io.File;
@@ -20,9 +21,8 @@ import cn.bmob.v3.listener.UploadFileListener;
  * Created by xdcao on 2017/1/16.
  */
 
-public class FileUploadActivity extends Activity{
+public class FileUploadActivity extends BaseActivity{
 
-    private static String TAG="fileupload";
 
     private Button sdsc;
     private Button sdmc;

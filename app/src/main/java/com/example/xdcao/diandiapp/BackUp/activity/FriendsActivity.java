@@ -1,9 +1,12 @@
-package com.example.xdcao.diandiapp.BackUp.usermanage;
+package com.example.xdcao.diandiapp.BackUp.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.example.xdcao.diandiapp.BackUp.adapters.FriendAdapter;
+import com.example.xdcao.diandiapp.BackUp.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.List;
@@ -16,7 +19,7 @@ import cn.bmob.v3.listener.FindListener;
  * Created by xdcao on 2017/1/17.
  */
 
-public class FriendsActivity extends Activity {
+public class FriendsActivity extends BaseActivity {
 
     private ListView friendList;
 

@@ -11,6 +11,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
@@ -20,14 +21,10 @@ import cn.bmob.v3.listener.UpdateListener;
 public class UserAction {
 
 
-
-
-
     /**
      * 更新用户操作并同步更新本地的用户信息
      */
     private void updateUser() {
-
 
     }
 

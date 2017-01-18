@@ -18,7 +18,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BaseActivity extends Activity {
 
-
+    
     public int i = 10;
     public static String TAG = "bmob";
     protected ListView mListview;

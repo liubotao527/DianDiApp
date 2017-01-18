@@ -24,7 +24,19 @@ public class UserAction {
     /**
      * 更新用户操作并同步更新本地的用户信息
      */
-    public static void updateUser() {
+    public static void updateUser(MyUser newUser) {
+
+        MyUser currentUser=BmobUser.getCurrentUser(MyUser.class);
+        newUser.update(currentUser.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    System.out.print("更新用户信息成功");
+                }else {
+                    System.out.print("更新用户信息失败");
+                }
+            }
+        });
 
     }
 

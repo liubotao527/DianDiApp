@@ -54,9 +54,9 @@ public class FileUploadActivity extends BaseActivity{
             @Override
             public void done(String s, BmobException e) {
                 if(e==null){
-                    System.out.print("-->创建数据成功：" + s);
+                    showToast("-->创建数据成功：" + s);
                 }else{
-                    System.out.print("-->创建数据失败：" + e.getErrorCode()+",msg = "+e.getMessage());
+                    showToast("-->创建数据失败：" + e.getErrorCode()+",msg = "+e.getMessage());
                 }
             }
         });
@@ -69,7 +69,7 @@ public class FileUploadActivity extends BaseActivity{
         bmobFile.uploadblock(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
-                Log.i(TAG, "done: "+bmobFile.getFileUrl());
+                showToast("done: "+bmobFile.getFileUrl());
                 insertObject(new music("hahah","me",bmobFile));
             }
         });

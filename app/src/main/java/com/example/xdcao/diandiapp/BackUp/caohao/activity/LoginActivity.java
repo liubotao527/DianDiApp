@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.actions.UserAction;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
@@ -26,6 +27,9 @@ public class LoginActivity extends BaseActivity {
     private EditText pwdInput;
     private Button loginBtn;
     private Button toRegistAc;
+    private Button directLogin;
+    private Button requestCode;
+    private EditText codeInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,9 @@ public class LoginActivity extends BaseActivity {
         pwdInput=(EditText)findViewById(R.id.pwd_input);
         loginBtn=(Button)findViewById(R.id.login_btn);
         toRegistAc=(Button)findViewById(R.id.toRegistAc);
+        directLogin=(Button)findViewById(R.id.directLogin);
+        requestCode=(Button)findViewById(R.id.requestCode);
+        codeInput=(EditText)findViewById(R.id.code_input);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +68,18 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
                 startActivity(intent);
+            }
+        });
+        requestCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserAction.requestCheck("13338926199","默认");
+            }
+        });
+        directLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserAction.loginByPhoneCode("13338926199",codeInput.getText().toString());
             }
         });
     }

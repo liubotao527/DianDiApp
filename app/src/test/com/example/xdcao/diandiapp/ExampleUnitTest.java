@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp;
+package test.com.example.xdcao.diandiapp;
 
 import org.junit.Test;
 

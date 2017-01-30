@@ -17,6 +17,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main']
+        }
+    }
 }
 
 dependencies {
@@ -30,5 +40,5 @@ dependencies {
     compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
     compile 'cn.bmob.android:bmob-push:0.8'
     testCompile 'junit:junit:4.12'
-
+    compile 'junit:junit:4.12'
 }

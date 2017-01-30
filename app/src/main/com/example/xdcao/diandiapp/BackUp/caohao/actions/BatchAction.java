@@ -11,6 +11,7 @@ import cn.bmob.v3.listener.QueryListListener;
 import static com.example.xdcao.diandiapp.BackUp.caohao.activity.BaseActivity.log;
 import static com.example.xdcao.diandiapp.BackUp.caohao.activity.BaseActivity.loge;
 
+
 /**
  * Created by xdcao on 2017/1/18.
  */

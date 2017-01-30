@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 
 import java.util.List;
-import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;

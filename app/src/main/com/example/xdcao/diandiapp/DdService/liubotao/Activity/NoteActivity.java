@@ -33,7 +33,7 @@ public class NoteActivity extends Activity {
 	private ImageButton ib_bgcolor;
 	private TextView tv_note_title;
 	private EditText et_content;
-	// 存储便签的背景图片在R.java中的值
+
 	private int mBackgroud_Color;
 	// 用户创建或更新便签的日期/时间
 	private String updateDate;
@@ -166,8 +166,7 @@ public class NoteActivity extends Activity {
 //			updateDate = c.getString(c.getColumnIndex(NoteItems.UPDATE_DATE));
 //			updateTime = c.getString(c.getColumnIndex(NoteItems.UPDATE_TIME));
 
-			// 根据数据库中的值设定背景颜色
-//			mBackgroud_Color = c.getInt(c.getColumnIndex(NoteItems.BACKGROUND_COLOR));
+
 			c.close();
 		}
 		// 判断打开方式

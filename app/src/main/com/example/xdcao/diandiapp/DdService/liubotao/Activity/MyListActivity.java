@@ -22,12 +22,12 @@ import com.example.xdcao.diandiapp.DdService.liubotao.adapter.MyCursorAdapter;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
 
 /*
- * 显示所有的文件夹和没有父文件夹的便签
+ * 显示所有的便签
  */
 public class MyListActivity extends Activity implements OnGesturePerformedListener {
     /** Called when the activity is first created. */
     private static final String SETTINGS = "user_configurations";
-    // 手势相关
+
     private GestureOverlayView mGestureOverlayView;
     private GestureLibrary mGestureLibrary;
     private String GestureName_Add = "add_Record";
@@ -50,7 +50,7 @@ public class MyListActivity extends Activity implements OnGesturePerformedListen
 
     public static final String TAG = "Note";
 
-    // 如果用户输入的密码错误,使用该变量记录错误次数
+
     private int count = 0;
 
     @Override
@@ -59,15 +59,10 @@ public class MyListActivity extends Activity implements OnGesturePerformedListen
         // 取消标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.index_page);
-        // 判断有无密码,如果有,检测输入的密码是否正确
+
         //this.inputPsd();
 
-        // 加载手势库文件
-        //mGestureLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
-/*		if (mGestureLibrary.load()) {
-			mGestureOverlayView = (GestureOverlayView) findViewById(R.id.gestureOverlayView);
-			mGestureOverlayView.addOnGesturePerformedListener(this);
-		}*/
+
 
         mListview = (ListView) findViewById(R.id.list);
         // 更新ListView数据

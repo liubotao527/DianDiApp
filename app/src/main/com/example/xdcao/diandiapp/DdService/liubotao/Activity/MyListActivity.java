@@ -17,10 +17,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.adapter.NineGridTestAdapter;
-import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.model.NineGridTestModel;
+
 
 import com.example.xdcao.diandiapp.DdService.liubotao.adapter.MyCursorAdapter;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
+import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class MyListActivity extends Activity {
 
 
     private int count = 0;
-    private List<NineGridTestModel> mList;
+    private List<MyDdNote> mList;
 
 
 
@@ -222,7 +223,7 @@ public class MyListActivity extends Activity {
 
 
 
-                NineGridTestModel model = new NineGridTestModel();
+                MyDdNote model = new MyDdNote();
                 //for(int j=0;j<i;j++){
                 //    model.urlList.add(mUrls[j]);
                 //}
@@ -269,7 +270,7 @@ public class MyListActivity extends Activity {
 
 
     private void initListData(Vector note,Vector time) {
-         String[] mUrls = new String[]{
+        String[] mUrls = new String[]{
                 "file:///mnt/sdcard/Apic/12.jpg",//IMG_20170301_114357.jpg
                 "file:///mnt/sdcard/Apic/11.jpg",
                 "file:///mnt/sdcard/Apic/12.jpg",
@@ -286,7 +287,7 @@ public class MyListActivity extends Activity {
         };
         for(int i=0;i<note.size();i++){
 
-            NineGridTestModel model = new NineGridTestModel();
+            MyDdNote model = new MyDdNote();
            // for(int j=0;j<i;j++){
            //    model.urlList.add(mUrls[j]);
             //}

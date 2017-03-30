@@ -19,6 +19,7 @@ public class CustomImageView extends ImageView {
     private String url;
     private boolean isAttachedToWindow;
 
+
     public CustomImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

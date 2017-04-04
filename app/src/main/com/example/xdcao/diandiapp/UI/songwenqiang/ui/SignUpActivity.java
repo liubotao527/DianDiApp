@@ -39,7 +39,27 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+
         BmobInit();
+        autoLogin();
+        initComponents();
+//        userPrefs = new UserPrefs(SignUpActivity.this);
+//        if(!TextUtils.isEmpty(userPrefs.getAuthToken())){
+//            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+//            finish();
+//            return;
+//        }
+//        skipTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+//            }
+//        });
+
+    }
+
+    private void initComponents() {
         skipTextView = (TextView) findViewById(R.id.skip);
 
         telephone=(EditText)findViewById(R.id.email);
@@ -55,7 +75,6 @@ public class SignUpActivity extends AppCompatActivity {
                 userLogin();
             }
         });
-
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,21 +83,18 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-
-        userPrefs = new UserPrefs(SignUpActivity.this);
-        if(!TextUtils.isEmpty(userPrefs.getAuthToken())){
-            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
-            finish();
+    private void autoLogin() {
+        MyUser currentUser=BmobUser.getCurrentUser(MyUser.class);
+        if(currentUser!=null){
+            Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
+            startActivity(intent);
+        }else {
             return;
         }
-        skipTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignUpActivity.this,MainActivity.class));
-            }
-        });
     }
+
 
     private void userLogin() {
         MyUser user=new MyUser();

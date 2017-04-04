@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,14 +27,17 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.SettingFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ShareFragment;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    RelativeLayout rlnotes,rlshare,rlcontact,rlsettings;
-    ImageView imnotes,imshare,imcontact,imsettings;
-    TextView tvnotes,tvshare,tvcontact,tvsettings;
-    FloatingActionButton fab;
+    private Toolbar mToolBar;
+    private RelativeLayout mRlNotes, mRlShare, mRlContact, mRlSettings;
+    private ImageView mImNotes, mImShare, mImContact, mImSettings;
+    private TextView mTvNotes, mTvShare, mTvContact, mTvSettings;
+    private FloatingActionButton mFab;
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+
+    private String[] mTitles = {"DianDi","衣","食","住","行"};
 
 
     @Override
@@ -43,38 +49,38 @@ public class MainActivity extends AppCompatActivity
         resetFragmemt(R.id.notes);
 
 
-        rlnotes.setOnClickListener(new View.OnClickListener() {
+        mRlNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetFragmemt(R.id.notes);
             }
         });
 
-        rlshare.setOnClickListener(new View.OnClickListener() {
+        mRlShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetFragmemt(R.id.share);
             }
         });
 
-        rlcontact.setOnClickListener(new View.OnClickListener() {
+        mRlContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetFragmemt(R.id.contact);
             }
         });
 
-        rlsettings.setOnClickListener(new View.OnClickListener() {
+        mRlSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetFragmemt(R.id.settings);
             }
         });
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolBar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,NoteActivity.class);
@@ -82,34 +88,41 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,GravityCompat.START);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item,mTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+
     }
 
     private void initViews() {
+        mToolBar = (Toolbar) findViewById(R.id.toolbar);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mRlNotes = (RelativeLayout) findViewById(R.id.notes);
+        mRlShare = (RelativeLayout) findViewById(R.id.share);
+        mRlContact =(RelativeLayout) findViewById(R.id.contact);
+        mRlSettings = (RelativeLayout) findViewById(R.id.settings);
 
-        rlnotes = (RelativeLayout) findViewById(R.id.notes);
-        rlshare = (RelativeLayout) findViewById(R.id.share);
-        rlcontact=(RelativeLayout) findViewById(R.id.contact);
-        rlsettings = (RelativeLayout) findViewById(R.id.settings);
+        mImNotes = (ImageView)findViewById(R.id.tab_img_notes);
+        mImShare = (ImageView) findViewById(R.id.tab_img_share);
+        mImContact = (ImageView) findViewById(R.id.tab_img_contact);
+        mImSettings = (ImageView)findViewById(R.id.tab_img_setting);
 
-        imnotes = (ImageView)findViewById(R.id.tab_img_notes);
-        imshare = (ImageView) findViewById(R.id.tab_img_share);
-        imcontact= (ImageView) findViewById(R.id.tab_img_contact);
-        imsettings = (ImageView)findViewById(R.id.tab_img_setting);
+        mTvNotes = (TextView) findViewById(R.id.tab_text_notes);
+        mTvShare = (TextView) findViewById(R.id.tab_text_share);
+        mTvContact = (TextView) findViewById(R.id.tab_text_contact);
+        mTvSettings = (TextView) findViewById(R.id.tab_text_setting);
 
-        tvnotes = (TextView) findViewById(R.id.tab_text_notes);
-        tvshare = (TextView) findViewById(R.id.tab_text_share);
-        tvcontact = (TextView) findViewById(R.id.tab_text_contact);
-        tvsettings = (TextView) findViewById(R.id.tab_text_setting);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
     }
 
     private void resetFragmemt(int id) {
@@ -119,26 +132,26 @@ public class MainActivity extends AppCompatActivity
         int colorpress = R.color.colorPrimary;
         switch (id){
             case R.id.notes:
-                imnotes.setImageResource(R.drawable.ic_note_press);
-                tvnotes.setTextColor(getResources().getColor(colorpress));
+                mImNotes.setImageResource(R.drawable.ic_note_press);
+                mTvNotes.setTextColor(getResources().getColor(colorpress));
                 MainFragment mf = new MainFragment();
                 ft.replace(R.id.content_main2,mf);
                 break;
             case R.id.share:
-                imshare.setImageResource(R.drawable.ic_share_press);
-                tvshare.setTextColor(getResources().getColor(colorpress));
+                mImShare.setImageResource(R.drawable.ic_share_press);
+                mTvShare.setTextColor(getResources().getColor(colorpress));
                 ShareFragment sf = new ShareFragment();
                 ft.replace(R.id.content_main2,sf);
                 break;
             case R.id.contact:
-                imcontact.setImageResource(R.drawable.ic_contact_press);
-                tvcontact.setTextColor(getResources().getColor(colorpress));
+                mImContact.setImageResource(R.drawable.ic_contact_press);
+                mTvContact.setTextColor(getResources().getColor(colorpress));
                 ContactFragment cf = new ContactFragment();
                 ft.replace(R.id.content_main2,cf);
                 break;
             case R.id.settings:
-                imsettings.setImageResource(R.drawable.ic_settings_press);
-                tvsettings.setTextColor(getResources().getColor(colorpress));
+                mImSettings.setImageResource(R.drawable.ic_settings_press);
+                mTvSettings.setTextColor(getResources().getColor(colorpress));
                 SettingFragment stf = new SettingFragment();
                 ft.replace(R.id.content_main2,stf);
                 break;
@@ -148,15 +161,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void resetImage() {
-        imnotes.setImageResource(R.drawable.ic_note_normal);
-        imshare.setImageResource(R.drawable.ic_share_normal);
-        imcontact.setImageResource(R.drawable.ic_contact_noraml);
-        imsettings.setImageResource(R.drawable.ic_settings_normal);
+        mImNotes.setImageResource(R.drawable.ic_note_normal);
+        mImShare.setImageResource(R.drawable.ic_share_normal);
+        mImContact.setImageResource(R.drawable.ic_contact_noraml);
+        mImSettings.setImageResource(R.drawable.ic_settings_normal);
 
-        tvnotes.setTextColor(getResources().getColor(R.color.normal));
-        tvshare.setTextColor(getResources().getColor(R.color.normal));
-        tvcontact.setTextColor(getResources().getColor(R.color.normal));
-        tvsettings.setTextColor(getResources().getColor(R.color.normal));
+        mTvNotes.setTextColor(getResources().getColor(R.color.normal));
+        mTvShare.setTextColor(getResources().getColor(R.color.normal));
+        mTvContact.setTextColor(getResources().getColor(R.color.normal));
+        mTvSettings.setTextColor(getResources().getColor(R.color.normal));
     }
 
 
@@ -195,33 +208,23 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    private void selectItem(int position) {
         FragmentManager fm= getFragmentManager();
         FragmentTransaction ft= fm.beginTransaction();
-        if (id == R.id.nav_camera) {
-            toolbar.setTitle("camera");
-//            MainFragment mF1 = new MainFragment(MainActivity.this);
-//            Bundle bundle = new Bundle();
-//            bundle.putString("name","camera");
-//            mF1.setArguments(bundle);
-//            ft.replace(R.id.content_main2,mF1);
-            MainFragment mf1 = new MainFragment();
-            ft.replace(R.id.content_main2,mf1);
-        } else if (id == R.id.nav_gallery) {
-
-            toolbar.setTitle("gallery");
-
-        } else if (id == R.id.nav_slideshow) {
-            toolbar.setTitle("slideshow");
-        } else if (id == R.id.nav_manage) {
-            toolbar.setTitle("manage");
-        }
+        MainFragment mf1 = new MainFragment();
+        ft.replace(R.id.content_main2,mf1);
         ft.commit();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        mDrawerList.setItemChecked(position, true);
+        mToolBar.setTitle(mTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+
     }
+
 }

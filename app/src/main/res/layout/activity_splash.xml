@@ -38,6 +38,7 @@
         <com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.TextPointView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:text="@string/write"
             android:layout_gravity="center_horizontal"/>
             <!--app:text="@string/write"-->
 

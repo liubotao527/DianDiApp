@@ -1,5 +1,6 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -52,10 +53,11 @@ public class MainFragment extends Fragment {
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Context context) {
-        this.context = context;
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        this.context = activity;
+        super.onAttach(activity);
     }
 
     @Override

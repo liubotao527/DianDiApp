@@ -30,7 +30,7 @@ public class TempActivity extends Activity {
         lbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(TempActivity.this,com.example.xdcao.diandiapp.DdService.liubotao.Activity.MyListActivity.class);
+                Intent intent=new Intent(TempActivity.this,com.example.xdcao.diandiapp.DdService.liubotao.activity.MyListActivity.class);
                 startActivity(intent);
             }
         });

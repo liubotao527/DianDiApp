@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.xdcao.diandiapp.DdService.liubotao.Activity.*;
+
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.MyDdNote;
@@ -199,7 +199,7 @@ public class MainFragment extends Fragment {
                 + DbInfo.NoteItems.PARENT_FOLDER + " = " + "-1";
         //getContentResolver().delete(NoteItems.CONTENT_URI,selection,null);
 
-        mCursor = this.context.getContentResolver().query(DbInfo.NoteItems.CONTENT_URI, null,
+        mCursor = context.getContentResolver().query(DbInfo.NoteItems.CONTENT_URI, null,
                 selection, null, null);
         // This method allows the activity to take care of managing the given
         // Cursor's lifecycle for you based on the activity's lifecycle.

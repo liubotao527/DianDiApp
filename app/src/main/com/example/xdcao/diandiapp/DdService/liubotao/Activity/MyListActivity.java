@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.DdService.liubotao.Activity;
+package com.example.xdcao.diandiapp.DdService.liubotao.activity;
 
 import android.app.Activity;
 import android.content.Intent;

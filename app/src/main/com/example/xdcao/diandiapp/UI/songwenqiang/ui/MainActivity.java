@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.xdcao.diandiapp.DdService.liubotao.activity.*;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ContactFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.SettingFragment;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,NoteActivity.class);
+                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
                 startActivity(intent);
             }
         });

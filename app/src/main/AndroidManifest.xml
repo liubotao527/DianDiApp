@@ -41,14 +41,14 @@
         <activity android:name="com.example.xdcao.diandiapp.BackUp.caohao.activity.LoginActivity"/>
         <activity android:name="com.example.xdcao.diandiapp.BackUp.caohao.activity.RegisterActivity"/>
         <activity android:name="com.example.xdcao.diandiapp.BackUp.caohao.activity.FriendsActivity"/>
-        <activity android:name="com.example.xdcao.diandiapp.DdService.liubotao.activity.MyListActivity"/>
-        <activity android:name="com.example.xdcao.diandiapp.DdService.liubotao.activity.NoteActivity"/>
+        <activity android:name="com.example.xdcao.diandiapp.DdService.liubotao.Activity.MyListActivity"/>
+        <activity android:name="com.example.xdcao.diandiapp.DdService.liubotao.Activity.NoteActivity"/>
         <activity android:name="com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.view.ListViewExampleActivity"/>
         <activity android:name="com.example.xdcao.diandiapp.BackUp.caohao.activity.MainActivity"/>
 
-        <activity android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.SplashActivity" />
+        <activity android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity" />
         <activity
-            android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity"
+            android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.SplashActivity"
             android:label="点滴"
             android:theme="@style/AppTheme" />
 

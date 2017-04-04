@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.notes:
                 imnotes.setImageResource(R.drawable.ic_note_press);
                 tvnotes.setTextColor(getResources().getColor(colorpress));
-                MainFragment mf = new MainFragment(MainActivity.this);
+                MainFragment mf = new MainFragment();
                 ft.replace(R.id.content_main2,mf);
                 break;
             case R.id.share:
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
 //            bundle.putString("name","camera");
 //            mF1.setArguments(bundle);
 //            ft.replace(R.id.content_main2,mF1);
-            MainFragment mf1 = new MainFragment(MainActivity.this);
+            MainFragment mf1 = new MainFragment();
             ft.replace(R.id.content_main2,mf1);
         } else if (id == R.id.nav_gallery) {
 

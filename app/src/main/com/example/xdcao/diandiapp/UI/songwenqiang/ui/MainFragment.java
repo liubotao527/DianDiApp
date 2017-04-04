@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.xdcao.diandiapp.DdService.liubotao.activity.*;
+import com.example.xdcao.diandiapp.DdService.liubotao.Activity.*;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.MyDdNote;
@@ -47,9 +47,13 @@ public class MainFragment extends Fragment {
     private Cursor mCursor;
     static final String TAG="TAG";
 
-    public MainFragment(Context context){
-        this.context = context;
+    public MainFragment(){
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        this.context = context;
+        super.onAttach(context);
     }
 
     @Override

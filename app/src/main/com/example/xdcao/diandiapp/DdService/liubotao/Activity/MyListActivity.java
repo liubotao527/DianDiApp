@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.DdService.liubotao.activity;
+package com.example.xdcao.diandiapp.DdService.liubotao.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import com.example.xdcao.diandiapp.DdService.liubotao.adapter.MyCursorAdapter;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
 import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.NoteActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.DdService.liubotao.activity;
+package com.example.xdcao.diandiapp.DdService.liubotao.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.xdcao.diandiapp.DdService.liubotao.Activity.MyListActivity;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;

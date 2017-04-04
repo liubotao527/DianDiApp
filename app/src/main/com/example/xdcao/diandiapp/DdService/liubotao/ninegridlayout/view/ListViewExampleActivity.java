@@ -9,8 +9,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 
-import com.example.xdcao.diandiapp.DdService.liubotao.activity.MyListActivity;
-import com.example.xdcao.diandiapp.DdService.liubotao.activity.NoteActivity;
+import com.example.xdcao.diandiapp.DdService.liubotao.Activity.MyListActivity;
+import com.example.xdcao.diandiapp.DdService.liubotao.Activity.NoteActivity;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.adapter.NineGridTestAdapter;
 import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;

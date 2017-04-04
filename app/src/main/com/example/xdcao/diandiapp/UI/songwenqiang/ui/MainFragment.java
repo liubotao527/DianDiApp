@@ -48,6 +48,8 @@ public class MainFragment extends Fragment {
     static final String TAG="TAG";
 
     public MainFragment(){
+
+
     }
 
     @Override

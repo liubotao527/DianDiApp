@@ -38,7 +38,7 @@ public class TempActivity extends Activity {
         swq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(TempActivity.this,com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
+                Intent intent=new Intent(TempActivity.this,com.example.xdcao.diandiapp.UI.songwenqiang.ui.SplashActivity.class);
                 startActivity(intent);
             }
         });

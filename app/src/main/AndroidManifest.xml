@@ -46,9 +46,10 @@
         <activity android:name="com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.view.ListViewExampleActivity"/>
         <activity android:name="com.example.xdcao.diandiapp.BackUp.caohao.activity.MainActivity"/>
 
-        <activity android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity" />
+        <activity android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.SplashActivity" />
+        <activity android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.SignUpActivity" />
         <activity
-            android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.SplashActivity"
+            android:name="com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity"
             android:label="点滴"
             android:theme="@style/AppTheme" />
 

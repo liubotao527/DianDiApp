@@ -26,7 +26,7 @@
     <string name="edit">辑</string>
     <string name="edit_save">存</string>
     <string name="share">享</string>
-    <string name="email">邮箱</string>
+    <string name="email">手机号</string>
     <string name="password">密码</string>
     <string name="edit_saving">保存中&#8230;</string>
     <string name="save_success">保存成功!</string>

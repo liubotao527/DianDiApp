@@ -1,6 +1,10 @@
 package com.example.xdcao.diandiapp.BackUp.caohao.bean;
 
+import java.util.Date;
+import java.util.List;
+
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
@@ -13,13 +17,26 @@ public class Post extends BmobObject {
     private String title;
     private String content;
     private MyUser author;
-    private BmobFile image;
+    private List<BmobFile> images;
     private BmobRelation likes;
+    private BmobDate createDate;
+
+    public Post(){}
 
     public Post(String title, String content, MyUser author) {
         this.title = title;
         this.content = content;
         this.author = author;
+        this.createDate=new BmobDate(new Date());
+    }
+
+    public void setCreateDate(BmobDate createDate) {
+        this.createDate = createDate;
+    }
+
+    public BmobDate getCreateDate() {
+
+        return createDate;
     }
 
     public String getTitle() {
@@ -34,9 +51,6 @@ public class Post extends BmobObject {
         return author;
     }
 
-    public BmobFile getImage() {
-        return image;
-    }
 
     public BmobRelation getLikes() {
         return likes;
@@ -55,11 +69,18 @@ public class Post extends BmobObject {
         this.author = author;
     }
 
-    public void setImage(BmobFile image) {
-        this.image = image;
-    }
 
     public void setLikes(BmobRelation likes) {
         this.likes = likes;
     }
+
+    public List<BmobFile> getImages() {
+        return images;
+    }
+
+    public void setImages(List<BmobFile> images) {
+
+        this.images = images;
+    }
+
 }

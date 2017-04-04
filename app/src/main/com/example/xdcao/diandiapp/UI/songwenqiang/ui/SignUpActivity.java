@@ -44,18 +44,19 @@ public class SignUpActivity extends AppCompatActivity {
         BmobInit();
         autoLogin();
         initComponents();
+
 //        userPrefs = new UserPrefs(SignUpActivity.this);
 //        if(!TextUtils.isEmpty(userPrefs.getAuthToken())){
 //            startActivity(new Intent(SignUpActivity.this,MainActivity.class));
 //            finish();
 //            return;
 //        }
-//        skipTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(SignUpActivity.this,MainActivity.class));
-//            }
-//        });
+        skipTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this,MainActivity.class));
+            }
+        });
 
     }
 
@@ -83,6 +84,8 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     private void autoLogin() {

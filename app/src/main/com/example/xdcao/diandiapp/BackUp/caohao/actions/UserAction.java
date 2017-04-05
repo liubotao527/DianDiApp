@@ -1,17 +1,24 @@
 package com.example.xdcao.diandiapp.BackUp.caohao.actions;
 
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
+import android.util.Log;
+
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
+
+
 
 /**
  * Created by xdcao on 2017/1/18.
@@ -19,6 +26,8 @@ import cn.bmob.v3.listener.UpdateListener;
  */
 
 public class UserAction {
+
+    private static final String TAG = "UserAction";
 
 
     /**
@@ -101,6 +110,10 @@ public class UserAction {
 
         });
     }
+
+
+
+
 
     /**
      * 验证邮件

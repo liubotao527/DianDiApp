@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,7 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.MyDdNote;
@@ -32,6 +35,15 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.util.logging.LogRecord;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
 
 /**
  * Created by wewarrios on 2017/3/15.
@@ -47,6 +59,20 @@ public class MainFragment extends Fragment {
     private List<MyDdNote> mList;
     private Cursor mCursor;
     static final String TAG="TAG";
+
+
+    Handler handler=new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0x123:
+
+                    Log.d(TAG, "handleMessage: "+"get handler");
+
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     public MainFragment(){
 
@@ -104,8 +130,6 @@ public class MainFragment extends Fragment {
         //recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
         NoteAdapter noteAdapter = new NoteAdapter();
         recyclerView.setAdapter(noteAdapter);
-
-
     }
 
 
@@ -123,8 +147,12 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(NoteViewHolder holder, int position) {
-        //    holder.tv_label.setText("temp");
+
+            //    holder.tv_label.setText("temp");
         //    Log.e("temp",mList.get(position).note+"--"+mList.get(position).time);
+
+            Log.d(TAG,"1888888");
+            System.out.println(mList.size());
             holder.tv_content.setText(mList.get(position).getNote());
             holder.tv_time.setText(mList.get(position).getTime());
 
@@ -191,9 +219,44 @@ public class MainFragment extends Fragment {
         }
     }
 
+    //查询用户发过的状态
+    public void queryForMyPosts(){
+        BmobQuery<Post> query=new BmobQuery<>();
+        MyUser me= BmobUser.getCurrentUser(MyUser.class);
+        query.addWhereEqualTo("author",me);
+        query.findObjects(new FindListener<Post>() {
+            @Override
+            public void done(List<Post> list, BmobException e) {
+                if(e==null){
+                    Log.d(TAG, "done: "+"拿到数据"+"size: "+list.size());
+                    for(Post post:list){
+                        MyDdNote model=new MyDdNote();
+                        model.note=post.getContent();
+                        Log.d(TAG, "Content: "+post.getContent());
+                        model.time=post.getCreatedAt();
+                        mList.add(model);
+                    }
+                }else {
+                    Log.d(TAG, "done: "+"没拿到，空的");
+                }
+            }
+        });
+    }
+
+    private class QueryPostThread extends Thread{
+        @Override
+        public void run() {
+           queryForMyPosts();
+            Message message=new Message();
+            message.what=0x123;
+            handler.sendMessage(message);
+        }
+    }
+
     // 负责更新ListView中的数据
     private void updateDisplay() {
         mList = new ArrayList<>();
+        List<Post> postList=new ArrayList<>();
         // 查询条件，查询所有文件夹记录及显示在主页的便签记录
         String selection = DbInfo.NoteItems.IS_FOLDER + " = '" + "yes" + "' or "
                 + DbInfo.NoteItems.PARENT_FOLDER + " = " + "-1";
@@ -206,6 +269,15 @@ public class MainFragment extends Fragment {
         if(mCursor==null){
             Log.e(TAG,"1111111111");
         }
+
+        // TODO: 2017/4/5 缓存没数据从网上拿
+        if(mCursor.getCount()==0){
+            Log.d(TAG, "updateDisplay: "+"从网上拿url");
+            new QueryPostThread().start();
+        }
+
+
+
         if (mCursor != null && mCursor.moveToFirst()) {
             do {
                 int contentColumn = mCursor.getColumnIndex(DbInfo.NoteItems.CONTENT);
@@ -228,8 +300,12 @@ public class MainFragment extends Fragment {
                 mList.add(model);
             } while (mCursor.moveToNext());
         }
+
+
         //initView();
     }
+
+
 
     public static void getImgUri(List<String> uris, String s){
         //ArrayList<String> uris=new ArrayList<String>();

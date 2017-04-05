@@ -100,12 +100,22 @@ public class MainFragment extends Fragment {
         }
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateDisplay();
+        NoteAdapter noteAdapter = new NoteAdapter();
+        recyclerView.setAdapter(noteAdapter);
     }
 
     private void initView(View view) {
@@ -144,6 +154,8 @@ public class MainFragment extends Fragment {
             view.setOnClickListener(this);
             return holder;
         }
+
+
 
         @Override
         public void onBindViewHolder(NoteViewHolder holder, int position) {
@@ -264,6 +276,7 @@ public class MainFragment extends Fragment {
 
         mCursor = context.getContentResolver().query(DbInfo.NoteItems.CONTENT_URI, null,
                 selection, null, null);
+
         // This method allows the activity to take care of managing the given
         // Cursor's lifecycle for you based on the activity's lifecycle.
         if(mCursor==null){

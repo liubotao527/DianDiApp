@@ -66,9 +66,9 @@ public class MainFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0x123:
-
-                    Log.d(TAG, "handleMessage: "+"get handler");
-
+                    Log.d(TAG, "handleMessage: "+"get handler mList.size: "+mList.size());
+                    NoteAdapter noteAdapter = new NoteAdapter();
+                    recyclerView.setAdapter(noteAdapter);
             }
             super.handleMessage(msg);
         }
@@ -89,7 +89,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateDisplay();
         notes = new ArrayList<>();
         for(int i=0;i<10;i++){
             SNotes note = new SNotes();
@@ -234,12 +233,14 @@ public class MainFragment extends Fragment {
 
     //查询用户发过的状态
     public void queryForMyPosts(){
+
         BmobQuery<Post> query=new BmobQuery<>();
         MyUser me= BmobUser.getCurrentUser(MyUser.class);
         query.addWhereEqualTo("author",me);
         query.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
+                boolean isSend=false;
                 if(e==null){
                     Log.d(TAG, "done: "+"拿到数据"+"size: "+list.size());
                     for(Post post:list){
@@ -248,9 +249,16 @@ public class MainFragment extends Fragment {
                         Log.d(TAG, "Content: "+post.getContent());
                         model.time=post.getCreatedAt();
                         mList.add(model);
+                        Log.d(TAG, "done: "+"mlist.size: "+mList.size());
                     }
+                    isSend=true;
                 }else {
                     Log.d(TAG, "done: "+"没拿到，空的");
+                }
+                if(isSend){
+                    Message message=new Message();
+                    message.what=0x123;
+                    handler.sendMessage(message);
                 }
             }
         });
@@ -260,9 +268,6 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
            queryForMyPosts();
-            Message message=new Message();
-            message.what=0x123;
-            handler.sendMessage(message);
         }
     }
 
@@ -288,11 +293,7 @@ public class MainFragment extends Fragment {
         if(mCursor.getCount()==0){
             Log.d(TAG, "updateDisplay: "+"从网上拿url");
             new QueryPostThread().start();
-        }
-
-
-
-        if (mCursor != null && mCursor.moveToFirst()) {
+        }else if (mCursor != null && mCursor.moveToFirst()) {
             do {
                 int contentColumn = mCursor.getColumnIndex(DbInfo.NoteItems.CONTENT);
                 int dateColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_DATE);

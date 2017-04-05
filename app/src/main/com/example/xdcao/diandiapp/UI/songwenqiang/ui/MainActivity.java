@@ -202,6 +202,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_add:
+                Intent intentNote = new Intent(MainActivity.this, NoteActivity.class);
+                intentNote.putExtra("Open_Type", "newNote");
+                startActivity(intentNote);
                 break;
             case R.id.action_information:
                 break;

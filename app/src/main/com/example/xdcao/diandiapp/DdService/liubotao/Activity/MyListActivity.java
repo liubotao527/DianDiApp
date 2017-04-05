@@ -25,6 +25,7 @@ import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -234,6 +235,7 @@ public class MyListActivity extends Activity {
                 //model.urlList.add("content://media/external/images/media/9666");
                 getImgUri(model.urlList,mCursor.getString(pics));
                 //Log.e("temp",mCursor.getString(contentColumn)+"-----"+model.note);
+                Log.e("aaaa",mCursor.getString(pics));
                 mList.add(model);
             } while (mCursor.moveToNext());
 
@@ -342,6 +344,9 @@ public class MyListActivity extends Activity {
         }
         for(int j=0;j<uris.size();j++) {
             Log.e("temp","num"+j+":::"+uris.get(j));
+            File f=new File(uris.get(j));
+            Log.e("ffff",f.getName()+"--"+f.length());
+
         }
     }
 

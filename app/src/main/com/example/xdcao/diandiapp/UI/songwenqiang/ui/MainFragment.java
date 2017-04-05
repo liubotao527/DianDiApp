@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
+import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.MyDdNote;
@@ -65,7 +66,7 @@ public class MainFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
-                case 0x123:
+                case HandlerCons.QUERY_LOCAL_POST:
                     Log.d(TAG, "handleMessage: "+"get handler mList.size: "+mList.size());
                     NoteAdapter noteAdapter = new NoteAdapter();
                     recyclerView.setAdapter(noteAdapter);
@@ -257,7 +258,7 @@ public class MainFragment extends Fragment {
                 }
                 if(isSend){
                     Message message=new Message();
-                    message.what=0x123;
+                    message.what= HandlerCons.QUERY_LOCAL_POST;
                     handler.sendMessage(message);
                 }
             }

@@ -46,6 +46,7 @@
 
         <EditText
             android:id="@+id/email"
+            android:inputType="phone"
             style="@style/SignupEditText"
             android:layout_below="@+id/app_slogan"
             android:layout_marginTop="@dimen/margin_64"

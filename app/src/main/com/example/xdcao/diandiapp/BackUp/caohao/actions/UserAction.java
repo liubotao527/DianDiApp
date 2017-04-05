@@ -240,6 +240,10 @@ public class UserAction {
     }
 
 
+    public static void logout(){
+        BmobUser.logOut();
+    }
+
 }
 
 

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mFab;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
+    private LinearLayout mLLDrawer;
 
     private String[] mTitles = {"DianDi","衣","食","住","行"};
 
@@ -79,12 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolBar);
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-                intent.putExtra("Open_Type", "newNote");
+                Intent intent = new Intent(MainActivity.this,NoteActivity.class);
                 startActivity(intent);
             }
         });
@@ -124,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mLLDrawer = (LinearLayout) findViewById(R.id.ll_drawer);
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     private void resetFragmemt(int id) {
@@ -137,24 +140,28 @@ public class MainActivity extends AppCompatActivity {
                 mTvNotes.setTextColor(getResources().getColor(colorpress));
                 MainFragment mf = new MainFragment();
                 ft.replace(R.id.content_main2,mf);
+                mFab.setVisibility(View.VISIBLE);
                 break;
             case R.id.share:
                 mImShare.setImageResource(R.drawable.ic_share_press);
                 mTvShare.setTextColor(getResources().getColor(colorpress));
                 ShareFragment sf = new ShareFragment();
                 ft.replace(R.id.content_main2,sf);
+                mFab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.contact:
                 mImContact.setImageResource(R.drawable.ic_contact_press);
                 mTvContact.setTextColor(getResources().getColor(colorpress));
                 ContactFragment cf = new ContactFragment();
                 ft.replace(R.id.content_main2,cf);
+                mFab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.settings:
                 mImSettings.setImageResource(R.drawable.ic_settings_press);
                 mTvSettings.setTextColor(getResources().getColor(colorpress));
                 SettingFragment stf = new SettingFragment();
                 ft.replace(R.id.content_main2,stf);
+                mFab.setVisibility(View.INVISIBLE);
                 break;
         }
         ft.commit();
@@ -202,9 +209,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_add:
-                Intent intentNote = new Intent(MainActivity.this, NoteActivity.class);
-                intentNote.putExtra("Open_Type", "newNote");
-                startActivity(intentNote);
                 break;
             case R.id.action_information:
                 break;
@@ -227,8 +231,9 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
         mDrawerList.setItemChecked(position, true);
         mToolBar.setTitle(mTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        mDrawerLayout.closeDrawer(mLLDrawer);
 
     }
+
 
 }

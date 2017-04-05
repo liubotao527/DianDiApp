@@ -157,6 +157,7 @@ public class MainFragment extends Fragment {
 
 
 
+
         @Override
         public void onBindViewHolder(NoteViewHolder holder, int position) {
 

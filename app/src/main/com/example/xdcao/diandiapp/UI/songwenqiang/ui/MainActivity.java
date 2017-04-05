@@ -79,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mLLDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println(3333333);
+            }
+        });
+
         setSupportActionBar(mToolBar);
 
 

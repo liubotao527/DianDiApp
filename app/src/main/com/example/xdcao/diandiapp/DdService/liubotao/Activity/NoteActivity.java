@@ -304,21 +304,23 @@ public class NoteActivity extends Activity {
 
 				// TODO: 2017/4/4 向服务器传数据
 				Log.d(TAG, "onBackPressed: "+pics.size());
-				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
 				Post post=new Post();
 				post.setContent(content);
 				post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
 				post.setCreateDate(new BmobDate(new Date()));
-				List<BmobFile> bmobFiles=new ArrayList<>();
-				for(Uri uri:pics){
-					File file=new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri));
-					BmobFile bmobFile=new BmobFile(file);
-					bmobFiles.add(bmobFile);
+				if(pics.size()>0){
+					List<BmobFile> bmobFiles=new ArrayList<>();
+					for(Uri uri:pics){
+						File file=new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri));
+						BmobFile bmobFile=new BmobFile(file);
+						bmobFiles.add(bmobFile);
+					}
+					post.setImages(bmobFiles);
 				}
-				post.setImages(bmobFiles);
 				post.save(new SaveListener<String>() {
 					@Override
 					public void done(String s, BmobException e) {

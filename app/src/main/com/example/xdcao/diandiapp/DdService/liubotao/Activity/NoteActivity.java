@@ -4,17 +4,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -23,22 +21,36 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.xdcao.diandiapp.DdService.liubotao.activity.MyListActivity;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
+import com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+
+import static android.app.PendingIntent.getActivity;
 
 /*
  * 一条便签的详细信息页面。
  */
 public class NoteActivity extends Activity {
+
+	private static final String TAG = "NoteActivity";
+
 	private LinearLayout mLinearLayout_Header;
 	private ImageButton ib_bgcolor,add_photo;
 	private TextView tv_note_title,photo_text;
@@ -264,6 +276,8 @@ public class NoteActivity extends Activity {
 
 
 
+
+
 	public void onBackPressed() {
 	//	MyLog.d(MainActivity.TAG,
 				//"NoteActivity==>onBackPressed()-->用户选择的背景颜色 : "
@@ -287,6 +301,34 @@ public class NoteActivity extends Activity {
 
 				values.put(NoteItems.PICS,imgs);
 				getContentResolver().insert(NoteItems.CONTENT_URI, values);
+
+				// TODO: 2017/4/4 向服务器传数据
+				Log.d(TAG, "onBackPressed: "+pics.size());
+				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
+				Post post=new Post();
+				post.setContent(content);
+				post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+				post.setCreateDate(new BmobDate(new Date()));
+				List<BmobFile> bmobFiles=new ArrayList<>();
+				for(Uri uri:pics){
+					File file=new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri));
+					BmobFile bmobFile=new BmobFile(file);
+					bmobFiles.add(bmobFile);
+				}
+				post.setImages(bmobFiles);
+				post.save(new SaveListener<String>() {
+					@Override
+					public void done(String s, BmobException e) {
+						if(e==null){
+							Log.d(TAG, "done: "+"状态发送成功");
+						}else {
+							Log.d(TAG, "done: "+"状态发送失败");
+						}
+					}
+				});
 			}
 		} else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签

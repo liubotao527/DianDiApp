@@ -13,14 +13,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
@@ -204,12 +207,42 @@ public class MainFragment extends Fragment {
             private ImageView iv_content;
             private TextView tv_content;
             private TextView tv_time;
+            private ImageView iv_more;
             public NoteViewHolder(View view){
                 super(view);
                 tv_label = (TextView) view.findViewById(R.id.note_label_text);
                 tv_content = (TextView) view.findViewById(R.id.note_content_text);
                 tv_time = (TextView) view.findViewById(R.id.note_last_edit_text);
                 iv_content = (ImageView) view.findViewById(R.id.note_content_image);
+                iv_more = (ImageView) view.findViewById(R.id.note_more);
+                iv_more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popup = new PopupMenu(context, v);
+                        popup.getMenuInflater()
+                                .inflate(R.menu.menu_notes_more, popup.getMenu());
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                int id = item.getItemId();
+                                switch (id){
+                                    case R.id.share:
+                                        //添加分享
+                                        Toast.makeText(context,"添加分享",Toast.LENGTH_LONG).show();
+                                        break;
+                                    case R.id.delete:
+                                        //添加删除的代码
+                                        Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                return false;
+                            }
+                        });
+                        popup.show();
+                    }
+                });
             }
         }
         public void addItem(SNotes note,int position){

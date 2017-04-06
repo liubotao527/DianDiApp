@@ -4,6 +4,6 @@
         android:id="@+id/edit"
         android:title="分享" />
     <item
-        android:id="@+id/move_to_trash"
+        android:id="@+id/delete"
         android:title="删除" />
 </menu>

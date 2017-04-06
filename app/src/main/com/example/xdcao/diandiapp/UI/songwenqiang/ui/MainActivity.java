@@ -210,13 +210,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent;
         System.out.println(id);
         switch (id){
             case R.id.action_search:
-                Intent intent = new Intent(this,SearchContentActivity.class);
+                intent = new Intent(this,SearchContentActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_add:
+                intent = new Intent(this,SearchContactActivity.class);
+                startActivity(intent);
                 break;
             case R.id.action_information:
                 break;

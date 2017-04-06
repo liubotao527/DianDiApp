@@ -54,8 +54,8 @@ public class ContactFragment extends Fragment{
             switch (msg.what){
                 case HandlerCons.QUERY_ALL_USER:
                     Log.d(TAG, "handleMessage: "+"get handler mList.size: "+mContactList.size());
-                    NoteAdapter noteAdapter = new NoteAdapter();
-                    recyclerView.setAdapter(noteAdapter);
+                    ContactAdapter ContactAdapter = new ContactAdapter();
+                    recyclerView.setAdapter(ContactAdapter);
             }
             super.handleMessage(msg);
         }
@@ -72,8 +72,8 @@ public class ContactFragment extends Fragment{
     public void onStart() {
         super.onStart();
         new QueryForUsersThread().start();
-        NoteAdapter noteAdapter = new NoteAdapter();
-        recyclerView.setAdapter(noteAdapter);
+        ContactAdapter ContactAdapter = new ContactAdapter();
+        recyclerView.setAdapter(ContactAdapter);
     }
 
     @Override
@@ -130,25 +130,25 @@ public class ContactFragment extends Fragment{
 //            }
 //        });
 //        recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
-        NoteAdapter noteAdapter = new NoteAdapter();
-        recyclerView.setAdapter(noteAdapter);
+        ContactAdapter ContactAdapter = new ContactAdapter();
+        recyclerView.setAdapter(ContactAdapter);
 
 
     }
 
-    class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> implements View.OnClickListener{
+    class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> implements View.OnClickListener{
 
 
         @Override
-        public NoteAdapter.NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ContactAdapter.ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(context).inflate(R.layout.contact_item_layout,parent,false);
-            NoteViewHolder holder = new NoteViewHolder(view);
+            ContactViewHolder holder = new ContactViewHolder(view);
             view.setOnClickListener(this);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(NoteViewHolder holder, int position) {
+        public void onBindViewHolder(ContactViewHolder holder, int position) {
             holder.mTvName.setText(mContactList.get(position).getNickName());
             holder.mTvSign.setText(mContactList.get(position).getSignName());
 
@@ -169,11 +169,11 @@ public class ContactFragment extends Fragment{
             startActivity(intent);
         }
 
-        class NoteViewHolder extends RecyclerView.ViewHolder{
+        class ContactViewHolder extends RecyclerView.ViewHolder{
             private TextView mTvName;
             private RoundImageView mRivPhoto;
             private TextView mTvSign;
-            public NoteViewHolder(View view){
+            public ContactViewHolder(View view){
                 super(view);
                 mRivPhoto = (RoundImageView) view.findViewById(R.id.riv_photo);
                 mTvName = (TextView) view.findViewById(R.id.tv_name);

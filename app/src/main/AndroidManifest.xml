@@ -52,7 +52,7 @@
 
         <provider
             android:name=".DdService.liubotao.database.DbInfoProvider"
-            android:authorities="com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo"></provider>
+            android:authorities="com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo" />
 
         <!--
             <provider
@@ -61,7 +61,7 @@
             </provider>
         -->
 
-        <activity android:name=".UI.songwenqiang.ui.SearchContactActivity"></activity>
+        <activity android:name=".UI.songwenqiang.ui.SearchContactActivity" />
     </application>
 
 </manifest>

@@ -56,6 +56,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -504,15 +505,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             File img=new File(path);
-            Log.d(TAG, "run: filename"+img.getName());
-            MyUser user= BmobUser.getCurrentUser(MyUser.class);
-            user.setAvatar(new BmobFile(img));
-            user.update(user.getObjectId(), new UpdateListener() {
+            final BmobFile bmobImg=new BmobFile(img);
+            bmobImg.uploadblock(new UploadFileListener() {
                 @Override
                 public void done(BmobException e) {
-                    Log.d(TAG, "done: "+e);
                     if(e==null){
-                        Log.d(TAG, "done: 用户头像上传成功");
+                        MyUser user= BmobUser.getCurrentUser(MyUser.class);
+                        user.setAvatar(bmobImg);
+                        user.update(user.getObjectId(), new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                Log.d(TAG, "done: "+e);
+                                if(e==null){
+                                    Log.d(TAG, "done: 用户头像上传成功");
+                                }
+                            }
+                        });
                     }
                 }
             });

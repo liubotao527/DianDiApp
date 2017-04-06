@@ -1,12 +1,14 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.bean;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by wewarrios on 2017/4/5.
  */
 
 public class ContactItem {
     //个人头像
-    private String url;
+    private Bitmap avatar;
 
     //个人昵称
     private String nickName;
@@ -14,14 +16,6 @@ public class ContactItem {
     //个性签名
 
     private String signName;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getNickName() {
         return nickName;
@@ -37,5 +31,13 @@ public class ContactItem {
 
     public void setSignName(String signName) {
         this.signName = signName;
+    }
+
+    public Bitmap getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Bitmap avatar) {
+        this.avatar = avatar;
     }
 }

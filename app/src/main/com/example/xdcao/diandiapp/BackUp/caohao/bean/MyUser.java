@@ -3,6 +3,7 @@ package com.example.xdcao.diandiapp.BackUp.caohao.bean;
 import android.provider.ContactsContract;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
@@ -14,6 +15,7 @@ public class MyUser extends BmobUser {
     private Boolean sex;//1:male,0:female
     private Integer age;
     private BmobRelation friends;
+    private BmobFile avatar;
 
 
     public Boolean getSex() {
@@ -38,5 +40,13 @@ public class MyUser extends BmobUser {
 
     public void setFriends(BmobRelation friends) {
         this.friends = friends;
+    }
+
+    public BmobFile getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(BmobFile avatar) {
+        this.avatar = avatar;
     }
 }

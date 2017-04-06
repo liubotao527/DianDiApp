@@ -8,10 +8,12 @@ import android.app.FragmentTransaction;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.UriMatcher;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.DdService.liubotao.activity.*;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ContactFragment;
@@ -48,6 +51,11 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 
 import java.io.File;
 import java.io.IOException;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private LinearLayout mLLDrawer;
     private RoundImageView mRivPhoto;
+
+    private static final String TAG = "MainActivity";
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
@@ -478,8 +488,35 @@ public class MainActivity extends AppCompatActivity {
      */
     private void uploadPhoto(String ImagePath) {
         //在线程中将图片上传
+        UploadThread thread=new UploadThread(ImagePath);
+        thread.start();
+
     }
 
+    class UploadThread extends Thread{
 
+        private String path;
+
+        public UploadThread(String path) {
+            this.path = path;
+        }
+
+        @Override
+        public void run() {
+            File img=new File(path);
+            Log.d(TAG, "run: filename"+img.getName());
+            MyUser user= BmobUser.getCurrentUser(MyUser.class);
+            user.setAvatar(new BmobFile(img));
+            user.update(user.getObjectId(), new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    Log.d(TAG, "done: "+e);
+                    if(e==null){
+                        Log.d(TAG, "done: 用户头像上传成功");
+                    }
+                }
+            });
+        }
+    }
 
 }

@@ -22,8 +22,11 @@ import java.util.List;
 import java.util.logging.Handler;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class SearchContactActivity extends AppCompatActivity {
 
@@ -43,20 +46,27 @@ public class SearchContactActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case HandlerCons.QUERY_GIVEN_USER:
-                    MyUser myUser = (MyUser) msg.getData().getSerializable("MyUser");
+                    final MyUser myUser = (MyUser) msg.getData().getSerializable("MyUser");
                     Log.d(TAG, "handleMessage: "+"get handler user name: "+myUser.getUsername());
 
                     mTvName.setText(myUser.getUsername());
                     //TODO 将个性签名添加到mTvSign   将个人头像添加到 mIvAdd
                     mCvAddContact.setVisibility(View.VISIBLE);
 
-
-
+                    mIvAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //TODO 将此联系人添加到联系人列表
+                            updateMyFriendList(myUser);
+                        }
+                    });
 
             }
             super.handleMessage(msg);
         }
     };
+
+
 
 
     @Override
@@ -98,12 +108,33 @@ public class SearchContactActivity extends AppCompatActivity {
         mIvAdd = (ImageView) findViewById(R.id.iv_add);
         mRivPhoto = (RoundImageView) findViewById(R.id.riv_photo);
         mCvAddContact = (CardView) findViewById(R.id.contact_add_item);
-        mIvAdd.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    /*
+    添加好友后更新联系人列表
+     */
+    private void updateMyFriendList(MyUser friend) {
+
+        MyUser me= BmobUser.getCurrentUser(MyUser.class);
+        if (me.getFriends()==null){
+            BmobRelation bmobRelation=new BmobRelation();
+            bmobRelation.add(friend);
+            me.setFriends(bmobRelation);
+        }else {
+            BmobRelation bmobRelation=me.getFriends();
+            bmobRelation.add(friend);
+            me.setFriends(bmobRelation);
+        }
+        me.update(me.getObjectId(), new UpdateListener() {
             @Override
-            public void onClick(View view) {
-                //TODO 将此联系人添加到联系人列表
+            public void done(BmobException e) {
+                if(e==null){
+                    Log.d(TAG, "done: 更新联系人列表成功");
+                }
             }
         });
+
     }
 
 

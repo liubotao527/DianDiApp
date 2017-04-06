@@ -10,7 +10,7 @@ import android.widget.SearchView;
 import com.example.xdcao.diandiapp.R;
 
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchContentActivity extends AppCompatActivity {
 
     private String[] mStrs = {"aaa","bbb","bab","ccc","airsaid"};
     private SearchView mSearchView;
@@ -19,7 +19,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_content);
         mSearchView = (SearchView) findViewById(R.id.searchview);
         mListView = (ListView) findViewById(R.id.listView);
         mListView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mStrs));

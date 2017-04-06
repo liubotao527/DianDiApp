@@ -162,7 +162,7 @@ public class MainFragment extends Fragment {
 
 
         @Override
-        public void onBindViewHolder(NoteViewHolder holder, int position) {
+        public void onBindViewHolder(NoteViewHolder holder, final int position) {
 
             //    holder.tv_label.setText("temp");
         //    Log.e("temp",mList.get(position).note+"--"+mList.get(position).time);
@@ -176,6 +176,35 @@ public class MainFragment extends Fragment {
                 Log.e("tem",mList.get(position).getUrlList().get(0));
                 ImageLoaderUtil.getImageLoader(context).displayImage(mList.get(position).getUrlList().get(0), holder.iv_content, ImageLoaderUtil.getPhotoImageOption());
             }
+            holder.iv_more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu popup = new PopupMenu(context, view);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.menu_notes_more, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            int id = item.getItemId();
+                            switch (id){
+                                case R.id.share:
+                                    //添加分享
+                                    System.out.println(position);
+                                    Toast.makeText(context,"添加分享",Toast.LENGTH_LONG).show();
+                                    break;
+                                case R.id.delete:
+                                    //添加删除的代码
+                                    Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
+                                    break;
+                                default:
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popup.show();
+                }
+            });
             //holder.tv_content.setText("今天天气真好");
             //holder.tv_time.setText("Time");
 //            holder.iv_content.setImageResource();
@@ -215,35 +244,7 @@ public class MainFragment extends Fragment {
                 tv_time = (TextView) view.findViewById(R.id.note_last_edit_text);
                 iv_content = (ImageView) view.findViewById(R.id.note_content_image);
                 iv_more = (ImageView) view.findViewById(R.id.note_more);
-                iv_more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PopupMenu popup = new PopupMenu(context, v);
-                        popup.getMenuInflater()
-                                .inflate(R.menu.menu_notes_more, popup.getMenu());
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                int id = item.getItemId();
-                                switch (id){
-                                    case R.id.share:
-                                        //添加分享
-                                        System.out.println("sssssss");
-                                        Toast.makeText(context,"添加分享",Toast.LENGTH_LONG).show();
-                                        break;
-                                    case R.id.delete:
-                                        //添加删除的代码
-                                        Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                return false;
-                            }
-                        });
-                        popup.show();
-                    }
-                });
+
             }
         }
         public void addItem(SNotes note,int position){

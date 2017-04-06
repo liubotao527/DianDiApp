@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(id);
         switch (id){
             case R.id.action_search:
-                Intent intent = new Intent(this,SearchActivity.class);
+                Intent intent = new Intent(this,SearchContentActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_add:

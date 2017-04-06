@@ -303,34 +303,9 @@ public class NoteActivity extends Activity {
 				getContentResolver().insert(NoteItems.CONTENT_URI, values);
 
 				// TODO: 2017/4/4 向服务器传数据
-				Log.d(TAG, "onBackPressed: "+pics.size());
-//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-//				Log.d(TAG, "onBackPressed: "+ uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(0)));
-				Post post=new Post();
-				post.setContent(content);
-				post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-				post.setCreateDate(new BmobDate(new Date()));
-				if(pics.size()>0){
-					List<BmobFile> bmobFiles=new ArrayList<>();
-					for(Uri uri:pics){
-						File file=new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri));
-						BmobFile bmobFile=new BmobFile(file);
-						bmobFiles.add(bmobFile);
-					}
-					post.setImages(bmobFiles);
-				}
-				post.save(new SaveListener<String>() {
-					@Override
-					public void done(String s, BmobException e) {
-						if(e==null){
-							Log.d(TAG, "done: "+"状态发送成功");
-						}else {
-							Log.d(TAG, "done: "+"状态发送失败");
-						}
-					}
-				});
+				savePost(content);
+
+
 			}
 		} else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
@@ -396,6 +371,37 @@ public class NoteActivity extends Activity {
 		super.onBackPressed();
 	}
 
+
+	/*
+	将刚编辑好的状态上传到后台，默认其他用户不可见
+	 */
+	private void savePost(String content) {
+		Log.d(TAG, "onBackPressed: "+pics.size());
+		Post post=new Post();
+		post.setContent(content);
+		post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+		post.setCreateDate(new BmobDate(new Date()));
+		post.setShared(false);
+		if(pics.size()>0){
+            List<BmobFile> bmobFiles=new ArrayList<>();
+            for(Uri uri:pics){
+                File file=new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri));
+                BmobFile bmobFile=new BmobFile(file);
+                bmobFiles.add(bmobFile);
+            }
+            post.setImages(bmobFiles);
+        }
+		post.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if(e==null){
+                    Log.d(TAG, "done: "+"状态发送成功");
+                }else {
+                    Log.d(TAG, "done: "+"状态发送失败");
+                }
+            }
+        });
+	}
 
 
 	// 删除便签

@@ -47,6 +47,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 
 /**
@@ -191,6 +192,7 @@ public class MainFragment extends Fragment {
                                     //添加分享
                                     System.out.println(position);
                                     Toast.makeText(context,"添加分享",Toast.LENGTH_LONG).show();
+                                    shareGivenPost(position);
                                     break;
                                 case R.id.delete:
                                     //添加删除的代码
@@ -227,8 +229,7 @@ public class MainFragment extends Fragment {
 
             intent.putExtras(bundle);
             startActivity(intent);
-            //将数据传到DetailActivity
-            startActivity(intent);
+
         }
 
         class NoteViewHolder extends RecyclerView.ViewHolder{
@@ -265,6 +266,35 @@ public class MainFragment extends Fragment {
                 }
             }).setActionTextColor(Color.WHITE).show();
         }
+    }
+
+    /*
+    分享用户的某条状态，使其可见
+     */
+    private void shareGivenPost(int position) {
+
+        BmobQuery<Post> query=new BmobQuery();
+        query.addWhereEqualTo("content",mList.get(position).getNote());
+        query.findObjects(new FindListener<Post>() {
+            @Override
+            public void done(List<Post> list, BmobException e) {
+                if(e==null){
+                    Log.d(TAG, "done: "+"找到分享的帖子："+list.get(0).getContent());
+                    Post givenPost=list.get(0);
+                    Log.d(TAG, "done: id:"+givenPost.getObjectId());
+                    givenPost.setValue("isShared",true);
+                    givenPost.update(givenPost.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Log.d(TAG, "done: "+"更新成功");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     //查询用户发过的状态

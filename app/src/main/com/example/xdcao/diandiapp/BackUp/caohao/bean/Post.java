@@ -20,6 +20,7 @@ public class Post extends BmobObject {
     private List<BmobFile> images;
     private BmobRelation likes;
     private BmobDate createDate;
+    private Boolean isShared;
 
     public Post(){}
 
@@ -83,4 +84,11 @@ public class Post extends BmobObject {
         this.images = images;
     }
 
+    public Boolean getShared() {
+        return isShared;
+    }
+
+    public void setShared(Boolean shared) {
+        isShared = shared;
+    }
 }

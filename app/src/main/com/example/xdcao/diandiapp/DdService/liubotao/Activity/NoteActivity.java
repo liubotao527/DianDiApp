@@ -41,6 +41,7 @@ import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UploadBatchListener;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -375,32 +376,57 @@ public class NoteActivity extends Activity {
 	/*
 	将刚编辑好的状态上传到后台，默认其他用户不可见
 	 */
-	private void savePost(String content) {
+	private void savePost(final String content) {
 		Log.d(TAG, "onBackPressed: "+pics.size());
-		Post post=new Post();
-		post.setContent(content);
-		post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-		post.setCreateDate(new BmobDate(new Date()));
-		post.setShared(false);
+
 		if(pics.size()>0){
-            List<BmobFile> bmobFiles=new ArrayList<>();
-            for(Uri uri:pics){
-                File file=new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri));
-                BmobFile bmobFile=new BmobFile(file);
-                bmobFiles.add(bmobFile);
-            }
-            post.setImages(bmobFiles);
-        }
-		post.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if(e==null){
-                    Log.d(TAG, "done: "+"状态发送成功");
-                }else {
-                    Log.d(TAG, "done: "+"状态发送失败");
-                }
-            }
-        });
+			String[] filepaths=new String[pics.size()];
+			for(int i=0;i<pics.size();i++){
+				filepaths[i]=uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(i));
+			}
+			BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
+				@Override
+				public void onSuccess(List<BmobFile> list, List<String> list1) {
+					Log.d(TAG, "onSuccess: ");
+					Post post=new Post();
+					post.setContent(content);
+					post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+					post.setCreateDate(new BmobDate(new Date()));
+					post.setShared(false);
+
+					List<BmobFile> imgs=new ArrayList<BmobFile>();
+					for (Uri uri:pics){
+						BmobFile pic=new BmobFile(new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri)));
+						imgs.add(pic);
+					}
+					post.setImages(imgs);
+
+					post.save(new SaveListener<String>() {
+						@Override
+						public void done(String s, BmobException e) {
+							if(e==null){
+								Log.d(TAG, "done: "+"状态发送成功");
+							}else {
+								Log.d(TAG, "done: "+"状态发送失败");
+							}
+						}
+					});
+
+				}
+
+				@Override
+				public void onProgress(int i, int i1, int i2, int i3) {
+					Log.d(TAG, "onProgress: ");
+				}
+
+				@Override
+				public void onError(int i, String s) {
+					Log.d(TAG, "onError: ");
+				}
+			});
+		}
+
+
 	}
 
 

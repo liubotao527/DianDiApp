@@ -1,5 +1,9 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,18 +17,22 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.actions.FileAction;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 
+import java.io.File;
 import java.util.List;
 import java.util.logging.Handler;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -51,6 +59,9 @@ public class SearchContactActivity extends AppCompatActivity {
 
                     mTvName.setText(myUser.getUsername());
                     //TODO 将个性签名添加到mTvSign   将个人头像添加到 mIvAdd
+//                    File avatar=new File(Environment.getExternalStorageDirectory(),myUser.getAvatar().getFilename());
+                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
+                    mRivPhoto.setImageBitmap(bitmap);
                     mCvAddContact.setVisibility(View.VISIBLE);
 
                     mIvAdd.setOnClickListener(new View.OnClickListener() {
@@ -154,20 +165,48 @@ public class SearchContactActivity extends AppCompatActivity {
                     if (list.size()>0){
                         Log.d(TAG, "done: lllll");
                         returnedUser=list.get(0);
-                        flag=true;
+                        BmobFile file=returnedUser.getAvatar();
+                        Log.d(TAG, "done: "+returnedUser.getAvatar().getFilename());
+                        if (file!=null){
+                            File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+                            final MyUser finalReturnedUser = returnedUser;
+                            file.download(saveFile, new DownloadFileListener() {
+
+                                @Override
+                                public void onStart() {
+                                    Log.d("bmob", "onStart: ");
+                                }
+
+                                @Override
+                                public void done(String savePath,BmobException e) {
+                                    if(e==null){
+                                        Log.d("bmob", "done: downloadSuccess");
+                                        Message message=handler.obtainMessage();
+                                        message.what=HandlerCons.QUERY_GIVEN_USER;
+                                        Bundle b = new Bundle();
+                                        b.putSerializable("MyUser", finalReturnedUser);
+                                        message.setData(b);
+                                        handler.sendMessage(message);
+                                    }else{
+                                        Log.d("bmob", "done: downloadFailure");
+                                    }
+                                }
+
+                                @Override
+                                public void onProgress(Integer value, long newworkSpeed) {
+                                    Log.d("bmob","下载进度："+value+","+newworkSpeed);
+                                }
+
+                            });
+                        }
                     }
-                }
-                if (flag){
-                    Message message=handler.obtainMessage();
-                    message.what=HandlerCons.QUERY_GIVEN_USER;
-                    Bundle b = new Bundle();
-                    b.putSerializable("MyUser",returnedUser);
-                    message.setData(b);
-                    handler.sendMessage(message);
                 }
             }
         });
     }
+
+
+
 
 
 }

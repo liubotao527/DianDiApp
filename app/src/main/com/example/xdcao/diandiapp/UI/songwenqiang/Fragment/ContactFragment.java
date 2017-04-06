@@ -77,24 +77,14 @@ public class ContactFragment extends Fragment{
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        new QueryForUsersThread().start();
-        ContactAdapter ContactAdapter = new ContactAdapter();
-        recyclerView.setAdapter(ContactAdapter);
-    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContactList = new ArrayList<>();
-//        for(int i=0;i<10;i++){
-//            ContactItem contactItem = new ContactItem();
-//            contactItem.setNickName("dsdsdd"+i);
-//            contactItem.setSignName("sdsdsfgggggg"+i);
-//            mContactList.add(contactItem);
-//        }
+        new QueryForUsersThread().start();
+
     }
 
     @Override

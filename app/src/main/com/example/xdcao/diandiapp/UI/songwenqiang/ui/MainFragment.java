@@ -228,6 +228,7 @@ public class MainFragment extends Fragment {
                                 switch (id){
                                     case R.id.share:
                                         //添加分享
+                                        System.out.println("sssssss");
                                         Toast.makeText(context,"添加分享",Toast.LENGTH_LONG).show();
                                         break;
                                     case R.id.delete:

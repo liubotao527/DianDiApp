@@ -1,27 +1,40 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.Fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.activity.FriendsActivity;
+import com.example.xdcao.diandiapp.BackUp.caohao.adapters.FriendAdapter;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 /**
  * Created by wewarrios on 2017/3/14.
@@ -34,26 +47,49 @@ public class ContactFragment extends Fragment{
     private LinearLayoutManager mLayoutManager;
     //    private SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
+
+    Handler handler=new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case HandlerCons.QUERY_ALL_USER:
+                    Log.d(TAG, "handleMessage: "+"get handler mList.size: "+mContactList.size());
+                    NoteAdapter noteAdapter = new NoteAdapter();
+                    recyclerView.setAdapter(noteAdapter);
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private static final String TAG = "ContactFragment";
+
     public ContactFragment(){
 
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        new QueryForUsersThread().start();
+        NoteAdapter noteAdapter = new NoteAdapter();
+        recyclerView.setAdapter(noteAdapter);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContactList = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            ContactItem contactItem = new ContactItem();
-            contactItem.setNickName("dsdsdd"+i);
-            contactItem.setSignName("sdsdsfgggggg"+i);
-            mContactList.add(contactItem);
-        }
+//        for(int i=0;i<10;i++){
+//            ContactItem contactItem = new ContactItem();
+//            contactItem.setNickName("dsdsdd"+i);
+//            contactItem.setSignName("sdsdsfgggggg"+i);
+//            mContactList.add(contactItem);
+//        }
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Activity context) {
         super.onAttach(context);
         System.out.print(context);// Activity@890778
         this.context = context;
@@ -163,4 +199,43 @@ public class ContactFragment extends Fragment{
             }).setActionTextColor(Color.WHITE).show();
         }
     }
+
+    private class QueryForUsersThread extends Thread{
+        @Override
+        public void run() {
+            queryUsers();
+        }
+    }
+
+    private void queryUsers() {
+        BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+        query.findObjects(new FindListener<MyUser>() {
+            @Override
+            public void done(List<MyUser> list, BmobException e) {
+                boolean isSend=false;
+                if(e==null){
+                    Log.d(TAG, "done: "+"success, size:"+list.size());
+                    for(MyUser myUser:list){
+                        ContactItem contactItem=new ContactItem();
+                        contactItem.setNickName(myUser.getUsername());
+                        mContactList.add(contactItem);
+                    }
+                    isSend=true;
+                    System.out.print("查询用户成功： 用户数： "+list.size());
+                }else {
+                    System.out.print("查询用户失败");
+                }
+
+                if (isSend){
+                    Message message=new Message();
+                    message.what= HandlerCons.QUERY_ALL_USER;
+                    handler.sendMessage(message);
+                }
+
+            }
+        });
+    }
+
+
+
 }

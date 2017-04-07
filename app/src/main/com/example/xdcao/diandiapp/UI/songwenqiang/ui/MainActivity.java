@@ -91,7 +91,12 @@ public class MainActivity extends AppCompatActivity {
     private String[] mTitles = {"DianDi","衣","食","住","行"};
     private String outputImagePath;
 
-
+    private void newNote() {
+        Intent i = new Intent();
+        i.putExtra("Open_Type", "newNote");
+        i.setClass(MainActivity.this, NoteActivity.class);
+        startActivity(i);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,8 +150,7 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,NoteActivity.class);
-                startActivity(intent);
+                newNote();
             }
         });
 

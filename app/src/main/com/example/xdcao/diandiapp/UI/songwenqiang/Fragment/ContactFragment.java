@@ -57,6 +57,8 @@ public class ContactFragment extends Fragment{
     //    private SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
 
+
+
     Handler handler=new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -150,7 +152,6 @@ public class ContactFragment extends Fragment{
         public void onBindViewHolder(ContactViewHolder holder, int position) {
             holder.mTvName.setText(mContactList.get(position).getNickName());
             holder.mTvSign.setText(mContactList.get(position).getSignName());
-            // TODO: 2017/4/6 头像
             if (mContactList.get(position).getAvatar()!=null){
                 holder.mRivPhoto.setImageBitmap(mContactList.get(position).getAvatar());
             }
@@ -211,7 +212,7 @@ public class ContactFragment extends Fragment{
         BmobQuery<MyUser> query=new BmobQuery<MyUser>();
         query.findObjects(new FindListener<MyUser>() {
             @Override
-            public void done(List<MyUser> list, BmobException e) {
+            public void done(final List<MyUser> list, BmobException e) {
                 if(e==null){
                     Log.d("bmob", "done: "+"success, size:"+list.size());
                     for (MyUser myUser:list){
@@ -227,6 +228,7 @@ public class ContactFragment extends Fragment{
                             Log.d("bmob", "done: "+list.get(i).getAvatar().getFilename());
                             if(bitmap==null){
                                 // TODO: 2017/4/6 从网上下
+
                             }else {
                                 imgMap.put(i,bitmap);
                             }
@@ -264,7 +266,7 @@ public class ContactFragment extends Fragment{
 //                                message.what= HandlerCons.QUERY_ALL_USER;
 //                                handler.sendMessage(message);
 //                            }else {
-//                                // TODO: 2017/4/6 从网上下头像
+//
 //                                File saveFile = new File(Environment.getExternalStorageDirectory(), myUser.getAvatar().getFilename());
 //                                myUser.getAvatar().download(saveFile, new DownloadFileListener() {
 //

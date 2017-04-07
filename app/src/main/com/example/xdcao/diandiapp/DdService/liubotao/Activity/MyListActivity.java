@@ -69,6 +69,7 @@ public class MyListActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // 取消标题栏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.index_page);
@@ -119,6 +120,10 @@ public class MyListActivity extends Activity {
 
     public void onStart(){
         this.updateDisplay();
+        /*if(NoteActivity.instance!=null) {
+            NoteActivity.instance.finish();
+            Log.e("tag","onstart...");
+        }*/
         super.onStart();
     }
 

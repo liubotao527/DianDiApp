@@ -44,4 +44,18 @@
     <color name="text_second_color_primary">#727272</color>
     <color name="window_background">@android:color/white</color>
 
+
+    <color name="light_gray">#99a4b7</color>
+    <color name="deep_gray">#394257</color>
+    <color name="border_gray">#d9dfe5</color>
+    <color name="bg_gray">#e1e1e1</color>
+    <color name="btn_gray">#d1d1d1</color>
+    <color name="glass_gall">#c2ebef</color>
+    <color name="light_blue">#87d0f2</color>
+
+    <color name="main_bg">#fff0f0f0</color>
+    <color name="grey">#ff58616d</color>
+    <color name="lightgrey">#ff888888</color>
+    <color name="blue1">#ff61a8de</color>
+
 </resources>

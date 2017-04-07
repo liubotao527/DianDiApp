@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/header" >
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@drawable/mm_title_btn_back"
+        android:focusable="true"
+        android:gravity="center"
+        android:minWidth="70.0dip"
+        android:text="@string/back"
+        android:textColor="@color/btn_text_title" />
+
+    <TextView
+        android:id="@+id/tv_headerTitle"
+        style="@style/text_title"
+        android:layout_width="0.0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0"
+        android:ellipsize = "middle"
+        android:text="相册名称" />
+
+    <Button
+        android:id="@+id/select_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@drawable/mm_title_btn_right"
+        android:contentDescription="选中"
+        android:gravity="center"
+        android:text="确定(2/10)"
+        android:minWidth="70.0dip"
+        android:textColor="@drawable/text_selector"
+        />
+
+</LinearLayout>
+
+ <!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" 
+        android:background="@color/black" >
+
+     
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="标题"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@drawable/text_selector"
+            android:textSize="17sp" />
+        
+        <View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/light_gray"/>
+    </RelativeLayout> -->

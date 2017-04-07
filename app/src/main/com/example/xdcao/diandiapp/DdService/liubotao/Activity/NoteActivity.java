@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +31,10 @@ import android.widget.TextView;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil;
+import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.adapter.ImageSelectResultAdapter;
+import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.model.ImageItem;
+import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.util.CustomConstants;
+import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.util.IntentConstants;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
@@ -56,6 +64,9 @@ public class NoteActivity extends Activity {
 	private ImageButton ib_bgcolor,add_photo;
 	private TextView tv_note_title,photo_text;
 	private EditText et_content;
+	private GridView mGridView;
+	private ImageSelectResultAdapter mAdapter;
+	public static List<ImageItem> mDataList;
 
 	private int mBackgroud_Color;
 	// 用户创建或更新便签的日期/时间
@@ -89,10 +100,13 @@ public class NoteActivity extends Activity {
 	private String temp;
 	private String imgs="";
 	int count=0;
+	public static NoteActivity instance;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mDataList= new ArrayList<ImageItem>();
+		//instance=this;
 		// 取消标题栏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.note_detail);
@@ -117,19 +131,25 @@ public class NoteActivity extends Activity {
 			//noteAlarm(_id);
 		}
 		initViews();
-		initButton();
+
+	//	initButton();
 	}
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initViews2();
+    }
 
 
-	@Override
+    @Override
 	protected void onResume() {
 		// 恢复Keyguard
 		KeyguardManager km = (KeyguardManager) this
 				.getSystemService(Context.KEYGUARD_SERVICE);
 		KeyguardLock kl = km.newKeyguardLock(MyListActivity.TAG);
 		kl.reenableKeyguard();
-		photo_text.setText("已选择"+count+"张图片");
+//		photo_text.setText("已选择"+count+"张图片");
 		super.onResume();
 	}
 
@@ -232,51 +252,49 @@ public class NoteActivity extends Activity {
 		tv_note_title.setText(updateDate + "\t" + updateTime.substring(0, 5));
 	}
 
+
+	public void initViews2()
+	{
+
+
+		mGridView = (GridView) findViewById(R.id.gridview1);
+
+		mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+		mAdapter = new ImageSelectResultAdapter(this, mDataList);
+		mGridView.setAdapter(mAdapter);
+		mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> parent, View view,
+									int position, long id)
+			{
+				if (position == getDataSize())
+				{
+					Intent intent = new Intent(NoteActivity.this, com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.view.ImageChooseActivity.class);
+					intent.putExtra(IntentConstants.EXTRA_CAN_ADD_IMAGE_SIZE, CustomConstants.MAX_IMAGE_SIZE);
+					startActivityForResult(intent, 0);
+				}
+
+			}
+		});
+	}
+
+	/*
 	private void initButton() {
-		add_photo= (ImageButton) findViewById(R.id.add_photo);
-		photo_text= (TextView) findViewById(R.id.photo_text);
-		photo_text.setText("已选择"+count+"张图片");
+		//add_photo= (ImageButton) findViewById(R.id.add_photo);
+		//photo_text= (TextView) findViewById(R.id.photo_text);
+		//photo_text.setText("已选择"+count+"张图片");
 		add_photo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
                 /* 开启Pictures画面Type设定为image */
-				intent.setType("image/*");
-                /* 使用Intent.ACTION_GET_CONTENT这个Action */
+	/*		intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
-                /* 取得相片后返回本画面 */
 				startActivityForResult(intent, 1);
 			}
 		});
 	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			Uri uri = data.getData();
-			Log.e("uri", uri.toString());
-			pics.add(uri);
-			if(uri!=null){
-				count++;
-				imgs=imgs+uri.toString()+"\n";
-			}
-
-			/*ContentResolver cr = this.getContentResolver();
-			try {
-				Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-				String path = Bimp.tempSelectBitmap.get(position).getImagePath();
-
-				ImageView imageView = (ImageView) findViewById(R.id.iv01);
-
-				imageView.setImageBitmap(bitmap);
-			} catch (FileNotFoundException e) {
-				Log.e("Exception", e.getMessage(),e);
-			}*/
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-
-
+	*/
 
 
 	public void onBackPressed() {
@@ -289,6 +307,7 @@ public class NoteActivity extends Activity {
 		// 得到EditText中当前的内容
 		String content = et_content.getText().toString();
 		// 判断是更新还是新建便签
+		mGridView.clearAnimation();
 		if (openType.equals("newNote")) {
 			// 创建主页上的便签(顶级便签)
 			if (!TextUtils.isEmpty(content)) {
@@ -299,14 +318,12 @@ public class NoteActivity extends Activity {
 				values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
 				values.put(NoteItems.IS_FOLDER, "no");
 				values.put(NoteItems.PARENT_FOLDER, -1);
-
 				values.put(NoteItems.PICS,imgs);
+				Log.e("temp","imgs"+imgs);
 				getContentResolver().insert(NoteItems.CONTENT_URI, values);
 
 				// TODO: 2017/4/4 向服务器传数据
 				savePost(content);
-
-
 			}
 		} else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
@@ -370,6 +387,7 @@ public class NoteActivity extends Activity {
 			oldContent = content;
 		}
 		super.onBackPressed();
+
 	}
 
 
@@ -468,5 +486,90 @@ public class NoteActivity extends Activity {
 				});
 		AlertDialog ad = builder.create();
 		ad.show();
+	}
+
+	private int getDataSize()
+	{
+		return mDataList == null ? 0 : mDataList.size();
+	}
+
+	public String getString(String s)
+	{
+		String path = null;
+		if (s == null) return "";
+		for (int i = s.length() - 1; i > 0; i++)
+		{
+			s.charAt(i);
+		}
+		return path;
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		/*if (resultCode == RESULT_OK) {
+			Uri uri = data.getData();
+			Log.e("uri", uri.toString());
+			pics.add(uri);
+			if(uri!=null){
+				count++;
+				imgs=imgs+uri.toString()+"\n";
+			}
+		}*/
+
+
+		if(resultCode == 0) {
+
+		} else if(resultCode == 1) {
+			List<ImageItem> incomingDataList = (List<ImageItem>) data.getSerializableExtra(IntentConstants.EXTRA_IMAGE_LIST);
+			if (incomingDataList != null)
+			{
+				for(int i=0;i<incomingDataList.size();i++){
+					Log.e("tttt",incomingDataList.get(i).sourcePath);
+
+
+//					Uri uri = data.getData();
+//					Log.e("uri", uri.toString());
+
+//					Uri u = Uri.parse(incomingDataList.get(i).sourcePath);
+
+
+					pics.add(Uri.parse(incomingDataList.get(i).sourcePath));
+
+					imgs=imgs+getImageContentUri(NoteActivity.this,incomingDataList.get(i).sourcePath)+"\n";
+
+				}
+				mDataList.addAll(incomingDataList);
+				notifyDataChanged();
+				initViews2();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+
+	private void notifyDataChanged()
+	{
+		mAdapter.notifyDataSetChanged();
+	}
+
+	public static Uri getImageContentUri(Context context, String filePath) {
+		File imageFile=new File(filePath);
+
+		Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+				new String[] { MediaStore.Images.Media._ID }, MediaStore.Images.Media.DATA + "=? ",
+				new String[] { filePath }, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+			Uri baseUri = Uri.parse("content://media/external/images/media");
+			return Uri.withAppendedPath(baseUri, "" + id);
+		} else {
+			if (imageFile.exists()) {
+				ContentValues values = new ContentValues();
+				values.put(MediaStore.Images.Media.DATA, filePath);
+				return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+			} else {
+				return null;
+			}
+		}
 	}
 }

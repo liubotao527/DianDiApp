@@ -66,6 +66,22 @@
 
         <activity android:name=".UI.songwenqiang.ui.SearchContactActivity" />
 
+        <activity
+            android:name="com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.view.ImageChooseActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
+        </activity>
+
+        <activity
+            android:name="com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.view.ImageZoomActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
+        </activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.dcameraalbumtest.fileprovider"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.xdcao.diandiapp.DdService.liubotao.activity.NoteActivity;
 import com.example.xdcao.diandiapp.R;
 
 import cn.bmob.v3.Bmob;
@@ -28,6 +29,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.main_layout);
         initActivity();
         BmobInit();
+
 
     }
 

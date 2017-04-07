@@ -54,31 +54,20 @@
         android:textColor="#ff4b4b4b"
         android:textSize="20.0sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <GridView
+        android:id="@+id/gridview1"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5">
-        <ImageButton
-            android:id="@+id/add_photo"
-            style="@style/TitleBarImageButton"
-            android:layout_width="52.0dip"
-            android:layout_height="52.0dip"
-            android:layout_marginTop="1.0dip"
-            android:layout_marginLeft="25dp"/>
-
-        <TextView
-            android:id="@+id/photo_text"
-            android:layout_width="0.0dip"
-            style="@style/TitleBarTextView"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginTop="10.0dip"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1.0"
-            android:text="已选择0张图片"/>
+        android:layout_weight="10"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:horizontalSpacing="3dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:verticalSpacing="5dp" >
+    </GridView>
 
 
 
-    </LinearLayout>
 
 </LinearLayout>

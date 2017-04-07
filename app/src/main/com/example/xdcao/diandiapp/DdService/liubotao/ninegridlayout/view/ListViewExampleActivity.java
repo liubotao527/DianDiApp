@@ -64,6 +64,8 @@ public class ListViewExampleActivity extends AppCompatActivity {
         i.putExtra("Open_Type", "newNote");
         i.setClass(ListViewExampleActivity.this, NoteActivity.class);
         startActivity(i);
+        //    file:///mnt/sdcard/Apic/10.jpg
+       //    /storage/emulated/0/Apic/20.jpg
     }
 
 }

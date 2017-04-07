@@ -63,7 +63,6 @@
     <string name="checking_upgrade">升级检查中...</string>
     <string name="upgrade_info">新版本：%1$s； 更新信息：%2$s</string>
     <string name="upgrade">获取新体验</string>
-    <string name="cancel">下次咯</string>
     <string name="current_newest_verion">您已经是最新版本啦！</string>
     <string name="go_to_setting_for_upgrading">记得去设置页面点击更新哦！</string>
     <!--upgrade end-->
@@ -178,4 +177,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="main_empty_text">说点什么吧</string>
+
+    <string name="viewpager_indicator">%1$d/%2$d</string>
 </resources>

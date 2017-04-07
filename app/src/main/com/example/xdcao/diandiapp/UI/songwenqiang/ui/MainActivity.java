@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] mTitles = {"DianDi","衣","食","住","行"};
     private String outputImagePath;
 
+    //跳转到编辑页面
     private void newNote() {
         Intent i = new Intent();
         i.putExtra("Open_Type", "newNote");
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
 
-
+//加载头像
         MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
         if(curUser.getAvatar()!=null){
             Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
@@ -562,6 +563,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /*
+    头像上传线程
+     */
     class UploadThread extends Thread{
 
         private String path;

@@ -51,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
         mAcbSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Todo  编写注册的代码
                 userRegist();
             }
         });

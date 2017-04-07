@@ -586,6 +586,9 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "done: "+e);
                                 if(e==null){
                                     Log.d(TAG, "done: 用户头像上传成功");
+                                    Toast.makeText(MainActivity.this,"头像上传成功",Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(MainActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

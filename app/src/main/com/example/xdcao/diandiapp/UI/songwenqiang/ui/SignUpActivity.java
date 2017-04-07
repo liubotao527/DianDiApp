@@ -108,7 +108,8 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else {
                     Log.i("bmob", "done: "+"登录失败");
-                    Toast.makeText(SignUpActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT);
+                    Log.d("bmob", "done: "+e);
+                    Toast.makeText(SignUpActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                 }
             }
         });

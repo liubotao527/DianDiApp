@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
 import com.example.xdcao.diandiapp.DdService.liubotao.activity.*;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ContactFragment;
@@ -184,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("bmob", "onDataChange: "+"("+arg0.optString("action")+")"+"数据："+arg0);
                 JSONObject data=arg0.optJSONObject("data");
                 if (data.optString("responsor").equals(BmobUser.getCurrentUser().getObjectId())){
-                    Log.d("bmob", "onDataChange: 是给我的请求");
+                    // TODO: 2017/4/7显示好友请求逻辑
+
                 }
-                // TODO: 2017/4/7显示好友请求逻辑
 
             }
         });

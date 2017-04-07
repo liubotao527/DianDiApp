@@ -47,6 +47,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 
 /**
@@ -190,11 +191,14 @@ public class MainFragment extends Fragment {
                                 case R.id.share:
                                     //添加分享
                                     System.out.println(position);
+                                    shareGivenPost(position);
                                     Toast.makeText(context,"添加分享",Toast.LENGTH_LONG).show();
                                     break;
                                 case R.id.delete:
                                     //添加删除的代码
+                                    backupDeleteGivenPost(position);
                                     Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
+
                                     break;
                                 default:
                                     break;
@@ -354,6 +358,62 @@ public class MainFragment extends Fragment {
 
 
         //initView();
+    }
+    /*
+    分享用户的某条状态，使其可见
+    */
+    private void shareGivenPost(int position) {
+
+        BmobQuery<Post> query=new BmobQuery();
+        query.addWhereEqualTo("content",mList.get(position).getNote());
+        query.findObjects(new FindListener<Post>() {
+            @Override
+            public void done(List<Post> list, BmobException e) {
+                if(e==null){
+                    Log.d(TAG, "done: "+"找到分享的帖子："+list.get(0).getContent());
+                    Post givenPost=list.get(0);
+                    Log.d(TAG, "done: id:"+givenPost.getObjectId());
+                    givenPost.setValue("isShared",true);
+                    givenPost.update(givenPost.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Log.d(TAG, "done: "+"更新成功");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    /*
+    从后台删除指定的某条状态
+    */
+    private void backupDeleteGivenPost(int position) {
+
+        BmobQuery<Post> query=new BmobQuery();
+        query.addWhereEqualTo("content",mList.get(position).getNote());
+        query.findObjects(new FindListener<Post>() {
+            @Override
+            public void done(List<Post> list, BmobException e) {
+                if(e==null){
+                    Log.d(TAG, "done: "+"找到要删除的帖子："+list.get(0).getContent());
+                    Post givenPost=list.get(0);
+                    givenPost.delete(givenPost.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e==null){
+                                Log.d(TAG, "done: 删除成功");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
     }
 
 

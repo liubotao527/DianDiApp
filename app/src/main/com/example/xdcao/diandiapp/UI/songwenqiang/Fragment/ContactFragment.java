@@ -161,7 +161,7 @@ public class ContactFragment extends Fragment{
         public void onBindViewHolder(ContactViewHolder holder, int position) {
             holder.mTvName.setText(mContactList.get(position).getNickName());
             holder.mTvSign.setText(mContactList.get(position).getSignName());
-            // TODO: 2017/4/7
+
             if (mContactList.get(position).getAvatar()!=null){
                 Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+mContactList.get(position).getAvatar().getFilename());
                 if(bitmap!=null){
@@ -238,87 +238,11 @@ public class ContactFragment extends Fragment{
                         mContactList.add(contactItem);
                     }
 
-//                    Map<Integer,Bitmap> imgMap=new HashMap<Integer, Bitmap>();
-//                    for (int i=0;i<list.size();i++){
-//                        if (list.get(i).getAvatar()!=null){
-//                            Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+list.get(i).getAvatar().getFilename());
-//                            Log.d("bmob", "done: "+list.get(i).getAvatar().getFilename());
-//                            if(bitmap==null){
-//                                // TODO: 2017/4/6 从网上下
-//
-//                            }else {
-//                                imgMap.put(i,bitmap);
-//                            }
-//                        }
-//                    }
-//
-//                    for (int i=0;i<mContactList.size();i++){
-//                        if(imgMap.get(i)!=null){
-//                            mContactList.get(i).setAvatar(imgMap.get(i));
-//                        }
-//                    }
-
                     Message message=new Message();
                     message.what= HandlerCons.QUERY_ALL_USER;
                     handler.sendMessage(message);
 
-
-//                    for(final MyUser myUser:list){
-//
-//                        final ContactItem contactItem=new ContactItem();
-//                        contactItem.setNickName(myUser.getUsername());
-//
-//                        if (myUser.getAvatar()!=null){
-//
-//                            Log.d("bmob", "done: notnull");
-//                            Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+myUser.getAvatar().getFilename());
-//                            Log.d("bmob", "done: file:"+myUser.getAvatar().getFilename());
-//
-//                            if (bitmap!=null){
-//
-//                                Log.d("bmob", "done:bitmap exsits ");
-//                                contactItem.setAvatar(bitmap);
-//                                mContactList.add(contactItem);
-//                                Message message=new Message();
-//                                message.what= HandlerCons.QUERY_ALL_USER;
-//                                handler.sendMessage(message);
-//                            }else {
-//
-//                                File saveFile = new File(Environment.getExternalStorageDirectory(), myUser.getAvatar().getFilename());
-//                                myUser.getAvatar().download(saveFile, new DownloadFileListener() {
-//
-//                                    @Override
-//                                    public void onStart() {
-//                                        Log.d("bmob", "onStart: ");
-//                                    }
-//
-//                                    @Override
-//                                    public void done(String savePath,BmobException e) {
-//                                        if(e==null){
-//                                            Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+myUser.getAvatar().getFilename());
-//                                            contactItem.setAvatar(bitmap);
-//                                            mContactList.add(contactItem);
-//
-//                                        }else{
-//                                            Log.d("bmob", "done: downloadFailure");
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onProgress(Integer value, long newworkSpeed) {
-//                                        Log.d("bmob","下载进度："+value+","+newworkSpeed);
-//                                    }
-//
-//                                });
-//                            }
-//                        }else {
-//                            mContactList.add(contactItem);
-//                        }
-                    }
-//                    System.out.print("查询用户成功： 用户数： "+list.size());
-//                }else {
-//                    System.out.print("查询用户失败");
-//                }
+                }
 
             }
         });

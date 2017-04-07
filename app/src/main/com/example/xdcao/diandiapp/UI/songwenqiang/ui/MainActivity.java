@@ -52,14 +52,18 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 
+import cn.bmob.v3.BmobRealTimeData;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
+import cn.bmob.v3.listener.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mLLDrawer;
     private RoundImageView mRivPhoto;
     private ImageLoader imageLoader;
+    BmobRealTimeData realTimeData=new BmobRealTimeData();
 
     private static final String TAG = "MainActivity";
 
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initImageLoader();
-
+        realDataInit();
         initViews();
         resetFragmemt(R.id.notes);
 
@@ -159,6 +164,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    开启数据实时同步
+     */
+    private void realDataInit() {
+
+
+        realTimeData.start(new ValueEventListener() {
+            @Override
+            public void onConnectCompleted(Exception e) {
+                Log.d("bmob", "onConnectCompleted: ");
+                if (realTimeData.isConnected()){
+                    realTimeData.subTableUpdate("Supply");
+                }
+            }
+
+            @Override
+            public void onDataChange(JSONObject arg0) {
+                Log.d("bmob", "onDataChange: "+"("+arg0.optString("action")+")"+"数据："+arg0);
+                JSONObject data=arg0.optJSONObject("data");
+                if (data.optString("responsor").equals(BmobUser.getCurrentUser().getObjectId())){
+                    Log.d("bmob", "onDataChange: 是给我的请求");
+                }
+                // TODO: 2017/4/7显示好友请求逻辑
+
+            }
+        });
+
+
+
+    }
+
+    /*
+    初始化imageloader
+     */
     private void initImageLoader() {
         imageLoader=ImageLoader.getInstance();
         ImageLoaderConfiguration configuration=new ImageLoaderConfiguration.Builder(this).build();
@@ -190,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
 
-        // TODO: 2017/4/7  显示用户自己的头像
+
         MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
         Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
         if(bitmap!=null){

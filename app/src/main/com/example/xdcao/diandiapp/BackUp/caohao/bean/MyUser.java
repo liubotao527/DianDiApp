@@ -15,6 +15,7 @@ public class MyUser extends BmobUser {
     private Boolean sex;//1:male,0:female
     private Integer age;
     private BmobRelation friends;
+    private BmobRelation unchecked;
     private BmobFile avatar;
 
 
@@ -48,5 +49,13 @@ public class MyUser extends BmobUser {
 
     public void setAvatar(BmobFile avatar) {
         this.avatar = avatar;
+    }
+
+    public BmobRelation getUnchecked() {
+        return unchecked;
+    }
+
+    public void setUnchecked(BmobRelation unchecked) {
+        this.unchecked = unchecked;
     }
 }

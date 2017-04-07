@@ -3,6 +3,7 @@ package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
 import android.os.Environment;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.actions.FileAction;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
@@ -34,6 +36,7 @@ import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class SearchContactActivity extends AppCompatActivity {
@@ -58,8 +61,7 @@ public class SearchContactActivity extends AppCompatActivity {
                     Log.d(TAG, "handleMessage: "+"get handler user name: "+myUser.getUsername());
 
                     mTvName.setText(myUser.getUsername());
-                    //TODO 将个性签名添加到mTvSign   将个人头像添加到 mIvAdd
-//                    File avatar=new File(Environment.getExternalStorageDirectory(),myUser.getAvatar().getFilename());
+
                     Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
                     mRivPhoto.setImageBitmap(bitmap);
                     mCvAddContact.setVisibility(View.VISIBLE);
@@ -67,7 +69,7 @@ public class SearchContactActivity extends AppCompatActivity {
                     mIvAdd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //TODO 将此联系人添加到联系人列表
+
                             updateMyFriendList(myUser);
                         }
                     });
@@ -127,24 +129,45 @@ public class SearchContactActivity extends AppCompatActivity {
      */
     private void updateMyFriendList(MyUser friend) {
 
+        Log.d(TAG, "updateMyFriendList: ");
+
         MyUser me= BmobUser.getCurrentUser(MyUser.class);
-        if (me.getFriends()==null){
-            BmobRelation bmobRelation=new BmobRelation();
-            bmobRelation.add(friend);
-            me.setFriends(bmobRelation);
-        }else {
-            BmobRelation bmobRelation=me.getFriends();
-            bmobRelation.add(friend);
-            me.setFriends(bmobRelation);
-        }
-        me.update(me.getObjectId(), new UpdateListener() {
+//
+//        // TODO: 2017/4/7 发出一个请求
+        Supply supply=new Supply();
+        supply.setRequester(me);
+        supply.setResponsor(friend);
+        supply.setAccepted(false);
+
+        supply.save(new SaveListener<String>() {
             @Override
-            public void done(BmobException e) {
-                if(e==null){
-                    Log.d(TAG, "done: 更新联系人列表成功");
+            public void done(String s, BmobException e) {
+                if (e==null){
+                    Log.d(TAG, "done: 请求成功发出");
+                }else {
+                    Log.d(TAG, "done: "+e);
                 }
             }
         });
+
+//         TODO: 2017/4/7 这里先注释掉，等对方同意再加上这里的逻辑
+//        if (me.getFriends()==null){
+//            BmobRelation bmobRelation=new BmobRelation();
+//            bmobRelation.add(friend);
+//            me.setFriends(bmobRelation);
+//        }else {
+//            BmobRelation bmobRelation=me.getFriends();
+//            bmobRelation.add(friend);
+//            me.setFriends(bmobRelation);
+//        }
+//        me.update(me.getObjectId(), new UpdateListener() {
+//            @Override
+//            public void done(BmobException e) {
+//                if(e==null){
+//                    Log.d(TAG, "done: 更新联系人列表成功");
+//                }
+//            }
+//        });
 
     }
 

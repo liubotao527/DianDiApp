@@ -222,13 +222,13 @@ public class NoteActivity extends Activity {
 			c.close();
 		}
 		// 判断打开方式
-		if (openType.equals("newNote")) {// 新建"顶级便签",即没有放在文件夹内的便签
+		//if (openType.equals("newNote")) {// 新建"顶级便签",即没有放在文件夹内的便签
 			// 初始化新建便签的日期时间
 			updateDate = DateTimeUtil.getDate();
 			updateTime = DateTimeUtil.getTime();
 			// 使用默认的背景颜色
 			//et_content.setBackgroundResource(R.drawable.item_light_blue);
-		} else if (openType.equals("editNote")) {// 编辑顶级便签(不在文件夹内的便签)
+		/*} else if (openType.equals("editNote")) {// 编辑顶级便签(不在文件夹内的便签)
 			et_content.setText(oldContent);
 			// 根据数据库中的值设定背景颜色
 			if (mBackgroud_Color != 0) {
@@ -247,7 +247,7 @@ public class NoteActivity extends Activity {
 				//et_content.setBackgroundResource(mBackgroud_Color);
 				//mLinearLayout_Header.setBackgroundResource(headerBackground(mBackgroud_Color));
 			}
-		}
+		}*/
 
 		tv_note_title.setText(updateDate + "\t" + updateTime.substring(0, 5));
 	}

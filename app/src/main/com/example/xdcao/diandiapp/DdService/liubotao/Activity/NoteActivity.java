@@ -96,7 +96,7 @@ public class NoteActivity extends Activity {
 	private static final int MENU_REMIND = Menu.FIRST + 1;
 	private static final int MENU_SEND_HOME = Menu.FIRST + 2;
 	private static final int MENU_SHARE = Menu.FIRST + 3;
-	private ArrayList<Uri> pics=new ArrayList<>();
+	private ArrayList<String> pics=new ArrayList<>();
 	private String temp;
 	private String imgs="";
 	int count=0;
@@ -395,17 +395,19 @@ public class NoteActivity extends Activity {
 	将刚编辑好的状态上传到后台，默认其他用户不可见
 	 */
 	private void savePost(final String content) {
-		Log.d(TAG, "onBackPressed: "+pics.size());
+		Log.d("bmob", "onBackPressed: "+pics.size());
 
 		if(pics.size()>0){
 			String[] filepaths=new String[pics.size()];
 			for(int i=0;i<pics.size();i++){
-				filepaths[i]=uriUtil.getImageAbsolutePath(NoteActivity.this,pics.get(i));
+				filepaths[i]=pics.get(i);
+				Log.d("bmob", "savePost: "+filepaths[i]);
 			}
+			Log.d("bmob", "savePost: content"+content);
 			BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
 				@Override
 				public void onSuccess(List<BmobFile> list, List<String> list1) {
-					Log.d(TAG, "onSuccess: ");
+					Log.d("bmob", "onSuccess: ");
 					Post post=new Post();
 					post.setContent(content);
 					post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
@@ -413,8 +415,8 @@ public class NoteActivity extends Activity {
 					post.setShared(false);
 
 					List<BmobFile> imgs=new ArrayList<BmobFile>();
-					for (Uri uri:pics){
-						BmobFile pic=new BmobFile(new File(uriUtil.getImageAbsolutePath(NoteActivity.this,uri)));
+					for (String uri:pics){
+						BmobFile pic=new BmobFile(new File(uri));
 						imgs.add(pic);
 					}
 					post.setImages(imgs);
@@ -423,9 +425,9 @@ public class NoteActivity extends Activity {
 						@Override
 						public void done(String s, BmobException e) {
 							if(e==null){
-								Log.d(TAG, "done: "+"状态发送成功");
+								Log.d("bmob", "done: "+"状态发送成功");
 							}else {
-								Log.d(TAG, "done: "+"状态发送失败");
+								Log.d("bmob", "done: "+"状态发送失败");
 							}
 						}
 					});
@@ -533,7 +535,8 @@ public class NoteActivity extends Activity {
 //					Uri u = Uri.parse(incomingDataList.get(i).sourcePath);
 
 
-					pics.add(Uri.parse(incomingDataList.get(i).sourcePath));
+					pics.add(String.valueOf(Uri.parse(incomingDataList.get(i).sourcePath)));
+					Log.d("bmob", "onActivityResult: "+Uri.parse(incomingDataList.get(i).sourcePath));
 
 					imgs=imgs+getImageContentUri(NoteActivity.this,incomingDataList.get(i).sourcePath)+"\n";
 

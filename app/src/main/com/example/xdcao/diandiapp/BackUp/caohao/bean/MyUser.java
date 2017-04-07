@@ -14,9 +14,11 @@ public class MyUser extends BmobUser {
 
     private Boolean sex;//1:male,0:female
     private Integer age;
+    private String nickName;
     private BmobRelation friends;
     private BmobRelation unchecked;
     private BmobFile avatar;
+    private String signName;
 
 
     public Boolean getSex() {
@@ -57,5 +59,21 @@ public class MyUser extends BmobUser {
 
     public void setUnchecked(BmobRelation unchecked) {
         this.unchecked = unchecked;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getSignName() {
+        return signName;
+    }
+
+    public void setSignName(String signName) {
+        this.signName = signName;
     }
 }

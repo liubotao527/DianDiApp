@@ -49,6 +49,7 @@ import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
 
 import static android.app.PendingIntent.getActivity;
@@ -408,7 +409,7 @@ public class NoteActivity extends Activity {
 				@Override
 				public void onSuccess(List<BmobFile> list, List<String> list1) {
 					Log.d("bmob", "onSuccess: ");
-					Post post=new Post();
+					final Post post=new Post();
 					post.setContent(content);
 					post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
 					post.setCreateDate(new BmobDate(new Date()));
@@ -427,7 +428,7 @@ public class NoteActivity extends Activity {
 							if(e==null){
 								Log.d("bmob", "done: "+"状态发送成功");
 							}else {
-								Log.d("bmob", "done: "+"状态发送失败");
+								Log.d("bmob", "done: 什么也不用做");
 							}
 						}
 					});

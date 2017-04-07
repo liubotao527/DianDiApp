@@ -232,12 +232,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
-        Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
-        if(bitmap!=null){
-            mRivPhoto.setImageBitmap(bitmap);
-        }else {
-            imageLoader.displayImage(curUser.getAvatar().getFileUrl(),mRivPhoto);
+        if(curUser.getAvatar()!=null){
+            Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
+            if(bitmap!=null){
+                mRivPhoto.setImageBitmap(bitmap);
+            }else {
+                imageLoader.displayImage(curUser.getAvatar().getFileUrl(),mRivPhoto);
+            }
         }
+
 
         mRivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

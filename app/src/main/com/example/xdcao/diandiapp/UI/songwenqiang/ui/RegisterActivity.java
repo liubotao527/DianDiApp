@@ -7,8 +7,14 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.activity.LoginActivity;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * et_input_mobile
@@ -46,10 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Todo  编写注册的代码
-
-
-
-//                finish();
+                userRegist();
             }
         });
 
@@ -63,4 +66,33 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void userRegist() {
+        if (mEtMobileNumber.getText().toString().length()!=11){
+            Toast.makeText(RegisterActivity.this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
+        }else if(!mEtRePassWord.getText().toString().equals(mEtPassWord.getText().toString())){
+            Toast.makeText(RegisterActivity.this,"确认密码错误",Toast.LENGTH_SHORT).show();
+        }else {
+            MyUser user=new MyUser();
+            user.setUsername(mEtMobileNumber.getText().toString());
+            user.setPassword(mEtPassWord.getText().toString());
+            user.setNickName(mEtNickName.getText().toString());
+            user.setSignName(mEtSignName.getText().toString());
+            user.signUp(new SaveListener<MyUser>() {
+                @Override
+                public void done(MyUser myUser, BmobException e) {
+                    if(e==null){
+                        Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(RegisterActivity.this,SignUpActivity.class);
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(RegisterActivity.this, "注册失败，检查网络连接", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+
 }

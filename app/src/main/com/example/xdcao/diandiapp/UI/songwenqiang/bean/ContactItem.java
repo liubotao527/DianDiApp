@@ -2,13 +2,15 @@ package com.example.xdcao.diandiapp.UI.songwenqiang.bean;
 
 import android.graphics.Bitmap;
 
+import cn.bmob.v3.datatype.BmobFile;
+
 /**
  * Created by wewarrios on 2017/4/5.
  */
 
 public class ContactItem {
     //个人头像
-    private Bitmap avatar;
+    private BmobFile avatar;
 
     //个人昵称
     private String nickName;
@@ -33,11 +35,11 @@ public class ContactItem {
         this.signName = signName;
     }
 
-    public Bitmap getAvatar() {
+    public BmobFile getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Bitmap avatar) {
+    public void setAvatar(BmobFile avatar) {
         this.avatar = avatar;
     }
 }

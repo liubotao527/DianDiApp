@@ -31,6 +31,8 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.socketio.callback.StringCallback;
 
+
 /**
  * Created by wewarrios on 2017/3/14.
  */
@@ -56,7 +59,7 @@ public class ContactFragment extends Fragment{
     private LinearLayoutManager mLayoutManager;
     //    private SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
-
+    private ImageLoader imageLoader;
 
 
     Handler handler=new Handler() {
@@ -86,7 +89,13 @@ public class ContactFragment extends Fragment{
         super.onCreate(savedInstanceState);
         mContactList = new ArrayList<>();
         new QueryForUsersThread().start();
+        initImageLoader();
+    }
 
+    private void initImageLoader() {
+        imageLoader=ImageLoader.getInstance();
+        ImageLoaderConfiguration configuration=new ImageLoaderConfiguration.Builder(this.context).build();
+        imageLoader.init(configuration);
     }
 
     @Override
@@ -152,8 +161,15 @@ public class ContactFragment extends Fragment{
         public void onBindViewHolder(ContactViewHolder holder, int position) {
             holder.mTvName.setText(mContactList.get(position).getNickName());
             holder.mTvSign.setText(mContactList.get(position).getSignName());
+            // TODO: 2017/4/7
             if (mContactList.get(position).getAvatar()!=null){
-                holder.mRivPhoto.setImageBitmap(mContactList.get(position).getAvatar());
+                Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+mContactList.get(position).getAvatar().getFilename());
+                if(bitmap!=null){
+                    holder.mRivPhoto.setImageBitmap(bitmap);
+                }else {
+                    Log.d(TAG, "onBindViewHolder: imageloader");
+                    imageLoader.displayImage(mContactList.get(position).getAvatar().getFileUrl(),holder.mRivPhoto);
+                }
             }
         }
 
@@ -218,28 +234,29 @@ public class ContactFragment extends Fragment{
                     for (MyUser myUser:list){
                         ContactItem contactItem=new ContactItem();
                         contactItem.setNickName(myUser.getUsername());
+                        contactItem.setAvatar(myUser.getAvatar());
                         mContactList.add(contactItem);
                     }
 
-                    Map<Integer,Bitmap> imgMap=new HashMap<Integer, Bitmap>();
-                    for (int i=0;i<list.size();i++){
-                        if (list.get(i).getAvatar()!=null){
-                            Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+list.get(i).getAvatar().getFilename());
-                            Log.d("bmob", "done: "+list.get(i).getAvatar().getFilename());
-                            if(bitmap==null){
-                                // TODO: 2017/4/6 从网上下
-
-                            }else {
-                                imgMap.put(i,bitmap);
-                            }
-                        }
-                    }
-
-                    for (int i=0;i<mContactList.size();i++){
-                        if(imgMap.get(i)!=null){
-                            mContactList.get(i).setAvatar(imgMap.get(i));
-                        }
-                    }
+//                    Map<Integer,Bitmap> imgMap=new HashMap<Integer, Bitmap>();
+//                    for (int i=0;i<list.size();i++){
+//                        if (list.get(i).getAvatar()!=null){
+//                            Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+list.get(i).getAvatar().getFilename());
+//                            Log.d("bmob", "done: "+list.get(i).getAvatar().getFilename());
+//                            if(bitmap==null){
+//                                // TODO: 2017/4/6 从网上下
+//
+//                            }else {
+//                                imgMap.put(i,bitmap);
+//                            }
+//                        }
+//                    }
+//
+//                    for (int i=0;i<mContactList.size();i++){
+//                        if(imgMap.get(i)!=null){
+//                            mContactList.get(i).setAvatar(imgMap.get(i));
+//                        }
+//                    }
 
                     Message message=new Message();
                     message.what= HandlerCons.QUERY_ALL_USER;

@@ -181,9 +181,9 @@ public class ContactFragment extends Fragment{
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-            Intent intent = new Intent(getActivity(),DetailActivity.class);
+//            Intent intent = new Intent(getActivity(),DetailActivity.class);
             //将数据传到DetailActivity
-            startActivity(intent);
+//            startActivity(intent);
         }
 
         class ContactViewHolder extends RecyclerView.ViewHolder{

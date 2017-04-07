@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.xdcao.diandiapp">
+
     <!-- 往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 请求访问使用照相设备 -->
@@ -45,7 +46,7 @@
         <activity android:name=".DdService.liubotao.ninegridlayout.view.ListViewExampleActivity" />
         <activity android:name=".BackUp.caohao.activity.MainActivity" />
         <activity android:name=".UI.songwenqiang.ui.SplashActivity" />
-        <activity android:name=".UI.songwenqiang.ui.SignUpActivity" />
+        <activity android:name=".UI.songwenqiang.ui.SignUpActivity" android:theme="@style/AppTheme.Dark"/>
         <activity
             android:name=".UI.songwenqiang.ui.MainActivity"
             android:label="点滴"
@@ -75,6 +76,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".UI.songwenqiang.ui.RegisterActivity" android:theme="@style/AppTheme.Dark"></activity>
     </application>
 
 </manifest>

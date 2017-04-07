@@ -171,10 +171,15 @@ public class SearchContactActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 
     /*
-    根据用户名查询指定用户
-     */
+        根据用户名查询指定用户
+         */
     private void queryForGivenName(String username){
 
         BmobQuery<MyUser> query=new BmobQuery<>();

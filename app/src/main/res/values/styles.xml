@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+
+        <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
     <!-- 首页以及文件夹下标题栏的LinearLayout的Style -->
     <style name="TitleBarLinearLayout">
         <item name="android:paddingLeft">13dp</item>

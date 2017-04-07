@@ -29,13 +29,11 @@ public class TextPointView extends FrameLayout {
 
     private final long random = new Random().nextLong();
     private Context context;
-    private static final int DEFAULT_SIZE_DP = 30;
+    private static final int DEFAULT_SIZE_DP = 50;
     private static final int DEFAULT_TEXT_SIZE = 16;
     private  int size;
-    //private int size;
     private String singleText;
     private  int textSize;
-    //private int textSize;
     private @ColorRes
     int circleColorRes;
     private View circleView;
@@ -58,7 +56,7 @@ public class TextPointView extends FrameLayout {
         TypedArray typedArray = context.getTheme()
                 .obtainStyledAttributes(attrs, R.styleable.TextPointView,0,0);
         singleText = typedArray.getString(R.styleable.TextPointView_text);
-        circleColorRes = typedArray.getInt(R.styleable.TextPointView_redPointViewBgColor,R.color.bright_red);
+        circleColorRes = typedArray.getInt(R.styleable.TextPointView_redPointViewBgColor,R.color.white);
         textSize = typedArray.getDimensionPixelSize(R.styleable.TextPointView_textSize,DEFAULT_TEXT_SIZE);
         typedArray.recycle();
 
@@ -74,7 +72,7 @@ public class TextPointView extends FrameLayout {
         textView.setLayoutParams(params);
         textView.setTypeface(TypefaceUtils.load(context.getAssets(),"fonts/jianshi_default.otf"));
         textView.setTextSize(textSize);
-        textView.setTextColor(ContextCompat.getColor(context,R.color.white));
+        textView.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
         textView.setText(singleText);
         addView(circleView);
         addView(textView);

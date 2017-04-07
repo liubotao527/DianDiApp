@@ -17,6 +17,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -48,6 +49,8 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ContactFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.SettingFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ShareFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private LinearLayout mLLDrawer;
     private RoundImageView mRivPhoto;
+    private ImageLoader imageLoader;
 
     private static final String TAG = "MainActivity";
 
@@ -86,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initImageLoader();
 
         initViews();
         resetFragmemt(R.id.notes);
@@ -153,6 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void initImageLoader() {
+        imageLoader=ImageLoader.getInstance();
+        ImageLoaderConfiguration configuration=new ImageLoaderConfiguration.Builder(this).build();
+        imageLoader.init(configuration);
+    }
+
     private void initViews() {
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -177,6 +189,15 @@ public class MainActivity extends AppCompatActivity {
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
+
+        // TODO: 2017/4/7  显示用户自己的头像
+        MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
+        Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
+        if(bitmap!=null){
+            mRivPhoto.setImageBitmap(bitmap);
+        }else {
+            imageLoader.displayImage(curUser.getAvatar().getFileUrl(),mRivPhoto);
+        }
 
         mRivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,13 +2,15 @@ package com.example.xdcao.diandiapp.UI.songwenqiang.bean;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by wewarrios on 2017/4/5.
  */
 
-public class ContactItem {
+public class ContactItem implements Serializable{
     //个人头像
     private BmobFile avatar;
 

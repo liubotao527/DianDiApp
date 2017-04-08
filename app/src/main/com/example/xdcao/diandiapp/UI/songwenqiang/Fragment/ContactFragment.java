@@ -28,6 +28,7 @@ import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ContactShareActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
@@ -185,9 +186,13 @@ public class ContactFragment extends Fragment{
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-//            Intent intent = new Intent(getActivity(),DetailActivity.class);
+            ContactItem contactItem = mContactList.get(position);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("contactItem",contactItem);
+            Intent intent = new Intent(getActivity(),ContactShareActivity.class);
             //将数据传到DetailActivity
-//            startActivity(intent);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
         class ContactViewHolder extends RecyclerView.ViewHolder{

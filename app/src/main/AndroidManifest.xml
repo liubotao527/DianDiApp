@@ -46,7 +46,9 @@
         <activity android:name=".DdService.liubotao.ninegridlayout.view.ListViewExampleActivity" />
         <activity android:name=".BackUp.caohao.activity.MainActivity" />
         <activity android:name=".UI.songwenqiang.ui.SplashActivity" />
-        <activity android:name=".UI.songwenqiang.ui.SignUpActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".UI.songwenqiang.ui.SignUpActivity"
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".UI.songwenqiang.ui.MainActivity"
             android:label="点滴"
@@ -66,22 +68,18 @@
         -->
 
         <activity android:name=".UI.songwenqiang.ui.SearchContactActivity" />
-
         <activity
-            android:name="com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.view.ImageChooseActivity"
+            android:name=".DdService.liubotao.PicsSelect.multiphotopicker.view.ImageChooseActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
-        </activity>
-
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
-            android:name="com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.view.ImageZoomActivity"
+            android:name=".DdService.liubotao.PicsSelect.multiphotopicker.view.ImageZoomActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -93,7 +91,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".UI.songwenqiang.ui.RegisterActivity" android:theme="@style/AppTheme.Dark"></activity>
+        <activity
+            android:name=".UI.songwenqiang.ui.RegisterActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".UI.songwenqiang.ui.ContactShareActivity"></activity>
     </application>
 
 </manifest>

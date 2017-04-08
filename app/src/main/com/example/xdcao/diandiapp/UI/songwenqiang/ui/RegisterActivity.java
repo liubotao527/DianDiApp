@@ -69,9 +69,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void userRegist() {
         if (mEtMobileNumber.getText().toString().length()!=11){
-            Toast.makeText(RegisterActivity.this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
+
+            mEtMobileNumber.setError("请输入正确的手机号码");
+        }else if(mEtPassWord.getText().toString().length()<6){
+            mEtPassWord.setError("密码长度至少6位");
         }else if(!mEtRePassWord.getText().toString().equals(mEtPassWord.getText().toString())){
-            Toast.makeText(RegisterActivity.this,"确认密码错误",Toast.LENGTH_SHORT).show();
+            mEtPassWord.setError("确认密码错误");
         }else {
             MyUser user=new MyUser();
             user.setUsername(mEtMobileNumber.getText().toString());
@@ -85,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(RegisterActivity.this,SignUpActivity.class);
                         startActivity(intent);
+                        finish();
                     }else {
                         Toast.makeText(RegisterActivity.this, "注册失败，检查网络连接", Toast.LENGTH_SHORT).show();
                     }

@@ -249,6 +249,7 @@ public class ContactFragment extends Fragment{
                     Log.d("bmob", "done: "+"success, size:"+list.size());
                     for (MyUser myUser:list){
                         ContactItem contactItem=new ContactItem();
+                        contactItem.setId(myUser.getObjectId());
                         contactItem.setNickName(myUser.getUsername());
                         contactItem.setAvatar(myUser.getAvatar());
                         mContactList.add(contactItem);

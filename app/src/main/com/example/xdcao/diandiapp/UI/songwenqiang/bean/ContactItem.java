@@ -11,6 +11,9 @@ import cn.bmob.v3.datatype.BmobFile;
  */
 
 public class ContactItem implements Serializable{
+
+    private String id;
+
     //个人头像
     private BmobFile avatar;
 
@@ -43,5 +46,13 @@ public class ContactItem implements Serializable{
 
     public void setAvatar(BmobFile avatar) {
         this.avatar = avatar;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

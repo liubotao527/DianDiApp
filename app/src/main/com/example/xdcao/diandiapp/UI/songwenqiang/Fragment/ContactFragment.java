@@ -229,6 +229,7 @@ public class ContactFragment extends Fragment{
     }
 
 
+
     /*
     查询好友列表
      */

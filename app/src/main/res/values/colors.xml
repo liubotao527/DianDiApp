@@ -57,5 +57,6 @@
     <color name="grey">#ff58616d</color>
     <color name="lightgrey">#ff888888</color>
     <color name="blue1">#ff61a8de</color>
+    <color name="iron">#CCCCCC</color>
 
 </resources>

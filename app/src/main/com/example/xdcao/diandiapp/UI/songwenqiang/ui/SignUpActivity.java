@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
@@ -108,8 +107,6 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else {
                     Log.i("bmob", "done: "+"登录失败");
-                    Log.d("bmob", "done: "+e);
-                    Toast.makeText(SignUpActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
@@ -93,6 +94,7 @@ public class ContactShareActivity extends AppCompatActivity {
         if (contactItem1.getAvatar()!=null){
             Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+contactItem1.getAvatar().getFilename());
             if(bitmap!=null){
+                Log.d("bmob", "onCreate: ");
                 mRivPhoto.setImageBitmap(bitmap);
             }else {
                 Log.d("bmob", "onBindViewHolder: imageloader");
@@ -138,11 +140,15 @@ public class ContactShareActivity extends AppCompatActivity {
                 holder.tv_time.setText(mPostList.get(position).getCreatedAt());
 //            holder.iv_content.setImageResource();
                 if (mPostList.get(position).getImages().size()>0){
-                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+mPostList.get(position).getImages().get(0).getFilename());
+                    Log.d("bmob", "onBindViewHolder: "+mPostList.get(position).getImages().size());
+                    Log.d("bmob", "onBindViewHolder: "+mPostList.get(position).getImages().get(0));
+                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+mPostList.get(position).getFilenames().get(0));
                     if(bitmap!=null){
                         holder.iv_content.setImageBitmap(bitmap);
+                        Log.d("bmob", "onBindViewHolder: 本地加载");
                     }else {
-                        imageLoader.displayImage(mPostList.get(position).getImages().get(0).getFileUrl(),holder.iv_content);
+                        Log.d("bmob", "onBindViewHolder: 外部加载");
+                        imageLoader.displayImage(mPostList.get(position).getImages().get(0),holder.iv_content);
                     }
 
                 }
@@ -195,14 +201,16 @@ public class ContactShareActivity extends AppCompatActivity {
     private void queryForSomeOnePosts(ContactItem user){
 
         BmobQuery<Post> query=new BmobQuery<>();
-        query.addWhereRelatedTo("author",new BmobPointer("_User",user.getId()));
+        query.addWhereEqualTo("author",user.getMyUser());
         query.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
                 if (e==null){
+                    Log.d("bmob", "done: 有这个联系人");
                     if (list.size()>0){
                         Log.d("bmob", "done: 找到联系人帖子");
                         for (Post post:list){
+                            Log.d("bmob", "done: "+post.getImages().get(0));
                             mPostList.add(post);
                         }
                         Message message=new Message();

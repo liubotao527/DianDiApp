@@ -2,6 +2,8 @@ package com.example.xdcao.diandiapp.UI.songwenqiang.bean;
 
 import android.graphics.Bitmap;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+
 import java.io.Serializable;
 
 import cn.bmob.v3.datatype.BmobFile;
@@ -23,6 +25,8 @@ public class ContactItem implements Serializable{
     //个性签名
 
     private String signName;
+
+    private MyUser myUser;
 
     public String getNickName() {
         return nickName;
@@ -54,5 +58,13 @@ public class ContactItem implements Serializable{
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public MyUser getMyUser() {
+        return myUser;
+    }
+
+    public void setMyUser(MyUser myUser) {
+        this.myUser = myUser;
     }
 }

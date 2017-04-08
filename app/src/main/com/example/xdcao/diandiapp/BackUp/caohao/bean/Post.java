@@ -1,5 +1,6 @@
 package com.example.xdcao.diandiapp.BackUp.caohao.bean;
 
+import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,8 @@ public class Post extends BmobObject {
     private String title;
     private String content;
     private MyUser author;
-    private List<BmobFile> images;
+    private List<String> images;
+    private List<String> filenames;
     private BmobRelation likes;
     private BmobDate createDate;
     private Boolean isShared;
@@ -75,20 +77,27 @@ public class Post extends BmobObject {
         this.likes = likes;
     }
 
-    public List<BmobFile> getImages() {
-        return images;
-    }
-
-    public void setImages(List<BmobFile> images) {
-
-        this.images = images;
-    }
-
     public Boolean getShared() {
         return isShared;
     }
 
     public void setShared(Boolean shared) {
         isShared = shared;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public List<String> getFilenames() {
+        return filenames;
+    }
+
+    public void setFilenames(List<String> filenames) {
+        this.filenames = filenames;
     }
 }

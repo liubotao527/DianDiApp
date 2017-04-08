@@ -252,6 +252,7 @@ public class ContactFragment extends Fragment{
                         contactItem.setId(myUser.getObjectId());
                         contactItem.setNickName(myUser.getUsername());
                         contactItem.setAvatar(myUser.getAvatar());
+                        contactItem.setMyUser(myUser);
                         mContactList.add(contactItem);
                     }
 

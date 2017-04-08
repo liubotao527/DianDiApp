@@ -399,7 +399,7 @@ public class NoteActivity extends Activity {
 		Log.d("bmob", "onBackPressed: "+pics.size());
 
 		if(pics.size()>0){
-			String[] filepaths=new String[pics.size()];
+			final String[] filepaths=new String[pics.size()];
 			for(int i=0;i<pics.size();i++){
 				filepaths[i]=pics.get(i);
 				Log.d("bmob", "savePost: "+filepaths[i]);
@@ -408,31 +408,37 @@ public class NoteActivity extends Activity {
 			BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
 				@Override
 				public void onSuccess(List<BmobFile> list, List<String> list1) {
-					Log.d("bmob", "onSuccess: ");
-					final Post post=new Post();
-					post.setContent(content);
-					post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-					post.setCreateDate(new BmobDate(new Date()));
-					post.setShared(false);
+					if (list.size()==filepaths.length){
 
-					List<BmobFile> imgs=new ArrayList<BmobFile>();
-					for (String uri:pics){
-						BmobFile pic=new BmobFile(new File(uri));
-						imgs.add(pic);
-					}
-					post.setImages(imgs);
+						Log.d("bmob", "onSuccess: ");
+						final Post post=new Post();
+						post.setContent(content);
+						post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+						post.setCreateDate(new BmobDate(new Date()));
+						post.setShared(false);
 
-					post.save(new SaveListener<String>() {
-						@Override
-						public void done(String s, BmobException e) {
-							if(e==null){
-								Log.d("bmob", "done: "+"状态发送成功");
-							}else {
-								Log.d("bmob", "done: 什么也不用做");
-							}
+						List<String> imgs=new ArrayList<String>();
+						List<String> names=new ArrayList<String>();
+						for (BmobFile pic:list){
+							imgs.add(pic.getFileUrl());
+							names.add(pic.getFilename());
 						}
-					});
 
+						post.setImages(imgs);
+						post.setFilenames(names);
+
+						post.save(new SaveListener<String>() {
+							@Override
+							public void done(String s, BmobException e) {
+								if(e==null){
+									Log.d("bmob", "done: "+"状态发送成功");
+								}else {
+									Log.d("bmob", "done: 什么也不用做");
+								}
+							}
+						});
+
+					}
 				}
 
 				@Override

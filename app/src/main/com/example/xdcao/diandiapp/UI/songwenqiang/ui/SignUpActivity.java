@@ -1,5 +1,6 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -89,6 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(currentUser!=null){
             Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
             startActivity(intent);
+            finish();
         }else {
             return;
         }
@@ -104,8 +106,26 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(BmobUser bmobUser, BmobException e) {
                 if(e==null){
                     Log.i("bmob", "done: "+"登陆成功");
-                    Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
-                    startActivity(intent);
+//                    Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
+//                    startActivity(intent);
+                    final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
+                            R.style.AppTheme_Dark_Dialog);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("正在登录...");
+                    progressDialog.show();
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+
+                                    Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
+                                    startActivity(intent);
+                                    // onSignupFailed();
+                                    progressDialog.dismiss();
+                                    finish();
+                                }
+                            }, 1000);
+
+
                 }else {
                     Log.i("bmob", "done: "+"登录失败");
                     Log.d("bmob", "done: "+e);

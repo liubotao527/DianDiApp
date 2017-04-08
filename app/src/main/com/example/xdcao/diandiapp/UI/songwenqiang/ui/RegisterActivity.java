@@ -1,5 +1,6 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,10 +86,22 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void done(MyUser myUser, BmobException e) {
                     if(e==null){
-                        Toast.makeText(RegisterActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(RegisterActivity.this,SignUpActivity.class);
-                        startActivity(intent);
-                        finish();
+                        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this,
+                                R.style.AppTheme_Dark_Dialog);
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.setMessage("正在注册...");
+                        progressDialog.show();
+                        new android.os.Handler().postDelayed(
+                                new Runnable() {
+                                    public void run() {
+
+                                        Intent intent=new Intent(RegisterActivity.this,SignUpActivity.class);
+                                        startActivity(intent);
+                                        // onSignupFailed();
+                                        progressDialog.dismiss();
+                                        finish();
+                                    }
+                                }, 1000);
                     }else {
                         Toast.makeText(RegisterActivity.this, "注册失败，检查网络连接", Toast.LENGTH_SHORT).show();
                     }

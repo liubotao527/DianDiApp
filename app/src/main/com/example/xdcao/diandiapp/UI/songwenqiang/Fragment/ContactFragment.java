@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.activity.FriendsActivity;
@@ -42,6 +43,7 @@ import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
@@ -60,6 +62,8 @@ public class ContactFragment extends Fragment{
     //    private SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
     private ImageLoader imageLoader;
+
+
 
 
     Handler handler=new Handler() {
@@ -224,8 +228,14 @@ public class ContactFragment extends Fragment{
         }
     }
 
+
+    /*
+    查询好友列表
+     */
     private void queryUsers() {
         BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+        MyUser me=MyUser.getCurrentUser(MyUser.class);
+        query.addWhereRelatedTo("friends",new BmobPointer(me));
         query.findObjects(new FindListener<MyUser>() {
             @Override
             public void done(final List<MyUser> list, BmobException e) {

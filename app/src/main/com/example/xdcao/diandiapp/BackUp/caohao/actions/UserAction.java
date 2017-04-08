@@ -242,6 +242,7 @@ public class UserAction {
 
     public static void logout(){
         BmobUser.logOut();
+        BmobUser user=BmobUser.getCurrentUser(MyUser.class);
     }
 
 }

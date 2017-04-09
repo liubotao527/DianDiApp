@@ -21,4 +21,17 @@
         <attr name="border_inside_color" format="color" />
         <attr name="border_outside_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="MySettingView">
+        <attr name="leftText" format="string"/>
+        <attr name="rightText" format="string"/>
+        <attr name="rightIcon" format="integer"/>
+        <attr name="textColor" format="color"/>
+        <attr name="mtextSize"  format="dimension"/>
+        <attr name="isShowUnderLine" format="boolean"/>
+        <attr name="rightStyle" format="enum">
+            <enum name = "iconShow" value="0"/>
+            <enum name = "iconHide" value="1"/>
+        </attr>
+    </declare-styleable>
 </resources>

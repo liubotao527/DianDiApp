@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:id="@+id/rootLayout"
+    android:clickable="true"
+    android:background="@drawable/bg">
+    <TextView
+        android:id="@+id/tv_left_text"
+        android:text="我的昵称"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:textSize="16sp"/>
+    <FrameLayout
+        android:id="@+id/right_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/iv_right_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/righticon"/>
+
+
+        <TextView
+            android:id="@+id/tv_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="wewarriors"
+            android:textSize="16sp" />
+    </FrameLayout>
+
+
+    <View
+        android:id="@+id/underline"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#99999999"/>
+</RelativeLayout>

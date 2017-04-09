@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp">
+        <com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/guanggao1"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#99e9e0e0"/>
+
+    <com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView
+        android:id="@+id/st_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText = "我的昵称"
+        app:rightText = "weww"
+        app:rightStyle = "iconHide">
+    </com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView>
+
+    <com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView
+        android:id="@+id/st_sign_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText = "我的个性签名"
+        app:rightText = "wewwdsdsds"
+        app:rightStyle = "iconHide">
+    </com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView>
+
+    <com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView
+        android:id="@+id/st_change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText = "修改密码"
+        app:rightStyle = "iconShow">
+    </com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView>
+
+    <android.support.v7.widget.AppCompatButton
+        android:background="@color/colorPrimary"
+        android:id="@+id/btn_quit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:text="退出登录"/>
+
+</LinearLayout>

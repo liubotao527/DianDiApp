@@ -10,5 +10,6 @@ public interface HandlerCons {
     int QUERY_ALL_USER=0x122;
     int QUERY_GIVEN_USER=0x111;
     int QUERY_SOMEONE_POST=0x110;
+    int SHOW_ME=0x00;
 
 }

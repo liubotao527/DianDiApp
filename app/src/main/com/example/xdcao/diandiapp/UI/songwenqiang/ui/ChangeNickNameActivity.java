@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.actions.UserAction;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.R;
 
 public class ChangeNickNameActivity extends AppCompatActivity {
@@ -32,6 +34,9 @@ public class ChangeNickNameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Todo 保存 返回设置界面
+                MyUser user=MyUser.getCurrentUser(MyUser.class);
+                user.setNickName(mEtNickName.getText().toString());
+                UserAction.updateUser(user);
             }
         });
 

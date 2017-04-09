@@ -35,14 +35,13 @@ public class UserAction {
      */
     public static void updateUser(MyUser newUser) {
 
-        MyUser currentUser=BmobUser.getCurrentUser(MyUser.class);
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
+        newUser.update(newUser.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 if(e==null){
-                    System.out.print("更新用户信息成功");
+                    Log.d("bmob", "更新用户信息成功");
                 }else {
-                    System.out.print("更新用户信息失败");
+                    Log.d("bmob", "更新用户信息失败");
                 }
             }
         });

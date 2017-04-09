@@ -120,6 +120,10 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
 
 
 </resources>

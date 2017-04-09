@@ -1,6 +1,9 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.Fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
@@ -10,6 +13,10 @@ import android.view.ViewGroup;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.actions.UserAction;
 import com.example.xdcao.diandiapp.R;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ChangeNickNameActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ChangeSignNameActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ChangePassWordActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.SignUpActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 
@@ -26,6 +33,15 @@ public class SettingFragment extends Fragment {
     private MySettingItemView mStChangePassWord;
 
     private AppCompatButton mAcbQuit;
+
+    private Context context;
+
+    @Override
+    public void onAttach(Activity activity) {
+        this.context =activity;
+        super.onAttach(activity);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +68,8 @@ public class SettingFragment extends Fragment {
             @Override
             public void click() {
                 //Todo 修改昵称
+                Intent intent = new Intent(context, ChangeNickNameActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -59,6 +77,8 @@ public class SettingFragment extends Fragment {
             @Override
             public void click() {
                 //Todo 修改个性签名
+                Intent intent = new Intent(context, ChangeSignNameActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -66,6 +86,8 @@ public class SettingFragment extends Fragment {
             @Override
             public void click() {
                 //Todo 修改密码
+                Intent intent = new Intent(context, ChangePassWordActivity.class);
+                startActivity(intent);
             }
         });
         mAcbQuit.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +95,8 @@ public class SettingFragment extends Fragment {
             public void onClick(View view) {
                 //ToDo  退出登录
                 UserAction.logout();
+                Intent intent = new Intent(context, SignUpActivity.class);
+                startActivity(intent);
             }
         });
 

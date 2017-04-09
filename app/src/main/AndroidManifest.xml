@@ -73,13 +73,13 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".DdService.liubotao.PicsSelect.multiphotopicker.view.ImageZoomActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -94,7 +94,10 @@
         <activity
             android:name=".UI.songwenqiang.ui.RegisterActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".UI.songwenqiang.ui.ContactShareActivity"></activity>
+        <activity android:name=".UI.songwenqiang.ui.ContactShareActivity" />
+        <activity android:name=".UI.songwenqiang.ui.ChangeNickNameActivity" />
+        <activity android:name=".UI.songwenqiang.ui.ChangePassWordActivity" />
+        <activity android:name=".UI.songwenqiang.ui.ChangeSignNameActivity"></activity>
     </application>
 
 </manifest>

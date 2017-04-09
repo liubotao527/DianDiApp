@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.actions.UserAction;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
@@ -71,6 +72,7 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //ToDo  退出登录
+                UserAction.logout();
             }
         });
 

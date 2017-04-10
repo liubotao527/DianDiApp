@@ -294,7 +294,7 @@ public class MainFragment extends Fragment {
                     }
                     isSend=true;
                 }else {
-                    Log.d(TAG, "done: "+"没拿到，空的");
+                    Log.d(TAG, "done: "+"没拿到，空的"+e);
                 }
                 if(isSend){
                     Message message=new Message();

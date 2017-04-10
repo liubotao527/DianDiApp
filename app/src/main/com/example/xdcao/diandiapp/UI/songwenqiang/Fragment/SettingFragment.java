@@ -171,6 +171,10 @@ public class SettingFragment extends Fragment {
                 UserAction.logout();
                 Intent intent = new Intent(context, SignUpActivity.class);
                 startActivity(intent);
+                SharedPreferences pref = context.getSharedPreferences("data",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor= pref.edit();
+                editor.clear();
+                editor.commit();
                 activity.finish();
             }
         });

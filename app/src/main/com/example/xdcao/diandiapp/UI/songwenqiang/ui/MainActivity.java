@@ -6,8 +6,10 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolBar;
     private RelativeLayout mRlNotes, mRlShare, mRlContact, mRlSettings;
     private ImageView mImNotes, mImShare, mImContact, mImSettings;
-    private TextView mTvNotes, mTvShare, mTvContact, mTvSettings;
+    private TextView mTvNotes, mTvShare, mTvContact, mTvSettings,mTvNickname,mTvSignName;
     private FloatingActionButton mFab;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -244,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
         mTvShare = (TextView) findViewById(R.id.tab_text_share);
         mTvContact = (TextView) findViewById(R.id.tab_text_contact);
         mTvSettings = (TextView) findViewById(R.id.tab_text_setting);
+        mTvNickname = (TextView) findViewById(R.id.tv_nickname);
+        mTvSignName = (TextView) findViewById(R.id.tv_sign_name);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -252,8 +256,17 @@ public class MainActivity extends AppCompatActivity {
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
 
+        SharedPreferences pref = getSharedPreferences("data", Context.MODE_PRIVATE);
+        String nickname = pref.getString("nickname","DianDi");
+        mTvNickname.setText(nickname);
+        String signName = pref.getString("signName","点滴--记录生活的美好");
+        mTvSignName.setText(signName);
+
+
+
         //加载头像
         MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
+        Log.d(TAG, "initViews: "+curUser.getNickName());
         if(curUser.getAvatar()!=null){
             Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
             if(bitmap!=null){

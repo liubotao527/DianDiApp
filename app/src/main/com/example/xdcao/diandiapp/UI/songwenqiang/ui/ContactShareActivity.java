@@ -44,7 +44,6 @@ import cn.bmob.v3.listener.FindListener;
 public class ContactShareActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private List<SNotes> notes;
     private RoundImageView mRivPhoto;
     private ImageLoader imageLoader;
     private List<Post> mPostList;
@@ -77,16 +76,6 @@ public class ContactShareActivity extends AppCompatActivity {
             new QueryForPostThread(contactItem1).start();
         }
         initImageLoader();
-
-
-        notes = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            SNotes note = new SNotes();
-            note.setLabel("label_share"+i);
-            note.setContent("content_share"+i);
-            note.setTime("ABC分享与Time_share"+i);
-            notes.add(note);
-        }
 
         // Todo  将联系人的头像放到mRivPhoto里面
 
@@ -157,7 +146,7 @@ public class ContactShareActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return notes.size();
+            return mPostList.size();
         }
 
         @Override
@@ -202,7 +191,14 @@ public class ContactShareActivity extends AppCompatActivity {
 
         BmobQuery<Post> query=new BmobQuery<>();
         query.addWhereEqualTo("author",user.getMyUser());
-        query.findObjects(new FindListener<Post>() {
+        BmobQuery<Post> query1=new BmobQuery<>();
+        query.addWhereEqualTo("isShared",true);
+        List<BmobQuery<Post>> queries=new ArrayList<>();
+        queries.add(query);
+        queries.add(query1);
+        BmobQuery<Post> mainQuery=new BmobQuery<>();
+        mainQuery.and(queries);
+        mainQuery.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
                 if (e==null){

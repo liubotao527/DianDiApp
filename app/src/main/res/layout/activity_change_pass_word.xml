@@ -77,7 +77,7 @@
             android:inputType="textPassword"
             android:theme="@style/MyEditText"
             android:textColorHint="@color/colorPrimary"
-            android:hint="请确认旧密码"/>
+            android:hint="请确认新密码"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.AppCompatButton

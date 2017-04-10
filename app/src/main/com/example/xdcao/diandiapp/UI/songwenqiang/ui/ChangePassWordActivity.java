@@ -1,5 +1,6 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -42,6 +43,8 @@ public class ChangePassWordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Todo  返回设置界面
+                String data = "mIvBack";
+                backToMainActivity(data);
             }
         });
 
@@ -54,6 +57,10 @@ public class ChangePassWordActivity extends AppCompatActivity {
                 String confirmOld=mEtReOldPassWord.getText().toString();
                 String newPass=mEtNewPassWord.getText().toString();
                 String confirmNew=mEtReNewPassWord.getText().toString();
+                if(newPass.length()<6){
+                    mEtNewPassWord.setError("密码的长度至少为6位");
+                    return;
+                }
                 if (!old.equals(confirmOld)){
                     Toast.makeText(ChangePassWordActivity.this,"请确认旧密码输入一致",Toast.LENGTH_SHORT).show();
                     return;
@@ -78,11 +85,20 @@ public class ChangePassWordActivity extends AppCompatActivity {
             public void done(BmobException e) {
                 if(e==null){
                     Toast.makeText(ChangePassWordActivity.this,"密码修改成功，可以用新密码进行登录",Toast.LENGTH_SHORT).show();
+                    String data = "mIvBack";
+                    backToMainActivity(data);
                 }else{
                     Toast.makeText(ChangePassWordActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    public void backToMainActivity(String data){
+        Intent intent = new Intent(ChangePassWordActivity.this,MainActivity.class);
+        intent.putExtra("extra_data",data);
+        startActivity(intent);
+        finish();
     }
 
 }

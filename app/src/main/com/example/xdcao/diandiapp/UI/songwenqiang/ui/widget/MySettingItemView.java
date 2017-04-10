@@ -142,5 +142,9 @@ public class MySettingItemView extends RelativeLayout {
         void click();
     }
 
+    public void setName(String name){
+        mTvRightText.setText(name);
+    }
+
 
 }

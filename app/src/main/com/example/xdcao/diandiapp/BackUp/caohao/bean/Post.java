@@ -18,6 +18,7 @@ public class Post extends BmobObject {
     private String title;
     private String content;
     private MyUser author;
+    private String authorName;
     private List<String> images;
     private List<String> filenames;
     private BmobRelation likes;
@@ -25,6 +26,10 @@ public class Post extends BmobObject {
     private Boolean isShared;
 
     public Post(){}
+
+    public String getAuthorName() {
+        return authorName;
+    }
 
     public Post(String title, String content, MyUser author) {
         this.title = title;
@@ -70,6 +75,7 @@ public class Post extends BmobObject {
 
     public void setAuthor(MyUser author) {
         this.author = author;
+        this.authorName=author.getNickName();
     }
 
 

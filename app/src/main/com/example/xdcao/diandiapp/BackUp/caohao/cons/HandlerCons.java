@@ -12,4 +12,5 @@ public interface HandlerCons {
     int QUERY_SOMEONE_POST=0x110;
     int SHOW_ME=0x00;
 
+    int QUERY_ALL_SHARE = 0x01;
 }

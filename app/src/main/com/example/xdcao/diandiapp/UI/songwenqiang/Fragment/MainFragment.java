@@ -1,4 +1,4 @@
-package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
+package com.example.xdcao.diandiapp.UI.songwenqiang.Fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -34,6 +34,7 @@ import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageL
 import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.SNotes;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 
 import java.net.URL;

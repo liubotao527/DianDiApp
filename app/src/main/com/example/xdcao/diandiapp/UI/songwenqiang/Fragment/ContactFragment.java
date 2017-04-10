@@ -19,18 +19,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.xdcao.diandiapp.BackUp.caohao.activity.FriendsActivity;
-import com.example.xdcao.diandiapp.BackUp.caohao.adapters.FriendAdapter;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ContactShareActivity;
-import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
-import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -38,17 +33,12 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.socketio.callback.StringCallback;
 
 
 /**

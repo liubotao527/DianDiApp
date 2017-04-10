@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText = "我的昵称"
-        app:rightText = "weww"
+        app:rightText = "DianDi"
         app:rightStyle = "iconHide">
     </com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView>
 
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftText = "我的个性签名"
-        app:rightText = "wewwdsdsds"
+        app:rightText = "点滴--记录生活的美好"
         app:rightStyle = "iconHide">
     </com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.MySettingItemView>
 

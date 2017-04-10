@@ -2,6 +2,7 @@ package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -98,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void userLogin() {
-        MyUser user=new MyUser();
+        final MyUser user=new MyUser();
         user.setUsername(mEtAccount.getText().toString());
         user.setPassword(mEtPassWord.getText().toString());
         user.login(new SaveListener<BmobUser>() {
@@ -106,8 +107,25 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(BmobUser bmobUser, BmobException e) {
                 if(e==null){
                     Log.i("bmob", "done: "+"登陆成功");
-//                    Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
-//                    startActivity(intent);
+                    MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
+                    String nickname = curUser.getNickName();
+                    String signName = curUser.getSignName();
+                    SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+                    if(!TextUtils.isEmpty(nickname)){
+                        user.setNickName(nickname);
+                        String flag = "nickname";
+                        String data = nickname;
+                        editor.putString(flag,data);
+                        editor.apply();
+                    }
+                    if(!TextUtils.isEmpty(signName)){
+                        user.setSignName(signName);
+                        String flag = "signName";
+                        String data = signName;
+                        editor.putString(flag,data);
+                        editor.apply();
+                    }
+                    Log.d(TAG, "done: "+curUser.getNickName());
                     final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                             R.style.AppTheme_Dark_Dialog);
                     progressDialog.setIndeterminate(true);

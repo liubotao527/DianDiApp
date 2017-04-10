@@ -76,6 +76,7 @@ public class SettingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initImageLoader();
+
     }
 
     private void showAvatar() {
@@ -103,6 +104,8 @@ public class SettingFragment extends Fragment {
     private void initView(View view) {
         mRvPhoto = (RoundImageView) view.findViewById(R.id.iv_photo);
         Log.d("bmob", "initView: "+mRvPhoto);
+
+        showAvatar();
 
         mStNickname = (MySettingItemView) view.findViewById(R.id.st_nickname);
         mStSignName = (MySettingItemView) view.findViewById(R.id.st_sign_name);

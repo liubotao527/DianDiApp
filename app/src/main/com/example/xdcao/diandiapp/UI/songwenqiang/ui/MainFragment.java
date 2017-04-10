@@ -288,6 +288,7 @@ public class MainFragment extends Fragment {
                         model.note=post.getContent();
                         Log.d(TAG, "Content: "+post.getContent());
                         model.time=post.getCreatedAt();
+                        model.urlList=post.getImages();
                         mList.add(model);
                         Log.d(TAG, "done: "+"mlist.size: "+mList.size());
                     }

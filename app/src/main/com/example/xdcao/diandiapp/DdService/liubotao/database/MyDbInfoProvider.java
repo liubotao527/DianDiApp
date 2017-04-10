@@ -43,9 +43,9 @@ public class MyDbInfoProvider extends ContentProvider {
         mProjectionMap_NoteItems.put(DbInfo.NoteItems.UPDATE_DATE, DbInfo.NoteItems.UPDATE_DATE);
         mProjectionMap_NoteItems.put(DbInfo.NoteItems.UPDATE_TIME, DbInfo.NoteItems.UPDATE_TIME);
         mProjectionMap_NoteItems.put(DbInfo.NoteItems.ALARM_TIME, DbInfo.NoteItems.ALARM_TIME);
-        mProjectionMap_NoteItems.put(DbInfo.NoteItems.BACKGROUND_COLOR, DbInfo.NoteItems.BACKGROUND_COLOR);
-        mProjectionMap_NoteItems.put(DbInfo.NoteItems.IS_FOLDER, DbInfo.NoteItems.IS_FOLDER);
-        mProjectionMap_NoteItems.put(DbInfo.NoteItems.PARENT_FOLDER, DbInfo.NoteItems.PARENT_FOLDER);
+        //mProjectionMap_NoteItems.put(DbInfo.NoteItems.BACKGROUND_COLOR, DbInfo.NoteItems.BACKGROUND_COLOR);
+        mProjectionMap_NoteItems.put(DbInfo.NoteItems.USER_NAME, DbInfo.NoteItems.USER_NAME);
+        //mProjectionMap_NoteItems.put(DbInfo.NoteItems.PARENT_FOLDER, DbInfo.NoteItems.PARENT_FOLDER);
         mProjectionMap_NoteItems.put(DbInfo.NoteItems.PICS, DbInfo.NoteItems.PICS);
     }
 
@@ -118,15 +118,6 @@ public class MyDbInfoProvider extends ContentProvider {
         Log.d(MainActivity.TAG, "ContentProvider==>query()");
         return c;
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public String getType(Uri uri) {

@@ -6,14 +6,14 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.UriMatcher;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +29,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,10 +44,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
-import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
 import com.example.xdcao.diandiapp.DdService.liubotao.activity.*;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ContactFragment;
+import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.MainFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.SettingFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ShareFragment;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolBar;
     private RelativeLayout mRlNotes, mRlShare, mRlContact, mRlSettings;
     private ImageView mImNotes, mImShare, mImContact, mImSettings;
-    private TextView mTvNotes, mTvShare, mTvContact, mTvSettings;
+    private TextView mTvNotes, mTvShare, mTvContact, mTvSettings,mTvNickname,mTvSignName;
     private FloatingActionButton mFab;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
@@ -106,34 +107,52 @@ public class MainActivity extends AppCompatActivity {
         initImageLoader();
         realDataInit();
         initViews();
-        resetFragmemt(R.id.notes);
+        resetFragment(R.id.notes);
+        Intent intent = getIntent();
+        if(intent!=null){
+            String flag,data;
+            flag = "extra_data";
+            data = intent.getStringExtra(flag);
+            if(data!=null){
+                switch (data){
+                    case "mIvBack":
+                        resetFragment(R.id.settings);
+                        break;
+                }
+            }
+
+            Log.d(TAG, "onCreate: "+data);
+
+        }
+        
+        
 
 
         mRlNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetFragmemt(R.id.notes);
+                resetFragment(R.id.notes);
             }
         });
 
         mRlShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetFragmemt(R.id.share);
+                resetFragment(R.id.share);
             }
         });
 
         mRlContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetFragmemt(R.id.contact);
+                resetFragment(R.id.contact);
             }
         });
 
         mRlSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetFragmemt(R.id.settings);
+                resetFragment(R.id.settings);
             }
         });
 
@@ -227,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
         mTvShare = (TextView) findViewById(R.id.tab_text_share);
         mTvContact = (TextView) findViewById(R.id.tab_text_contact);
         mTvSettings = (TextView) findViewById(R.id.tab_text_setting);
+        mTvNickname = (TextView) findViewById(R.id.tv_nickname);
+        mTvSignName = (TextView) findViewById(R.id.tv_sign_name);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -235,8 +256,17 @@ public class MainActivity extends AppCompatActivity {
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
 
-//加载头像
+        SharedPreferences pref = getSharedPreferences("data", Context.MODE_PRIVATE);
+        String nickname = pref.getString("nickname","DianDi");
+        mTvNickname.setText(nickname);
+        String signName = pref.getString("signName","点滴--记录生活的美好");
+        mTvSignName.setText(signName);
+
+
+
+        //加载头像
         MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
+        Log.d(TAG, "initViews: "+curUser.getNickName());
         if(curUser.getAvatar()!=null){
             Bitmap bitmap=BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+curUser.getAvatar().getFilename());
             if(bitmap!=null){
@@ -279,38 +309,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
-    private void resetFragmemt(int id) {
+    private void resetFragment(int id) {
         resetImage();
         FragmentManager fm= getFragmentManager();
         FragmentTransaction ft= fm.beginTransaction();
-        int colorpress = R.color.colorPrimary;
+        int colorPress = R.color.colorPrimary;
         switch (id){
             case R.id.notes:
                 mImNotes.setImageResource(R.drawable.ic_note_press);
-                mTvNotes.setTextColor(getResources().getColor(colorpress));
+                mTvNotes.setTextColor(getResources().getColor(colorPress));
                 MainFragment mf = new MainFragment();
                 ft.replace(R.id.content_main2,mf);
                 mFab.setVisibility(View.VISIBLE);
                 break;
             case R.id.share:
                 mImShare.setImageResource(R.drawable.ic_share_press);
-                mTvShare.setTextColor(getResources().getColor(colorpress));
+                mTvShare.setTextColor(getResources().getColor(colorPress));
                 ShareFragment sf = new ShareFragment();
                 ft.replace(R.id.content_main2,sf);
                 mFab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.contact:
                 mImContact.setImageResource(R.drawable.ic_contact_press);
-                mTvContact.setTextColor(getResources().getColor(colorpress));
+                mTvContact.setTextColor(getResources().getColor(colorPress));
                 ContactFragment cf = new ContactFragment();
                 ft.replace(R.id.content_main2,cf);
                 mFab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.settings:
                 mImSettings.setImageResource(R.drawable.ic_settings_press);
-                mTvSettings.setTextColor(getResources().getColor(colorpress));
+                mTvSettings.setTextColor(getResources().getColor(colorPress));
                 SettingFragment stf = new SettingFragment();
                 ft.replace(R.id.content_main2,stf);
                 mFab.setVisibility(View.INVISIBLE);

@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.adapter.NineGridTestAdapter;
 
 
@@ -27,6 +28,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
+import cn.bmob.v3.BmobUser;
 
 /*
  * 显示所有的便签
@@ -199,8 +202,8 @@ public class MyListActivity extends Activity {
     private void updateDisplay() {
         mList = new ArrayList<>();
         // 查询条件，查询所有文件夹记录及显示在主页的便签记录
-        String selection = NoteItems.IS_FOLDER + " = '" + "yes" + "' or "
-                + NoteItems.PARENT_FOLDER + " = " + "-1";
+        //String selection = NoteItems.IS_FOLDER + " = '" + "yes" + "' or " + NoteItems.PARENT_FOLDER + " = " + "-1";
+        String selection=NoteItems.USER_NAME +  " = " +  getCurrentUser();
         //getContentResolver().delete(NoteItems.CONTENT_URI,selection,null);
 
         mCursor = getContentResolver().query(NoteItems.CONTENT_URI, null,
@@ -223,6 +226,7 @@ public class MyListActivity extends Activity {
                 int dateColumn = mCursor.getColumnIndex(NoteItems.UPDATE_DATE);
                 int timeColumn = mCursor.getColumnIndex(NoteItems.UPDATE_TIME);
                 int pics=mCursor.getColumnIndex(NoteItems.PICS);
+
                 //notes.add(mCursor.getString(contentColumn));
                 //times.add(mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn));
 
@@ -270,6 +274,11 @@ public class MyListActivity extends Activity {
                 newNote();
             }
         });
+    }
+
+    private String getCurrentUser(){
+        MyUser curUser= BmobUser.getCurrentUser(MyUser.class);
+        return  curUser.getUsername();
     }
 
 

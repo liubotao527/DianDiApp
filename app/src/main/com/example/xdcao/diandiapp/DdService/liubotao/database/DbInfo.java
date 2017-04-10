@@ -38,15 +38,15 @@ public final class DbInfo {
 		// HH:MM:SS)由于ContentValues的原因，我们把类型转为String类型
 		public static final String ALARM_TIME = "alarm_time";
 		// 便签的背景颜色(integer类型,直接存储资源文件的id)
-		public static final String BACKGROUND_COLOR = "background_color";
+		//public static final String BACKGROUND_COLOR = "background_color";
 		// 标识是否为文件夹(text类型,yes和no来区分)
-		public static final String IS_FOLDER = "is_folder";
+		public static final String USER_NAME = "user_name";
 		// 如果是文件夹下的便签,本字段存储其所属文件夹(Integer类型(存储被标记为文件夹的记录的_id字段的值))
 		// 如果是顶级便签，该字段用-1代替
-		public static final String PARENT_FOLDER = "parent_folder";
+		//public static final String PARENT_FOLDER = "parent_folder";
 		public static final String PICS="pics";
 		// 默认的排序方式。
-		public static final String DEFAULT_SORT_ORDER = IS_FOLDER + "  DESC , "
+		public static final String DEFAULT_SORT_ORDER = USER_NAME + "  DESC , "
 				+ UPDATE_DATE + " DESC ," + UPDATE_TIME + " DESC ," +PICS+" DESC";
 
 	}

@@ -1,7 +1,8 @@
-package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
+package com.example.xdcao.diandiapp.UI.songwenqiang.Fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,11 +30,13 @@ import android.widget.Toast;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
+import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.SNotes;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 
 import java.net.URL;
@@ -64,7 +67,6 @@ public class MainFragment extends Fragment {
     private List<MyDdNote> mList;
     private Cursor mCursor;
     static final String TAG="TAG";
-
 
     Handler handler=new Handler() {
         @Override
@@ -197,6 +199,10 @@ public class MainFragment extends Fragment {
                                 case R.id.delete:
                                     //添加删除的代码
                                     backupDeleteGivenPost(position);
+                                    deleteFromDb(position);
+                                    updateDisplay();
+                                    NoteAdapter noteAdapter = new NoteAdapter();
+                                    recyclerView.setAdapter(noteAdapter);
                                     Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
 
                                     break;
@@ -288,9 +294,13 @@ public class MainFragment extends Fragment {
                         model.note=post.getContent();
                         Log.d(TAG, "Content: "+post.getContent());
                         model.time=post.getCreatedAt();
+                        Log.e("ddd",model.time);
                         model.urlList=post.getImages();
                         mList.add(model);
                         Log.d(TAG, "done: "+"mlist.size: "+mList.size());
+                        add2Db(model);
+
+
                     }
                     isSend=true;
                 }else {
@@ -305,6 +315,29 @@ public class MainFragment extends Fragment {
         });
     }
 
+
+    private void add2Db(MyDdNote ddNote){
+        ContentValues values = new ContentValues();
+        values.put(DbInfo.NoteItems.CONTENT, ddNote.getNote());
+        values.put(DbInfo.NoteItems.UPDATE_DATE, ddNote.getTime().substring(0,ddNote.getTime().indexOf(" ")));
+        values.put(DbInfo.NoteItems.UPDATE_TIME, ddNote.getTime().substring(ddNote.getTime().indexOf(" ")));
+        //values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
+        values.put(DbInfo.NoteItems.USER_NAME, getCurrentUser());
+        //values.put(NoteItems.PARENT_FOLDER, -1);
+        String imgs="";
+        for(int i=0;i<ddNote.urlList.size();i++){
+            imgs=imgs+ddNote.urlList.get(i)+"\n";
+        }
+        values.put(DbInfo.NoteItems.PICS,imgs);
+        context.getContentResolver().insert(DbInfo.NoteItems.CONTENT_URI, values);
+    }
+
+
+    private String getCurrentUser(){
+        MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
+        return  curUser.getUsername();
+    }
+
     private class QueryPostThread extends Thread{
         @Override
         public void run() {
@@ -317,12 +350,11 @@ public class MainFragment extends Fragment {
         mList = new ArrayList<>();
         List<Post> postList=new ArrayList<>();
         // 查询条件，查询所有文件夹记录及显示在主页的便签记录
-        String selection = DbInfo.NoteItems.IS_FOLDER + " = '" + "yes" + "' or "
-                + DbInfo.NoteItems.PARENT_FOLDER + " = " + "-1";
+        //String selection = DbInfo.NoteItems.IS_FOLDER + " = '" + "yes" + "' or " + DbInfo.NoteItems.PARENT_FOLDER + " = " + "-1";
         //getContentResolver().delete(NoteItems.CONTENT_URI,selection,null);
+        String selection= DbInfo.NoteItems.USER_NAME +  " = " +  getCurrentUser();
 
-        mCursor = context.getContentResolver().query(DbInfo.NoteItems.CONTENT_URI, null,
-                selection, null, null);
+        mCursor = context.getContentResolver().query(DbInfo.NoteItems.CONTENT_URI, null, selection, null, null);
 
         // This method allows the activity to take care of managing the given
         // Cursor's lifecycle for you based on the activity's lifecycle.
@@ -340,6 +372,8 @@ public class MainFragment extends Fragment {
                 int dateColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_DATE);
                 int timeColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_TIME);
                 int pics=mCursor.getColumnIndex(DbInfo.NoteItems.PICS);
+                int idColumn=mCursor.getColumnIndex(DbInfo.NoteItems._ID);
+
                 //notes.add(mCursor.getString(contentColumn));··                                    ····
                 //times.add(mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn));
 
@@ -349,6 +383,7 @@ public class MainFragment extends Fragment {
                 //}
                 model.note= mCursor.getString(contentColumn);
                 model.time= mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn);
+                model.id=mCursor.getInt(idColumn);
                 //model.urlList.add("file:///mnt/sdcard/DCIM/Camera/IMG_20170301_114357.jpg");
                 //model.urlList.add("content://media/external/images/media/9666");
                 getImgUri(model.urlList,mCursor.getString(pics));
@@ -356,10 +391,9 @@ public class MainFragment extends Fragment {
                 mList.add(model);
             } while (mCursor.moveToNext());
         }
-
-
         //initView();
     }
+
     /*
     分享用户的某条状态，使其可见
     */
@@ -413,7 +447,15 @@ public class MainFragment extends Fragment {
                 }
             }
         });
+    }
 
+    /*
+    从数据库删除
+     */
+    private void deleteFromDb(int position){
+
+        String selection = "_id" + "=" + mList.get(position).getId();
+        context.getContentResolver().delete(DbInfo.NoteItems.CONTENT_URI,selection,null);
 
     }
 

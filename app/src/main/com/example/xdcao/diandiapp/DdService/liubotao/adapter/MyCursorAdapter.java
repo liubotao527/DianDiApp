@@ -81,21 +81,19 @@ public class MyCursorAdapter extends CursorAdapter {
 		listItemView = (ListItemView) view.getTag();
 		int position = cursor.getPosition();
 		// 取出字段的值,判断该记录是否为文件夹
-		String is_Folder = cursor.getString(cursor
-				.getColumnIndex(NoteItems.IS_FOLDER));
-		if (is_Folder.equals("no")) {
+		//String is_Folder = cursor.getString(cursor.getColumnIndex(NoteItems.IS_FOLDER));
+		//if (is_Folder.equals("no")) {
 			// 不是文件夹
-			int bg_color = cursor.getInt(cursor
-					.getColumnIndex(NoteItems.BACKGROUND_COLOR));
+			//int bg_color = cursor.getInt(cursor.getColumnIndex(NoteItems.BACKGROUND_COLOR));
 			//MyLog.d(MainActivity.TAG, "MyCursorAdapter==>数据库中存储的记录的背景颜色: "
 			//		+ bg_color);
 			// 因为我们在数据库中存储资源文件的ID,所以在这儿直接使用数据库中该字段的值
-			listItemView.linearlayout.setBackgroundResource(bg_color);
-		} else if (is_Folder.equals("yes")) {
+			listItemView.linearlayout.setBackgroundResource(R.drawable.item_light_blue);
+		/*} else if (is_Folder.equals("yes")) {
 			// 是文件夹,直接设置它的背景图片
 			listItemView.linearlayout
 					.setBackgroundResource(R.drawable.folder_background);
-		}
+		}*/
 		// 设置标题(或内容)
 		String content = cursor.getString(cursor
 				.getColumnIndex(NoteItems.CONTENT));

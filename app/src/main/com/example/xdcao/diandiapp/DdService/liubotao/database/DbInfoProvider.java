@@ -60,11 +60,9 @@ public class DbInfoProvider extends ContentProvider {
 				NoteItems.UPDATE_TIME);
 		mProjectionMap_NoteItems
 				.put(NoteItems.ALARM_TIME, NoteItems.ALARM_TIME);
-		mProjectionMap_NoteItems.put(NoteItems.BACKGROUND_COLOR,
-				NoteItems.BACKGROUND_COLOR);
-		mProjectionMap_NoteItems.put(NoteItems.IS_FOLDER, NoteItems.IS_FOLDER);
-		mProjectionMap_NoteItems.put(NoteItems.PARENT_FOLDER,
-				NoteItems.PARENT_FOLDER);
+		//mProjectionMap_NoteItems.put(NoteItems.BACKGROUND_COLOR, NoteItems.BACKGROUND_COLOR);
+		mProjectionMap_NoteItems.put(NoteItems.USER_NAME, NoteItems.USER_NAME);
+		//mProjectionMap_NoteItems.put(NoteItems.PARENT_FOLDER, NoteItems.PARENT_FOLDER);
 		mProjectionMap_NoteItems.put(NoteItems.PICS, NoteItems.PICS);
 
 		mProjectionMap_AppwidgetItems = new HashMap<String, String>();
@@ -96,9 +94,7 @@ public class DbInfoProvider extends ContentProvider {
 					+ NoteItems.CONTENT + " TEXT," + NoteItems.UPDATE_DATE
 					+ " TEXT," + NoteItems.UPDATE_TIME + " TEXT,"
 					+ NoteItems.ALARM_TIME + " TEXT,"
-					+ NoteItems.BACKGROUND_COLOR + " INTEGER,"
-					+ NoteItems.IS_FOLDER + " TEXT," + NoteItems.PARENT_FOLDER
-					+ " INTEGER," +NoteItems.PICS+" PICS"+");";
+					+ NoteItems.USER_NAME+ " TEXT," +NoteItems.PICS+" PICS"+");";
 			Log.w(MainActivity.TAG, "创建表 " + TABLE_NOTEITEMS + " 的SQL语句："
 					+ sql_noteitems);
 			// 创建表appwidgetitems
@@ -107,8 +103,7 @@ public class DbInfoProvider extends ContentProvider {
 					+ " INTEGER PRIMARY KEY AUTOINCREMENT ,"
 					+ AppwidgetItems.CONTENT + " TEXT,"
 					+ AppwidgetItems.UPDATE_DATE + " TEXT,"
-					+ AppwidgetItems.UPDATE_TIME + " TEXT,"
-					+ NoteItems.BACKGROUND_COLOR + " INTEGER" + ");";
+					+ AppwidgetItems.UPDATE_TIME + " TEXT" + ");";
 			Log.w(MainActivity.TAG, "创建表 " + TABLE_APPWIDGETITEMS
 					+ " 的SQL语句：" + sql_appwidgetitems);
 			db.execSQL(sql_noteitems);

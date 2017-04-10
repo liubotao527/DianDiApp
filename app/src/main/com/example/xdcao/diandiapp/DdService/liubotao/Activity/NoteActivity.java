@@ -316,9 +316,9 @@ public class NoteActivity extends Activity {
 				values.put(NoteItems.CONTENT, content);
 				values.put(NoteItems.UPDATE_DATE, DateTimeUtil.getDate());
 				values.put(NoteItems.UPDATE_TIME, DateTimeUtil.getTime());
-				values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
-				values.put(NoteItems.IS_FOLDER, "no");
-				values.put(NoteItems.PARENT_FOLDER, -1);
+				//values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
+				values.put(NoteItems.USER_NAME, getCurrentUser());
+				//values.put(NoteItems.PARENT_FOLDER, -1);
 				values.put(NoteItems.PICS,imgs);
 				Log.e("temp","imgs"+imgs);
 				getContentResolver().insert(NoteItems.CONTENT_URI, values);
@@ -326,7 +326,7 @@ public class NoteActivity extends Activity {
 				// TODO: 2017/4/4 向服务器传数据
 				savePost(content);
 			}
-		} else if (openType.equals("newFolderNote")) {
+		}/* else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
 			if (!TextUtils.isEmpty(content)) {
 				ContentValues values = new ContentValues();
@@ -383,12 +383,17 @@ public class NoteActivity extends Activity {
 				//MyLog.d(MainActivity.TAG, "NoteActivity==>编辑文件夹下的记录时,文件夹的id : "
 				//		+ folderId);
 			}
-		}
+		}*/
 		if (!TextUtils.isEmpty(content)) {
 			oldContent = content;
 		}
 		super.onBackPressed();
 
+	}
+
+	private String getCurrentUser(){
+		MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
+		return  curUser.getUsername();
 	}
 
 
@@ -526,9 +531,7 @@ public class NoteActivity extends Activity {
 		}*/
 
 
-		if(resultCode == 0) {
-
-		} else if(resultCode == 1) {
+		if(resultCode == 1) {
 			List<ImageItem> incomingDataList = (List<ImageItem>) data.getSerializableExtra(IntentConstants.EXTRA_IMAGE_LIST);
 			if (incomingDataList != null)
 			{

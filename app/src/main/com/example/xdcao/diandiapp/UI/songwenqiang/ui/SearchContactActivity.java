@@ -58,12 +58,15 @@ public class SearchContactActivity extends AppCompatActivity {
             switch (msg.what){
                 case HandlerCons.QUERY_GIVEN_USER:
                     final MyUser myUser = (MyUser) msg.getData().getSerializable("MyUser");
-                    Log.d(TAG, "handleMessage: "+"get handler user name: "+myUser.getUsername());
+                    Log.d("bmob", "handleMessage: "+"get handler user name: "+myUser.getUsername());
 
                     mTvName.setText(myUser.getUsername());
 
-                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
-                    mRivPhoto.setImageBitmap(bitmap);
+                    if (myUser.getAvatar()!=null){
+                        Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
+                        mRivPhoto.setImageBitmap(bitmap);
+                    }
+
                     mCvAddContact.setVisibility(View.VISIBLE);
 
                     mIvAdd.setOnClickListener(new View.OnClickListener() {
@@ -191,14 +194,13 @@ public class SearchContactActivity extends AppCompatActivity {
                 MyUser returnedUser=null;
                 if(e==null){
                     if (list.size()>0){
-                        Log.d(TAG, "done: lllll");
+                        Log.d("bmob", "done: lllll");
                         returnedUser=list.get(0);
-                        BmobFile file=returnedUser.getAvatar();
-                        Log.d(TAG, "done: "+returnedUser.getAvatar().getFilename());
-                        if (file!=null){
-                            File saveFile = new File(Environment.getExternalStorageDirectory(), file.getFilename());
+                        Log.d("bmob", "done: "+returnedUser.getUsername());
+                        if (returnedUser.getAvatar()!=null){
+                            File saveFile = new File(Environment.getExternalStorageDirectory(), returnedUser.getAvatar().getFilename());
                             final MyUser finalReturnedUser = returnedUser;
-                            file.download(saveFile, new DownloadFileListener() {
+                            returnedUser.getAvatar().download(saveFile, new DownloadFileListener() {
 
                                 @Override
                                 public void onStart() {
@@ -226,6 +228,14 @@ public class SearchContactActivity extends AppCompatActivity {
                                 }
 
                             });
+                        }else {
+                            Log.d("bmob", "done: 发出message");
+                            Message message=handler.obtainMessage();
+                            message.what=HandlerCons.QUERY_GIVEN_USER;
+                            Bundle b = new Bundle();
+                            b.putSerializable("MyUser", returnedUser);
+                            message.setData(b);
+                            handler.sendMessage(message);
                         }
                     }
                 }

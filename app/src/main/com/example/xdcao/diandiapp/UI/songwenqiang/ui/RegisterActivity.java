@@ -2,9 +2,11 @@ package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -80,8 +82,26 @@ public class RegisterActivity extends AppCompatActivity {
             MyUser user=new MyUser();
             user.setUsername(mEtMobileNumber.getText().toString());
             user.setPassword(mEtPassWord.getText().toString());
-            user.setNickName(mEtNickName.getText().toString());
-            user.setSignName(mEtSignName.getText().toString());
+            String nickname = mEtNickName.getText().toString();
+            String signName = mEtSignName.getText().toString();
+
+            //将此时的昵称和个性签名保存到SharedPreferences
+            SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+            if(!TextUtils.isEmpty(nickname)){
+                user.setNickName(nickname);
+                String flag = "nickname";
+                String data = nickname;
+                editor.putString(flag,data);
+                editor.apply();
+            }
+            if(!TextUtils.isEmpty(signName)){
+                user.setSignName(signName);
+                String flag = "signName";
+                String data = signName;
+                editor.putString(flag,data);
+                editor.apply();
+            }
+
             user.signUp(new SaveListener<MyUser>() {
                 @Override
                 public void done(MyUser myUser, BmobException e) {

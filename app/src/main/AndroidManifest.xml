@@ -97,7 +97,8 @@
         <activity android:name=".UI.songwenqiang.ui.ContactShareActivity" />
         <activity android:name=".UI.songwenqiang.ui.ChangeNickNameActivity" />
         <activity android:name=".UI.songwenqiang.ui.ChangePassWordActivity" />
-        <activity android:name=".UI.songwenqiang.ui.ChangeSignNameActivity"></activity>
+        <activity android:name=".UI.songwenqiang.ui.ChangeSignNameActivity" />
+        <activity android:name=".UI.songwenqiang.ui.NewInformationActivity"></activity>
     </application>
 
 </manifest>

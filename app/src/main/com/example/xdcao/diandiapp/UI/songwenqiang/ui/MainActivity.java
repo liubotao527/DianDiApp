@@ -91,14 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] mTitles = {"DianDi","衣","食","住","行"};
     private String outputImagePath;
+    private MenuItem actionInformation;
 
-    //跳转到编辑页面
-    private void newNote() {
-        Intent i = new Intent();
-        i.putExtra("Open_Type", "newNote");
-        i.setClass(MainActivity.this, NoteActivity.class);
-        startActivity(i);
-    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,7 +206,10 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject data=arg0.optJSONObject("data");
                 if (data.optString("responsor").equals(BmobUser.getCurrentUser().getObjectId())){
                     // TODO: 2017/4/7显示好友请求逻辑
-
+                    if(actionInformation!=null){
+                        actionInformation.setIcon(R.drawable.ic_menu_information_press);
+                        actionInformation.setTitle("newInformation");
+                    }
                 }
 
             }
@@ -255,6 +254,8 @@ public class MainActivity extends AppCompatActivity {
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
+
+
 
         SharedPreferences pref = getSharedPreferences("data", Context.MODE_PRIVATE);
         String nickname = pref.getString("nickname","DianDi");
@@ -379,6 +380,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        actionInformation = menu.getItem(2);
+        Log.d(TAG, "onCreateOptionsMenu: "+ actionInformation.getItemId());
         return true;
     }
 
@@ -397,6 +400,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_information:
+                intent = new Intent(MainActivity.this,NewInformationActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;
@@ -632,6 +637,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    //跳转到编辑页面
+    private void newNote() {
+        Intent i = new Intent();
+        i.putExtra("Open_Type", "newNote");
+        i.setClass(MainActivity.this, NoteActivity.class);
+        startActivity(i);
     }
 
 }

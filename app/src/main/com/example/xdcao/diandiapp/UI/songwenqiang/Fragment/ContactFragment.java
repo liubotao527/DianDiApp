@@ -20,12 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ContactShareActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,9 +39,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 
 /**
@@ -219,6 +225,7 @@ public class ContactFragment extends Fragment{
     private class QueryForUsersThread extends Thread{
         @Override
         public void run() {
+            updateMyFriends();
             queryUsers();
         }
     }
@@ -256,6 +263,69 @@ public class ContactFragment extends Fragment{
         });
     }
 
+    private void updateMyFriends() {
+        MyUser me= BmobUser.getCurrentUser(MyUser.class);
+        BmobQuery<Supply> query=new BmobQuery<>();
+        query.addWhereEqualTo("requester",me);
+        query.findObjects(new FindListener<Supply>() {
+            @Override
+            public void done(List<Supply> list, BmobException e) {
+                if (e==null){
+                    if (list.size()>0){
+                        for (final Supply supply:list){
+                            Log.d("bmob", "done: "+supply.getResUserName());
+                            if (supply.getAccepted()==true){
+                                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+                                query.addWhereEqualTo("username",supply.getResUserName());
+                                query.findObjects(new FindListener<MyUser>() {
+                                    @Override
+                                    public void done(List<MyUser> list, BmobException e) {
+                                        if (e==null){
+                                            if (list.size()>0){
+                                                MyUser me=BmobUser.getCurrentUser(MyUser.class);
+                                                if (me.getFriends()==null){
+                                                    BmobRelation bmobRelation=new BmobRelation();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }else {
+                                                    BmobRelation bmobRelation=me.getFriends();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }
+                                                me.update(me.getObjectId(), new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+                                                        if(e==null){
+                                                            Log.d("bmob", "done: 更新联系人列表成功");
+                                                            supply.delete(supply.getObjectId(), new UpdateListener() {
+                                                                @Override
+                                                                public void done(BmobException e) {
+                                                                    if(e==null){
 
+                                                                    }else {
+                                                                        Log.d("bmob", "done: "+e);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }else {
+                                            Log.d("bmob", "done: "+e);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }else {
+                        Log.d("bmob", "done: 没有该条目");
+                    }
+                }else {
+                    Log.d("bmob", "done: "+e);
+                }
+            }
+        });
+    }
 
 }

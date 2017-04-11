@@ -16,7 +16,6 @@ public class MyUser extends BmobUser {
     private Integer age;
     private String nickName;
     private BmobRelation friends;
-    private BmobRelation unchecked;
     private BmobFile avatar;
     private String signName;
 
@@ -51,14 +50,6 @@ public class MyUser extends BmobUser {
 
     public void setAvatar(BmobFile avatar) {
         this.avatar = avatar;
-    }
-
-    public BmobRelation getUnchecked() {
-        return unchecked;
-    }
-
-    public void setUnchecked(BmobRelation unchecked) {
-        this.unchecked = unchecked;
     }
 
     public String getNickName() {

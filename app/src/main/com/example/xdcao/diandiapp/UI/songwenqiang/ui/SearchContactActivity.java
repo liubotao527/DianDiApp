@@ -60,7 +60,7 @@ public class SearchContactActivity extends AppCompatActivity {
                     final MyUser myUser = (MyUser) msg.getData().getSerializable("MyUser");
                     Log.d("bmob", "handleMessage: "+"get handler user name: "+myUser.getUsername());
 
-                    mTvName.setText(myUser.getUsername());
+                    mTvName.setText(myUser.getNickName());
 
                     if (myUser.getAvatar()!=null){
                         Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
@@ -139,6 +139,10 @@ public class SearchContactActivity extends AppCompatActivity {
 //        // TODO: 2017/4/7 发出一个请求
         Supply supply=new Supply();
         supply.setRequester(me);
+        supply.setResUserName(friend.getUsername());
+        supply.setReqAvatar(me.getAvatar());
+        supply.setReqUserName(me.getUsername());
+        supply.setReqNickName(me.getNickName());
         supply.setResponsor(friend);
         supply.setAccepted(false);
 
@@ -153,24 +157,6 @@ public class SearchContactActivity extends AppCompatActivity {
             }
         });
 
-//         TODO: 2017/4/7 这里先注释掉，等对方同意再加上这里的逻辑
-//        if (me.getFriends()==null){
-//            BmobRelation bmobRelation=new BmobRelation();
-//            bmobRelation.add(friend);
-//            me.setFriends(bmobRelation);
-//        }else {
-//            BmobRelation bmobRelation=me.getFriends();
-//            bmobRelation.add(friend);
-//            me.setFriends(bmobRelation);
-//        }
-//        me.update(me.getObjectId(), new UpdateListener() {
-//            @Override
-//            public void done(BmobException e) {
-//                if(e==null){
-//                    Log.d(TAG, "done: 更新联系人列表成功");
-//                }
-//            }
-//        });
 
     }
 
@@ -218,7 +204,7 @@ public class SearchContactActivity extends AppCompatActivity {
                                         message.setData(b);
                                         handler.sendMessage(message);
                                     }else{
-                                        Log.d("bmob", "done: downloadFailure");
+                                        Log.d("bmob", "done: downloadFailure"+e);
                                     }
                                 }
 

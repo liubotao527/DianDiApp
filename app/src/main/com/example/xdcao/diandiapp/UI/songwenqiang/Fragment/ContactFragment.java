@@ -240,7 +240,7 @@ public class ContactFragment extends Fragment{
                     for (MyUser myUser:list){
                         ContactItem contactItem=new ContactItem();
                         contactItem.setId(myUser.getObjectId());
-                        contactItem.setNickName(myUser.getUsername());
+                        contactItem.setNickName(myUser.getNickName());
                         contactItem.setAvatar(myUser.getAvatar());
                         contactItem.setMyUser(myUser);
                         mContactList.add(contactItem);

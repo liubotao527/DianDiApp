@@ -78,7 +78,9 @@ public class RegisterActivity extends AppCompatActivity {
             mEtPassWord.setError("密码长度至少6位");
         }else if(!mEtRePassWord.getText().toString().equals(mEtPassWord.getText().toString())){
             mEtPassWord.setError("确认密码错误");
-        }else {
+        }else if(mEtNickName.getText().toString().equals("")){
+            mEtNickName.setError("昵称不能为空");
+        } else {
             MyUser user=new MyUser();
             user.setUsername(mEtMobileNumber.getText().toString());
             user.setPassword(mEtPassWord.getText().toString());

@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -29,7 +30,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +44,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
+import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
 import com.example.xdcao.diandiapp.DdService.liubotao.activity.*;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ContactFragment;
@@ -58,11 +60,15 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobRealTimeData;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import cn.bmob.v3.listener.ValueEventListener;
@@ -211,12 +217,70 @@ public class MainActivity extends AppCompatActivity {
                         actionInformation.setTitle("newInformation");
                     }
                 }
+                if (data.optString("requester").equals(BmobUser.getCurrentUser().getObjectId())){
+                    updateMyFriends();
+                }
 
             }
         });
 
 
 
+    }
+
+    private void updateMyFriends() {
+        MyUser me=BmobUser.getCurrentUser(MyUser.class);
+        BmobQuery<Supply> query=new BmobQuery<>();
+        query.addWhereEqualTo("requester",me);
+        query.findObjects(new FindListener<Supply>() {
+            @Override
+            public void done(List<Supply> list, BmobException e) {
+                if (e==null){
+                    if (list.size()>0){
+                        for (Supply supply:list){
+                            Log.d("bmob", "done: "+supply.getResUserName());
+                            if (supply.getAccepted()==true){
+                                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+                                query.addWhereEqualTo("username",supply.getResUserName());
+                                query.findObjects(new FindListener<MyUser>() {
+                                    @Override
+                                    public void done(List<MyUser> list, BmobException e) {
+                                        if (e==null){
+                                            if (list.size()>0){
+                                                MyUser me=BmobUser.getCurrentUser(MyUser.class);
+                                                if (me.getFriends()==null){
+                                                    BmobRelation bmobRelation=new BmobRelation();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }else {
+                                                    BmobRelation bmobRelation=me.getFriends();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }
+                                                me.update(me.getObjectId(), new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+                                                        if(e==null){
+                                                            Log.d("bmob", "done: 更新联系人列表成功");
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }else {
+                                            Log.d("bmob", "done: "+e);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }else {
+                        Log.d("bmob", "done: 没有该条目");
+                    }
+                }else {
+                    Log.d("bmob", "done: "+e);
+                }
+            }
+        });
     }
 
     /*
@@ -400,6 +464,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_information:
+                // TODO: 2017/4/11
                 intent = new Intent(MainActivity.this,NewInformationActivity.class);
                 startActivity(intent);
                 break;

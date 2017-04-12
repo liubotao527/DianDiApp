@@ -67,6 +67,8 @@ public class ContactFragment extends Fragment{
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
+                case HandlerCons.UPDATE_FRIEND:
+                    new QueryForUsersThread().start();
                 case HandlerCons.QUERY_ALL_USER:
                     Log.d(TAG, "handleMessage: "+"get handler mList.size: "+mContactList.size());
                     ContactAdapter ContactAdapter = new ContactAdapter();
@@ -89,7 +91,8 @@ public class ContactFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContactList = new ArrayList<>();
-        new QueryForUsersThread().start();
+        new UpdateMyFriends().start();
+
         initImageLoader();
     }
 
@@ -225,6 +228,13 @@ public class ContactFragment extends Fragment{
     private class QueryForUsersThread extends Thread{
         @Override
         public void run() {
+            queryUsers();
+        }
+    }
+
+    private class UpdateMyFriends extends  Thread{
+        @Override
+        public void run() {
             updateMyFriends();
         }
     }
@@ -300,7 +310,7 @@ public class ContactFragment extends Fragment{
                                                                 @Override
                                                                 public void done(BmobException e) {
                                                                     if(e==null){
-                                                                        queryUsers();
+
                                                                     }else {
                                                                         Log.d("bmob", "done: "+e);
                                                                     }
@@ -309,21 +319,29 @@ public class ContactFragment extends Fragment{
                                                         }
                                                     }
                                                 });
+                                            }else {
+
                                             }
                                         }else {
-                                            queryUsers();
                                             Log.d("bmob", "done: "+e);
                                         }
                                     }
                                 });
                             }
                         }
+                        Message message=new Message();
+                        message.what= HandlerCons.UPDATE_FRIEND;
+                        handler.sendMessage(message);
                     }else {
                         Log.d("bmob", "done: 没有该条目");
+                        Message message=new Message();
+                        message.what= HandlerCons.UPDATE_FRIEND;
+                        handler.sendMessage(message);
                     }
                 }else {
                     Log.d("bmob", "done: "+e);
                 }
+
             }
         });
     }

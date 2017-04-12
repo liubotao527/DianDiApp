@@ -13,4 +13,5 @@ public interface HandlerCons {
     int SHOW_ME=0x00;
     int QUERY_ALL_SHARE = 0x01;
     int QUERY_FOR_REQUESTS=0x02;
+    int UPDATE_FRIEND=0x03;
 }

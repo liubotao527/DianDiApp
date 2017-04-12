@@ -483,6 +483,22 @@ public class NoteActivity extends Activity {
 					Log.d(TAG, "onError: ");
 				}
 			});
+		}else {
+			Post post=new Post();
+			post.setContent(content);
+			post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+			post.setCreateDate(new BmobDate(new Date()));
+			post.setShared(false);
+			post.save(new SaveListener<String>() {
+				@Override
+				public void done(String s, BmobException e) {
+					if(e==null){
+						Log.d("bmob", "done: "+"状态发送成功");
+					}else {
+						Log.d("bmob", "done: 什么也不用做");
+					}
+				}
+			});
 		}
 
 

@@ -300,10 +300,12 @@ public class MainFragment extends Fragment {
                         Log.d(TAG, "Content: "+post.getContent());
                         model.time=post.getCreatedAt();
                         Log.e("ddd",model.time);
-                        model.urlList=post.getImages();
+                        if (post.getImages()!=null){
+                            model.urlList=post.getImages();
+                        }
                         mList.add(model);
                         Log.d(TAG, "done: "+"mlist.size: "+mList.size());
-                        add2Db(model);
+//                        add2Db(model);
                     }
                     isSend=true;
                 }else {

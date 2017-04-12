@@ -35,6 +35,7 @@ import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicke
 import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.model.ImageItem;
 import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.util.CustomConstants;
 import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.util.IntentConstants;
+import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
@@ -102,6 +103,8 @@ public class NoteActivity extends Activity {
 	private String imgs="";
 	int count=0;
 	public static NoteActivity instance;
+	int imgId=0;
+	MyDdNote oldNote=null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +121,7 @@ public class NoteActivity extends Activity {
 			startActivity(new Intent(NoteActivity.this, MyListActivity.class));
 		}
 		// 取得Open_Type的值,判断是新建便签还是更新便签
-		openType = intent.getStringExtra("Open_Type");
+		//openType = intent.getStringExtra("Open_Type");
 		//MyLog.d(MainActivity.TAG, "NoteActivity==>" + String.valueOf(openType));
 		// 被编辑的便签的ID
 		//_id = intent.getIntExtra(NoteItems._ID, -1);
@@ -131,7 +134,12 @@ public class NoteActivity extends Activity {
 			// 显示提醒
 			//noteAlarm(_id);
 		}
+		Bundle bundle = intent.getExtras();
+		oldNote= (MyDdNote) bundle.getSerializable("note");
 		initViews();
+		if(oldNote!=null){
+			initViews2(oldNote);
+		}
 
 	//	initButton();
 	}
@@ -139,7 +147,7 @@ public class NoteActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        initViews2();
+        initViews2(null);
     }
 
 
@@ -184,7 +192,7 @@ public class NoteActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_DELETE:
-			deleteNote();
+	//		deleteNote();
 			break;
 		case MENU_REMIND:
 			//setAlarm();
@@ -208,6 +216,7 @@ public class NoteActivity extends Activity {
 		ib_bgcolor = (ImageButton) findViewById(R.id.imagebutton_bgcolor);
 		tv_note_title = (TextView) findViewById(R.id.tv_note_date_time);
 		et_content = (EditText) findViewById(R.id.et_content);
+
 		if (_id != -1) {// 正常得到_id,编辑主页或文件夹下的便签
 			// 根据便签的ID查询该便签的详细内容
 			Cursor c = getContentResolver().query(
@@ -254,8 +263,26 @@ public class NoteActivity extends Activity {
 	}
 
 
-	public void initViews2()
+	public void initViews2(MyDdNote note)
 	{
+		if(note!=null){
+			et_content.setText(note.getNote());
+			List<ImageItem> temp=new ArrayList<ImageItem>() ;
+			for(int i=0;i<note.urlList.size();i++){
+				ImageItem img=new ImageItem();
+				img.imageId=imgId+"";
+				imgId++;
+				img.isSelected=true;
+				//img.sourcePath=note.urlList.get(i);
+				Log.e("TAG",note.urlList.get(i));
+				Uri realPath=Uri.parse(note.urlList.get(i));
+				Log.e("TAG",com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath));
+				img.sourcePath=com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath);
+				//img.thumbnailPath=note.urlList.get(i);
+				temp.add(img);
+			}
+			mDataList.addAll(temp);
+		}
 
 
 		mGridView = (GridView) findViewById(R.id.gridview1);
@@ -309,7 +336,7 @@ public class NoteActivity extends Activity {
 		String content = et_content.getText().toString();
 		// 判断是更新还是新建便签
 		mGridView.clearAnimation();
-		if (openType.equals("newNote")) {
+		//if (openType.equals("newNote")) {
 			// 创建主页上的便签(顶级便签)
 			if (!TextUtils.isEmpty(content)) {
 				ContentValues values = new ContentValues();
@@ -325,7 +352,7 @@ public class NoteActivity extends Activity {
 
 				// TODO: 2017/4/4 向服务器传数据
 				savePost(content);
-			}
+		//	}
 		}/* else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
 			if (!TextUtils.isEmpty(content)) {
@@ -462,7 +489,7 @@ public class NoteActivity extends Activity {
 	}
 
 
-	// 删除便签
+	/*// 删除便签
 	private void deleteNote() {
 		Context mContext = NoteActivity.this;
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -500,7 +527,7 @@ public class NoteActivity extends Activity {
 				});
 		AlertDialog ad = builder.create();
 		ad.show();
-	}
+	}*/
 
 	private int getDataSize()
 	{
@@ -533,19 +560,28 @@ public class NoteActivity extends Activity {
 
 		if(resultCode == 1) {
 			List<ImageItem> incomingDataList = (List<ImageItem>) data.getSerializableExtra(IntentConstants.EXTRA_IMAGE_LIST);
+			if(oldNote!=null){
+				for(int i=0;i<oldNote.urlList.size();i++){
+					pics.add(oldNote.urlList.get(i));
+					Log.d("bmob", "onActivityResult: "+oldNote.urlList.get(i));
+
+					imgs=imgs+oldNote.urlList.get(i)+"\n";
+
+				}
+			}
+
 			if (incomingDataList != null)
 			{
 				for(int i=0;i<incomingDataList.size();i++){
 					Log.e("tttt",incomingDataList.get(i).sourcePath);
-
+					//Log.e("tttt",incomingDataList.get(i).thumbnailPath);
 
 //					Uri uri = data.getData();
 //					Log.e("uri", uri.toString());
-
 //					Uri u = Uri.parse(incomingDataList.get(i).sourcePath);
 
-
 					pics.add(String.valueOf(Uri.parse(incomingDataList.get(i).sourcePath)));
+
 					Log.d("bmob", "onActivityResult: "+Uri.parse(incomingDataList.get(i).sourcePath));
 
 					imgs=imgs+getImageContentUri(NoteActivity.this,incomingDataList.get(i).sourcePath)+"\n";
@@ -553,7 +589,7 @@ public class NoteActivity extends Activity {
 				}
 				mDataList.addAll(incomingDataList);
 				notifyDataChanged();
-				initViews2();
+				initViews2(null);
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

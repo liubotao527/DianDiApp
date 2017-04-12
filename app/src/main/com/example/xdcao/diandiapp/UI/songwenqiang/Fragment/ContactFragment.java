@@ -311,6 +311,7 @@ public class ContactFragment extends Fragment{
                                                 });
                                             }
                                         }else {
+                                            queryUsers();
                                             Log.d("bmob", "done: "+e);
                                         }
                                     }

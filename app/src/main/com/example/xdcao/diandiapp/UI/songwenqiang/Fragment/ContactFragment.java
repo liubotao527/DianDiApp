@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ContactShareActivity;
@@ -97,9 +98,7 @@ public class ContactFragment extends Fragment{
     }
 
     private void initImageLoader() {
-        imageLoader=ImageLoader.getInstance();
-        ImageLoaderConfiguration configuration=new ImageLoaderConfiguration.Builder(this.context).build();
-        imageLoader.init(configuration);
+        imageLoader=ImageLoaderUtil.getImageLoader(this.context);
     }
 
     @Override
@@ -172,7 +171,7 @@ public class ContactFragment extends Fragment{
                     holder.mRivPhoto.setImageBitmap(bitmap);
                 }else {
                     Log.d(TAG, "onBindViewHolder: imageloader");
-                    imageLoader.displayImage(mContactList.get(position).getAvatar().getFileUrl(),holder.mRivPhoto);
+                    imageLoader.displayImage(mContactList.get(position).getAvatar().getFileUrl(),holder.mRivPhoto,ImageLoaderUtil.getPhotoImageOption());
                 }
             }
         }
@@ -276,62 +275,67 @@ public class ContactFragment extends Fragment{
         MyUser me= BmobUser.getCurrentUser(MyUser.class);
         BmobQuery<Supply> query=new BmobQuery<>();
         query.addWhereEqualTo("requester",me);
-        query.findObjects(new FindListener<Supply>() {
+        BmobQuery<Supply> query1=new BmobQuery<>();
+        query1.addWhereEqualTo("isAccepted",true);
+        List<BmobQuery<Supply>> queries=new ArrayList<>();
+        queries.add(query);
+        queries.add(query1);
+        BmobQuery<Supply> mainQuery=new BmobQuery<>();
+        mainQuery.and(queries);
+        mainQuery.findObjects(new FindListener<Supply>() {
             @Override
             public void done(List<Supply> list, BmobException e) {
                 if (e==null){
                     if (list.size()>0){
                         for (final Supply supply:list){
                             Log.d("bmob", "done: "+supply.getResUserName());
-                            if (supply.getAccepted()==true){
-                                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
-                                query.addWhereEqualTo("username",supply.getResUserName());
-                                query.findObjects(new FindListener<MyUser>() {
-                                    @Override
-                                    public void done(List<MyUser> list, BmobException e) {
-                                        if (e==null){
-                                            if (list.size()>0){
-                                                MyUser me=BmobUser.getCurrentUser(MyUser.class);
-                                                if (me.getFriends()==null){
-                                                    BmobRelation bmobRelation=new BmobRelation();
-                                                    bmobRelation.add(list.get(0));
-                                                    me.setFriends(bmobRelation);
-                                                }else {
-                                                    BmobRelation bmobRelation=me.getFriends();
-                                                    bmobRelation.add(list.get(0));
-                                                    me.setFriends(bmobRelation);
-                                                }
-                                                me.update(me.getObjectId(), new UpdateListener() {
-                                                    @Override
-                                                    public void done(BmobException e) {
-                                                        if(e==null){
-                                                            Log.d("bmob", "done: 更新联系人列表成功");
-                                                            supply.delete(supply.getObjectId(), new UpdateListener() {
-                                                                @Override
-                                                                public void done(BmobException e) {
-                                                                    if(e==null){
-
-                                                                    }else {
-                                                                        Log.d("bmob", "done: "+e);
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    }
-                                                });
+                            BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+                            query.addWhereEqualTo("username",supply.getResUserName());
+                            query.findObjects(new FindListener<MyUser>() {
+                                @Override
+                                public void done(List<MyUser> list, BmobException e) {
+                                    if (e==null){
+                                        if (list.size()>0){
+                                            MyUser me=BmobUser.getCurrentUser(MyUser.class);
+                                            if (me.getFriends()==null){
+                                                BmobRelation bmobRelation=new BmobRelation();
+                                                bmobRelation.add(list.get(0));
+                                                me.setFriends(bmobRelation);
                                             }else {
-
+                                                BmobRelation bmobRelation=me.getFriends();
+                                                bmobRelation.add(list.get(0));
+                                                me.setFriends(bmobRelation);
                                             }
+                                            me.update(me.getObjectId(), new UpdateListener() {
+                                                @Override
+                                                public void done(BmobException e) {
+                                                    if(e==null){
+                                                        Log.d("bmob", "done: 更新联系人列表成功");
+                                                        supply.delete(supply.getObjectId(), new UpdateListener() {
+                                                            @Override
+                                                            public void done(BmobException e) {
+                                                                if(e==null){
+                                                                    Message message=new Message();
+                                                                    message.what= HandlerCons.UPDATE_FRIEND;
+                                                                    handler.sendMessage(message);
+                                                                }else {
+                                                                    Log.d("bmob", "done: "+e);
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
                                         }else {
-                                            Log.d("bmob", "done: "+e);
+
                                         }
+                                    }else {
+                                        Log.d("bmob", "done: "+e);
                                     }
-                                });
-                            }
+                                }
+                            });
                         }
-                        Message message=new Message();
-                        message.what= HandlerCons.UPDATE_FRIEND;
-                        handler.sendMessage(message);
+
                     }else {
                         Log.d("bmob", "done: 没有该条目");
                         Message message=new Message();

@@ -128,19 +128,14 @@ public class ContactShareActivity extends AppCompatActivity {
                 holder.tv_content.setText(mPostList.get(position).getContent());
                 holder.tv_time.setText(mPostList.get(position).getCreatedAt());
 //            holder.iv_content.setImageResource();
-                if (mPostList.get(position).getImages().size()>0){
-                    Log.d("bmob", "onBindViewHolder: "+mPostList.get(position).getImages().size());
-                    Log.d("bmob", "onBindViewHolder: "+mPostList.get(position).getImages().get(0));
-                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+mPostList.get(position).getFilenames().get(0));
-                    if(bitmap!=null){
-                        holder.iv_content.setImageBitmap(bitmap);
-                        Log.d("bmob", "onBindViewHolder: 本地加载");
-                    }else {
-                        Log.d("bmob", "onBindViewHolder: 外部加载");
-                        imageLoader.displayImage(mPostList.get(position).getImages().get(0),holder.iv_content);
-                    }
+                if (mPostList.get(position).getImages()!=null){
+                    if (mPostList.get(position).getImages().size()>0){
 
+                        imageLoader.displayImage(mPostList.get(position).getImages().get(0),holder.iv_content);
+
+                    }
                 }
+
             }
         }
 
@@ -206,7 +201,7 @@ public class ContactShareActivity extends AppCompatActivity {
                     if (list.size()>0){
                         Log.d("bmob", "done: 找到联系人帖子");
                         for (Post post:list){
-                            Log.d("bmob", "done: "+post.getImages().get(0));
+
                             mPostList.add(post);
                         }
                         Message message=new Message();

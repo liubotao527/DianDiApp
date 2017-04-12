@@ -134,6 +134,28 @@ public class NewInformationActivity extends AppCompatActivity {
         public NewInformationAdapter.NewInformationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(NewInformationActivity.this).inflate(R.layout.new_information_item,parent,false);
             final NewInformationViewHolder holder = new NewInformationViewHolder(view);
+
+            return new NewInformationViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final NewInformationAdapter.NewInformationViewHolder holder, final int position) {
+//            holder.mRivPhoto.setImageResource();
+//            holder.mTvName.setText();
+//            holder.mBtAdd.setText();
+            if (requests.size()>position){
+                Log.d("bmob", "onBindViewHolder: nickname: "+requests.get(position).getRequester().getNickName());
+                holder.mTvName.setText(requests.get(position).getReqNickName());
+                if (requests.get(position).getReqAvatar()!=null){
+                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+requests.get(position).getReqAvatar().getFilename());
+                    if(bitmap!=null){
+                        holder.mRivPhoto.setImageBitmap(bitmap);
+                    }else {
+                        Log.d("bmob", "onBindViewHolder: imageloader");
+                        imageLoader.displayImage(requests.get(position).getReqAvatar().getFileUrl(),holder.mRivPhoto);
+                    }
+                }
+            }
             holder.mBtAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -186,28 +208,6 @@ public class NewInformationActivity extends AppCompatActivity {
                     });
                 }
             });
-            return new NewInformationViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final NewInformationAdapter.NewInformationViewHolder holder, final int position) {
-//            holder.mRivPhoto.setImageResource();
-//            holder.mTvName.setText();
-//            holder.mBtAdd.setText();
-            if (requests.size()>position){
-                Log.d("bmob", "onBindViewHolder: nickname: "+requests.get(position).getRequester().getNickName());
-                holder.mTvName.setText(requests.get(position).getReqNickName());
-                if (requests.get(position).getReqAvatar()!=null){
-                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+requests.get(position).getReqAvatar().getFilename());
-                    if(bitmap!=null){
-                        holder.mRivPhoto.setImageBitmap(bitmap);
-                    }else {
-                        Log.d("bmob", "onBindViewHolder: imageloader");
-                        imageLoader.displayImage(requests.get(position).getReqAvatar().getFileUrl(),holder.mRivPhoto);
-                    }
-                }
-            }
-
 
 
         }

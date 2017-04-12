@@ -221,19 +221,22 @@ public class ShareFragment extends Fragment{
             holder.tv_content.setText(notes.get(position).getContent());
             holder.tv_time.setText(notes.get(position).getCreatedAt());
 //            holder.iv_content.setImageResource();
-            if (notes.get(position).getImages().size()>0){
-                Log.d("bmob", "onBindViewHolder: "+notes.get(position).getImages().size());
-                Log.d("bmob", "onBindViewHolder: "+notes.get(position).getImages().get(0));
-                Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+notes.get(position).getFilenames().get(0));
-                if(bitmap!=null){
-                    holder.iv_content.setImageBitmap(bitmap);
-                    Log.d("bmob", "onBindViewHolder: 本地加载");
-                }else {
-                    Log.d("bmob", "onBindViewHolder: 外部加载");
-                    imageLoader.displayImage(notes.get(position).getImages().get(0),holder.iv_content);
-                }
+            if(notes.get(position).getImages()!=null){
+                if (notes.get(position).getImages().size()>0){
+                    Log.d("bmob", "onBindViewHolder: "+notes.get(position).getImages().size());
+                    Log.d("bmob", "onBindViewHolder: "+notes.get(position).getImages().get(0));
+                    Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+notes.get(position).getFilenames().get(0));
+                    if(bitmap!=null){
+                        holder.iv_content.setImageBitmap(bitmap);
+                        Log.d("bmob", "onBindViewHolder: 本地加载");
+                    }else {
+                        Log.d("bmob", "onBindViewHolder: 外部加载");
+                        imageLoader.displayImage(notes.get(position).getImages().get(0),holder.iv_content);
+                    }
 
+                }
             }
+
         }
 
         @Override

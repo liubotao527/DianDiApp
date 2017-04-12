@@ -47,7 +47,6 @@ public class NewInformationActivity extends AppCompatActivity {
     private ImageLoader imageLoader;
     private RecyclerView mRvNewInformation;
     private ImageView mIvBack;
-    private LinearLayoutManager mLayoutManager;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +61,13 @@ public class NewInformationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        mLayoutManager = new LinearLayoutManager(NewInformationActivity.this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(NewInformationActivity.this);
+
+        mRvNewInformation.setLayoutManager(mLayoutManager);
+        mRvNewInformation.setAdapter(new NewInformationAdapter());
+        initImageLoader();
         requests=new ArrayList<>();
         new QueryForRequest().start();
-
-
-
-        initImageLoader();
 
     }
 
@@ -79,7 +78,6 @@ public class NewInformationActivity extends AppCompatActivity {
                 case HandlerCons.QUERY_FOR_REQUESTS:
                     Log.d("bmob", "handleMessage: "+"get handler requests.size: "+requests.size());
                     NewInformationAdapter requestAdapter = new NewInformationAdapter();
-                    mRvNewInformation.setLayoutManager(mLayoutManager);
                     mRvNewInformation.setAdapter(requestAdapter);
             }
             super.handleMessage(msg);
@@ -105,14 +103,7 @@ public class NewInformationActivity extends AppCompatActivity {
         MyUser me=BmobUser.getCurrentUser(MyUser.class);
         BmobQuery<Supply> query=new BmobQuery<>();
         query.addWhereEqualTo("responsor",me);
-        BmobQuery<Supply> query1=new BmobQuery<>();
-        query.addWhereEqualTo("isAccepted",false);
-        List<BmobQuery<Supply>> queries=new ArrayList<>();
-        queries.add(query);
-        queries.add(query1);
-        BmobQuery<Supply> mainQuery=new BmobQuery<>();
-        mainQuery.and(queries);
-        mainQuery.findObjects(new FindListener<Supply>() {
+        query.findObjects(new FindListener<Supply>() {
             @Override
             public void done(List<Supply> list, BmobException e) {
                 if (e==null){
@@ -151,49 +142,48 @@ public class NewInformationActivity extends AppCompatActivity {
                     holder.mBtAdd.setTextColor(getResources().getColor(R.color.colorPrimary));
                     holder.mBtAdd.setBackground(getDrawable(R.color.white));
                     holder.mBtAdd.setClickable(false);
-                    Log.d("bmob", "onClick: "+position);
-//                    Supply supply=requests.get(position);
-//                    supply.setAccepted(true);
-//                    supply.update(supply.getObjectId(), new UpdateListener() {
-//                        @Override
-//                        public void done(BmobException e) {
-//                            if (e==null){
-//                                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
-//                                query.addWhereEqualTo("username",requests.get(position).getReqUserName());
-//                                query.findObjects(new FindListener<MyUser>() {
-//                                    @Override
-//                                    public void done(List<MyUser> list, BmobException e) {
-//                                        if (e==null){
-//                                            if (list.size()>0){
-//                                                MyUser me=BmobUser.getCurrentUser(MyUser.class);
-//                                                if (me.getFriends()==null){
-//                                                    BmobRelation bmobRelation=new BmobRelation();
-//                                                    bmobRelation.add(list.get(0));
-//                                                    me.setFriends(bmobRelation);
-//                                                }else {
-//                                                    BmobRelation bmobRelation=me.getFriends();
-//                                                    bmobRelation.add(list.get(0));
-//                                                    me.setFriends(bmobRelation);
-//                                                }
-//                                                me.update(me.getObjectId(), new UpdateListener() {
-//                                                    @Override
-//                                                    public void done(BmobException e) {
-//                                                        if(e==null){
-//                                                            Log.d("bmob", "done: 更新联系人列表成功");
-//                                                        }
-//                                                    }
-//                                                });
-//                                            }
-//                                        }else {
-//                                            Log.d("bmob", "done: "+e);
-//                                        }
-//                                    }
-//                                });
-//                            }else {
-//                                Log.d("bmob", "done: "+e);
-//                            }
-//                        }
-//                    });
+                    Supply supply=requests.get(position);
+                    supply.setAccepted(true);
+                    supply.update(supply.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e==null){
+                                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+                                query.addWhereEqualTo("username",requests.get(position).getReqUserName());
+                                query.findObjects(new FindListener<MyUser>() {
+                                    @Override
+                                    public void done(List<MyUser> list, BmobException e) {
+                                        if (e==null){
+                                            if (list.size()>0){
+                                                MyUser me=BmobUser.getCurrentUser(MyUser.class);
+                                                if (me.getFriends()==null){
+                                                    BmobRelation bmobRelation=new BmobRelation();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }else {
+                                                    BmobRelation bmobRelation=me.getFriends();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }
+                                                me.update(me.getObjectId(), new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+                                                        if(e==null){
+                                                            Log.d("bmob", "done: 更新联系人列表成功");
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }else {
+                                            Log.d("bmob", "done: "+e);
+                                        }
+                                    }
+                                });
+                            }else {
+                                Log.d("bmob", "done: "+e);
+                            }
+                        }
+                    });
                 }
             });
             return new NewInformationViewHolder(view);
@@ -201,7 +191,9 @@ public class NewInformationActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final NewInformationAdapter.NewInformationViewHolder holder, final int position) {
-
+//            holder.mRivPhoto.setImageResource();
+//            holder.mTvName.setText();
+//            holder.mBtAdd.setText();
             if (requests.size()>position){
                 Log.d("bmob", "onBindViewHolder: nickname: "+requests.get(position).getRequester().getNickName());
                 holder.mTvName.setText(requests.get(position).getReqNickName());

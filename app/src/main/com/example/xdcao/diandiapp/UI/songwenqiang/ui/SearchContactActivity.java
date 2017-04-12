@@ -22,6 +22,7 @@ import com.example.xdcao.diandiapp.BackUp.caohao.actions.FileAction;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Supply;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 
@@ -63,8 +64,9 @@ public class SearchContactActivity extends AppCompatActivity {
                     mTvName.setText(myUser.getNickName());
 
                     if (myUser.getAvatar()!=null){
-                        Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
-                        mRivPhoto.setImageBitmap(bitmap);
+//                        Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+File.separator+myUser.getAvatar().getFilename());
+//                        mRivPhoto.setImageBitmap(bitmap);
+                        ImageLoaderUtil.displayImage(SearchContactActivity.this,mRivPhoto,myUser.getAvatar().getFileUrl(),ImageLoaderUtil.getPhotoImageOption());
                     }
 
                     mCvAddContact.setVisibility(View.VISIBLE);
@@ -183,38 +185,14 @@ public class SearchContactActivity extends AppCompatActivity {
                     if (list.size()>0){
                         Log.d("bmob", "done: lllll");
                         returnedUser=list.get(0);
-                        Log.d("bmob", "done: "+returnedUser.getUsername());
-                        if (returnedUser.getAvatar()!=null){
-                            File saveFile = new File(Environment.getExternalStorageDirectory(), returnedUser.getAvatar().getFilename());
-                            final MyUser finalReturnedUser = returnedUser;
-                            returnedUser.getAvatar().download(saveFile, new DownloadFileListener() {
 
-                                @Override
-                                public void onStart() {
-                                    Log.d("bmob", "onStart: ");
-                                }
+                        Message message=handler.obtainMessage();
+                        message.what=HandlerCons.QUERY_GIVEN_USER;
+                        Bundle b = new Bundle();
+                        b.putSerializable("MyUser", returnedUser);
+                        message.setData(b);
+                        handler.sendMessage(message);
 
-                                @Override
-                                public void done(String savePath,BmobException e) {
-                                    if(e==null){
-                                        Log.d("bmob", "done: downloadSuccess");
-                                        Message message=handler.obtainMessage();
-                                        message.what=HandlerCons.QUERY_GIVEN_USER;
-                                        Bundle b = new Bundle();
-                                        b.putSerializable("MyUser", finalReturnedUser);
-                                        message.setData(b);
-                                        handler.sendMessage(message);
-                                    }else{
-                                        Log.d("bmob", "done: downloadFailure"+e);
-                                    }
-                                }
-
-                                @Override
-                                public void onProgress(Integer value, long newworkSpeed) {
-                                    Log.d("bmob","下载进度："+value+","+newworkSpeed);
-                                }
-
-                            });
                         }else {
                             Log.d("bmob", "done: 发出message");
                             Message message=handler.obtainMessage();
@@ -226,8 +204,8 @@ public class SearchContactActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
-        });
+            });
+
     }
 
 

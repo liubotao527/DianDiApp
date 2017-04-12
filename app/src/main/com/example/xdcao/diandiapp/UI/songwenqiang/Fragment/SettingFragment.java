@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.example.xdcao.diandiapp.BackUp.caohao.actions.UserAction;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ChangeNickNameActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ChangeSignNameActivity;
@@ -63,20 +64,11 @@ public class SettingFragment extends Fragment {
         this.activity = activity;
     }
 
-    /*
-   初始化imageloader
-    */
-    private void initImageLoader() {
-        imageLoader= ImageLoader.getInstance();
-        ImageLoaderConfiguration configuration=new ImageLoaderConfiguration.Builder(this.context).build();
-        imageLoader.init(configuration);
-    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initImageLoader();
-
     }
 
     private void showAvatar() {
@@ -88,6 +80,7 @@ public class SettingFragment extends Fragment {
             }else {
                 Log.d("bmob", "initView: "+curUser.getAvatar().getFileUrl());
 //                imageLoader.displayImage(curUser.getAvatar().getFileUrl(),mRvPhoto);
+                ImageLoaderUtil.displayImage(this.context,mRvPhoto,curUser.getAvatar().getFileUrl(),ImageLoaderUtil.getPhotoImageOption());
                 Log.d("bmob", "showAvatar: "+mRvPhoto);
             }
         }
@@ -118,6 +111,8 @@ public class SettingFragment extends Fragment {
         mStSignName.setName(signName);
         String nickname = pref.getString("nickname","DianDi");
         mStNickname.setName(nickname);
+
+
 
 
 //        Bundle bundle = getArguments();

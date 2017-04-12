@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
+import com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.util.ImageFetcher;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.prefs.UserPrefs;
 
@@ -27,7 +28,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignUpActivity";
+    private static final String TAG = "bmob";
 
     public UserPrefs userPrefs;
     private EditText mEtAccount,mEtPassWord;
@@ -89,6 +90,23 @@ public class SignUpActivity extends AppCompatActivity {
     private void autoLogin() {
         MyUser currentUser=BmobUser.getCurrentUser(MyUser.class);
         if(currentUser!=null){
+            String nickname = currentUser.getNickName();
+            String signName = currentUser.getSignName();
+            SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+            if(!TextUtils.isEmpty(nickname)){
+                currentUser.setNickName(nickname);
+                String flag = "nickname";
+                String data = nickname;
+                editor.putString(flag,data);
+                editor.apply();
+            }
+            if(!TextUtils.isEmpty(signName)){
+                currentUser.setSignName(signName);
+                String flag = "signName";
+                String data = signName;
+                editor.putString(flag,data);
+                editor.apply();
+            }
             Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
             startActivity(intent);
             finish();
@@ -102,30 +120,29 @@ public class SignUpActivity extends AppCompatActivity {
         final MyUser user=new MyUser();
         user.setUsername(mEtAccount.getText().toString());
         user.setPassword(mEtPassWord.getText().toString());
-        user.login(new SaveListener<BmobUser>() {
+        user.login(new SaveListener<MyUser>() {
             @Override
-            public void done(BmobUser bmobUser, BmobException e) {
+            public void done(MyUser bmobUser, BmobException e) {
                 if(e==null){
                     Log.i("bmob", "done: "+"登陆成功");
-                    MyUser curUser=BmobUser.getCurrentUser(MyUser.class);
-                    String nickname = curUser.getNickName();
-                    String signName = curUser.getSignName();
+                    String nickname = bmobUser.getNickName();
+                    String signName = bmobUser.getSignName();
                     SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
                     if(!TextUtils.isEmpty(nickname)){
-                        user.setNickName(nickname);
+                        bmobUser.setNickName(nickname);
                         String flag = "nickname";
                         String data = nickname;
                         editor.putString(flag,data);
                         editor.apply();
                     }
                     if(!TextUtils.isEmpty(signName)){
-                        user.setSignName(signName);
+                        bmobUser.setSignName(signName);
                         String flag = "signName";
                         String data = signName;
                         editor.putString(flag,data);
                         editor.apply();
                     }
-                    Log.d(TAG, "done: "+curUser.getNickName());
+                    Log.d(TAG, "done: "+bmobUser.getNickName());
                     final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                             R.style.AppTheme_Dark_Dialog);
                     progressDialog.setIndeterminate(true);

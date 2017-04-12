@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageLoader imageLoader;
     BmobRealTimeData realTimeData=new BmobRealTimeData();
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "bmob";
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
@@ -633,6 +633,7 @@ public class MainActivity extends AppCompatActivity {
                     if(e==null){
                         MyUser user= BmobUser.getCurrentUser(MyUser.class);
                         user.setAvatar(bmobImg);
+                        Log.d(TAG, "done: "+user.getObjectId());
                         user.update(user.getObjectId(), new UpdateListener() {
                             @Override
                             public void done(BmobException e) {
@@ -641,6 +642,7 @@ public class MainActivity extends AppCompatActivity {
                                     Log.d(TAG, "done: 用户头像上传成功");
                                     Toast.makeText(MainActivity.this,"头像上传成功",Toast.LENGTH_SHORT).show();
                                 }else {
+                                    Log.d(TAG, "done: "+e);
                                     Toast.makeText(MainActivity.this,"头像上传失败",Toast.LENGTH_SHORT).show();
                                 }
                             }

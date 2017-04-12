@@ -151,6 +151,7 @@ public class SearchContactActivity extends AppCompatActivity {
             public void done(String s, BmobException e) {
                 if (e==null){
                     Log.d(TAG, "done: 请求成功发出");
+                    Toast.makeText(SearchContactActivity.this,"请求发出",Toast.LENGTH_SHORT).show();
                 }else {
                     Log.d(TAG, "done: "+e);
                 }

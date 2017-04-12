@@ -226,7 +226,6 @@ public class ContactFragment extends Fragment{
         @Override
         public void run() {
             updateMyFriends();
-            queryUsers();
         }
     }
 
@@ -301,7 +300,7 @@ public class ContactFragment extends Fragment{
                                                                 @Override
                                                                 public void done(BmobException e) {
                                                                     if(e==null){
-
+                                                                        queryUsers();
                                                                     }else {
                                                                         Log.d("bmob", "done: "+e);
                                                                     }

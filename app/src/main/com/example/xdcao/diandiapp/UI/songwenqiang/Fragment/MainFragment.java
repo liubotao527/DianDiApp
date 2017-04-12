@@ -97,13 +97,7 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         notes = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            SNotes note = new SNotes();
-            note.setLabel("label"+i);
-            note.setContent("content"+i);
-            note.setTime("Time"+i);
-            notes.add(note);
-        }
+
     }
 
 

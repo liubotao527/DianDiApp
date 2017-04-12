@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 public class ImageLoaderUtil {
 
     public static ImageLoader getImageLoader(Context context) {
+
         return ImageLoader.getInstance();
     }
 

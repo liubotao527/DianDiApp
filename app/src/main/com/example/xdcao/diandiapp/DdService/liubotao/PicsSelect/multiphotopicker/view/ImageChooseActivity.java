@@ -87,6 +87,7 @@ public class ImageChooseActivity extends Activity implements ImageGridAdapter.Se
 
 		ImageBucket imageBucket = mImageBucketList.get(currentBucketIndex);
 		mDataList = imageBucket.imageList;
+
 		mBucketName = imageBucket.bucketName;
 		availableSize = CustomConstants.MAX_IMAGE_SIZE;
 		if (mDataList == null) mDataList = new ArrayList<ImageItem>();

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
+import com.example.xdcao.diandiapp.DdService.liubotao.activity.NoteActivity;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
@@ -170,7 +171,6 @@ public class MainFragment extends Fragment {
             //    holder.tv_label.setText("temp");
         //    Log.e("temp",mList.get(position).note+"--"+mList.get(position).time);
 
-            Log.d(TAG,"1888888");
             System.out.println(mList.size());
             holder.tv_content.setText(mList.get(position).getNote());
             holder.tv_time.setText(mList.get(position).getTime());
@@ -204,6 +204,17 @@ public class MainFragment extends Fragment {
                                     NoteAdapter noteAdapter = new NoteAdapter();
                                     recyclerView.setAdapter(noteAdapter);
                                     Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
+                                    break;
+                                case R.id.edit:
+                                    //添加编辑的代码
+                                    backupDeleteGivenPost(position);
+                                    deleteFromDb(position);
+                                    MyDdNote note=mList.get(position);
+                                    Intent intent = new Intent(getActivity(),NoteActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("note", note);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
 
                                     break;
                                 default:
@@ -236,7 +247,6 @@ public class MainFragment extends Fragment {
             bundle.putSerializable("note", note);
 
             intent.putExtras(bundle);
-            startActivity(intent);
             //将数据传到DetailActivity
             startActivity(intent);
         }
@@ -257,6 +267,7 @@ public class MainFragment extends Fragment {
 
             }
         }
+
         public void addItem(SNotes note,int position){
             notes.add(position,note);
             notifyItemInserted(position);
@@ -299,8 +310,6 @@ public class MainFragment extends Fragment {
                         mList.add(model);
                         Log.d(TAG, "done: "+"mlist.size: "+mList.size());
                         add2Db(model);
-
-
                     }
                     isSend=true;
                 }else {

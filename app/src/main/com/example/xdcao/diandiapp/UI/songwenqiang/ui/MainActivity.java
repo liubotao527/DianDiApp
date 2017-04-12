@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                System.out.println(3333333);
             }
         });
 
@@ -259,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mLLDrawer = (LinearLayout) findViewById(R.id.ll_drawer);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setVisibility(View.VISIBLE);
 
         mRivPhoto = (RoundImageView) findViewById(R.id.iv_photo);
 
@@ -338,21 +338,21 @@ public class MainActivity extends AppCompatActivity {
                 mTvShare.setTextColor(getResources().getColor(colorPress));
                 ShareFragment sf = new ShareFragment();
                 ft.replace(R.id.content_main2,sf);
-                mFab.setVisibility(View.INVISIBLE);
+                //mFab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.contact:
                 mImContact.setImageResource(R.drawable.ic_contact_press);
                 mTvContact.setTextColor(getResources().getColor(colorPress));
                 ContactFragment cf = new ContactFragment();
                 ft.replace(R.id.content_main2,cf);
-                mFab.setVisibility(View.INVISIBLE);
+               // mFab.setVisibility(View.INVISIBLE);
                 break;
             case R.id.settings:
                 mImSettings.setImageResource(R.drawable.ic_settings_press);
                 mTvSettings.setTextColor(getResources().getColor(colorPress));
                 SettingFragment stf = new SettingFragment();
                 ft.replace(R.id.content_main2,stf);
-                mFab.setVisibility(View.INVISIBLE);
+                //mFab.setVisibility(View.INVISIBLE);
                 break;
         }
         ft.commit();

@@ -366,34 +366,34 @@ public class MainFragment extends Fragment {
         }
 
         // TODO: 2017/4/5 缓存没数据从网上拿
-        if(mCursor.getCount()==0){
+//        if(mCursor.getCount()==0){
             Log.d(TAG, "updateDisplay: "+"从网上拿url");
             new QueryPostThread().start();
-        }else if (mCursor != null && mCursor.moveToFirst()) {
-            do {
-                int contentColumn = mCursor.getColumnIndex(DbInfo.NoteItems.CONTENT);
-                int dateColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_DATE);
-                int timeColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_TIME);
-                int pics=mCursor.getColumnIndex(DbInfo.NoteItems.PICS);
-                int idColumn=mCursor.getColumnIndex(DbInfo.NoteItems._ID);
-
-                //notes.add(mCursor.getString(contentColumn));··                                    ····
-                //times.add(mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn));
-
-                MyDdNote model = new MyDdNote();
-                //for(int j=0;j<i;j++){
-                //    model.urlList.add(mUrls[j]);
-                //}
-                model.note= mCursor.getString(contentColumn);
-                model.time= mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn);
-                model.id=mCursor.getInt(idColumn);
-                //model.urlList.add("file:///mnt/sdcard/DCIM/Camera/IMG_20170301_114357.jpg");
-                //model.urlList.add("content://media/external/images/media/9666");
-                getImgUri(model.urlList,mCursor.getString(pics));
-                //Log.e("temp",mCursor.getString(contentColumn)+"-----"+model.note);
-                mList.add(model);
-            } while (mCursor.moveToNext());
-        }
+//        }else if (mCursor != null && mCursor.moveToFirst()) {
+//            do {
+//                int contentColumn = mCursor.getColumnIndex(DbInfo.NoteItems.CONTENT);
+//                int dateColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_DATE);
+//                int timeColumn = mCursor.getColumnIndex(DbInfo.NoteItems.UPDATE_TIME);
+//                int pics=mCursor.getColumnIndex(DbInfo.NoteItems.PICS);
+//                int idColumn=mCursor.getColumnIndex(DbInfo.NoteItems._ID);
+//
+//                //notes.add(mCursor.getString(contentColumn));··                                    ····
+//                //times.add(mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn));
+//
+//                MyDdNote model = new MyDdNote();
+//                //for(int j=0;j<i;j++){
+//                //    model.urlList.add(mUrls[j]);
+//                //}
+//                model.note= mCursor.getString(contentColumn);
+//                model.time= mCursor.getString(dateColumn)+" "+mCursor.getString(timeColumn);
+//                model.id=mCursor.getInt(idColumn);
+//                //model.urlList.add("file:///mnt/sdcard/DCIM/Camera/IMG_20170301_114357.jpg");
+//                //model.urlList.add("content://media/external/images/media/9666");
+//                getImgUri(model.urlList,mCursor.getString(pics));
+//                //Log.e("temp",mCursor.getString(contentColumn)+"-----"+model.note);
+//                mList.add(model);
+//            } while (mCursor.moveToNext());
+//        }
         //initView();
     }
 

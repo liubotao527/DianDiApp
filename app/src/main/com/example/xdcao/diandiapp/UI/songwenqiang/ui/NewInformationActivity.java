@@ -1,5 +1,6 @@
 package com.example.xdcao.diandiapp.UI.songwenqiang.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
@@ -43,7 +45,31 @@ public class NewInformationActivity extends AppCompatActivity {
 
     private List<Supply> requests=null;
     private ImageLoader imageLoader;
+    private RecyclerView mRvNewInformation;
+    private ImageView mIvBack;
 
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_information);
+        mRvNewInformation = (RecyclerView) findViewById(R.id.rv_new_information);
+        mIvBack = (ImageView) findViewById(R.id.iv_back);
+        mIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(NewInformationActivity.this,MainActivity.class);
+                intent.putExtra("extra_data","mIvNote");
+                startActivity(intent);
+            }
+        });
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(NewInformationActivity.this);
+
+        mRvNewInformation.setLayoutManager(mLayoutManager);
+        mRvNewInformation.setAdapter(new NewInformationAdapter());
+        initImageLoader();
+        requests=new ArrayList<>();
+        new QueryForRequest().start();
+
+    }
 
     Handler handler=new Handler() {
         @Override
@@ -102,33 +128,69 @@ public class NewInformationActivity extends AppCompatActivity {
 
     }
 
-    private RecyclerView mRvNewInformation;
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_information);
-        mRvNewInformation = (RecyclerView) findViewById(R.id.rv_new_information);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(NewInformationActivity.this);
-
-        mRvNewInformation.setLayoutManager(mLayoutManager);
-        mRvNewInformation.setAdapter(new NewInformationAdapter());
-        initImageLoader();
-        requests=new ArrayList<>();
-        new QueryForRequest().start();
-
-    }
-
-
-
     class NewInformationAdapter extends RecyclerView.Adapter<NewInformationAdapter.NewInformationViewHolder>{
 
         @Override
         public NewInformationAdapter.NewInformationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(NewInformationActivity.this).inflate(R.layout.new_information_item,parent,false);
+            final NewInformationViewHolder holder = new NewInformationViewHolder(view);
+            holder.mBtAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final int position = holder.getAdapterPosition();
+                    holder.mBtAdd.setText("已添加");
+                    holder.mBtAdd.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    holder.mBtAdd.setBackground(getDrawable(R.color.white));
+                    holder.mBtAdd.setClickable(false);
+                    Supply supply=requests.get(position);
+                    supply.setAccepted(true);
+                    supply.update(supply.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e==null){
+                                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+                                query.addWhereEqualTo("username",requests.get(position).getReqUserName());
+                                query.findObjects(new FindListener<MyUser>() {
+                                    @Override
+                                    public void done(List<MyUser> list, BmobException e) {
+                                        if (e==null){
+                                            if (list.size()>0){
+                                                MyUser me=BmobUser.getCurrentUser(MyUser.class);
+                                                if (me.getFriends()==null){
+                                                    BmobRelation bmobRelation=new BmobRelation();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }else {
+                                                    BmobRelation bmobRelation=me.getFriends();
+                                                    bmobRelation.add(list.get(0));
+                                                    me.setFriends(bmobRelation);
+                                                }
+                                                me.update(me.getObjectId(), new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+                                                        if(e==null){
+                                                            Log.d("bmob", "done: 更新联系人列表成功");
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }else {
+                                            Log.d("bmob", "done: "+e);
+                                        }
+                                    }
+                                });
+                            }else {
+                                Log.d("bmob", "done: "+e);
+                            }
+                        }
+                    });
+                }
+            });
             return new NewInformationViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(NewInformationAdapter.NewInformationViewHolder holder, final int position) {
+        public void onBindViewHolder(final NewInformationAdapter.NewInformationViewHolder holder, final int position) {
 //            holder.mRivPhoto.setImageResource();
 //            holder.mTvName.setText();
 //            holder.mBtAdd.setText();
@@ -144,53 +206,6 @@ public class NewInformationActivity extends AppCompatActivity {
                         imageLoader.displayImage(requests.get(position).getReqAvatar().getFileUrl(),holder.mRivPhoto);
                     }
                 }
-                holder.mBtAdd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Supply supply=requests.get(position);
-                        supply.setAccepted(true);
-                        supply.update(supply.getObjectId(), new UpdateListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                if (e==null){
-                                    BmobQuery<MyUser> query=new BmobQuery<MyUser>();
-                                    query.addWhereEqualTo("username",requests.get(position).getReqUserName());
-                                    query.findObjects(new FindListener<MyUser>() {
-                                        @Override
-                                        public void done(List<MyUser> list, BmobException e) {
-                                            if (e==null){
-                                                if (list.size()>0){
-                                                    MyUser me=BmobUser.getCurrentUser(MyUser.class);
-                                                    if (me.getFriends()==null){
-                                                        BmobRelation bmobRelation=new BmobRelation();
-                                                        bmobRelation.add(list.get(0));
-                                                        me.setFriends(bmobRelation);
-                                                    }else {
-                                                        BmobRelation bmobRelation=me.getFriends();
-                                                        bmobRelation.add(list.get(0));
-                                                        me.setFriends(bmobRelation);
-                                                    }
-                                                    me.update(me.getObjectId(), new UpdateListener() {
-                                                        @Override
-                                                        public void done(BmobException e) {
-                                                            if(e==null){
-                                                                Log.d("bmob", "done: 更新联系人列表成功");
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                            }else {
-                                                Log.d("bmob", "done: "+e);
-                                            }
-                                        }
-                                    });
-                                }else {
-                                    Log.d("bmob", "done: "+e);
-                                }
-                            }
-                        });
-                    }
-                });
             }
 
 
@@ -199,7 +214,7 @@ public class NewInformationActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return 6;
+            return requests.size();
         }
 
         class NewInformationViewHolder extends RecyclerView.ViewHolder {

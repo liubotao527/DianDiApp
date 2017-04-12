@@ -120,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
                     case "mIvBack":
                         resetFragment(R.id.settings);
                         break;
+                    case "mIvNote":
+                        resetFragment(R.id.notes);
+                        break;
                 }
             }
 
@@ -408,6 +411,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_information:
                 // TODO: 2017/4/11
+                item.setIcon(R.drawable.ic_menu_information_normal);
                 intent = new Intent(MainActivity.this,NewInformationActivity.class);
                 startActivity(intent);
                 break;

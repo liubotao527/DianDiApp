@@ -37,8 +37,8 @@
                 android:layout_height="60dp">
                 <TextView
                     android:id="@+id/note_content_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="210dp"
+                    android:layout_height="match_parent"
                     android:padding="6dp"
                     android:maxLines="14"
                     android:lineSpacingExtra="2dp"
@@ -50,7 +50,7 @@
                     android:id="@+id/note_content_image"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/diandi_logo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="60dp" />
             </RelativeLayout>
 

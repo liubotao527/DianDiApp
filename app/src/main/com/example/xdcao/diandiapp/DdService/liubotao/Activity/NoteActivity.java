@@ -26,11 +26,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xdcao.diandiapp.BackUp.caohao.activity.MainActivity;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil;
@@ -42,6 +42,8 @@ import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DateTimeUtil;
 import com.example.xdcao.diandiapp.DdService.liubotao.database.DbInfo.NoteItems;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ChangePassWordActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -108,7 +110,8 @@ public class NoteActivity extends Activity {
 	public static NoteActivity instance;
 	int imgId=0;
 	MyDdNote oldNote=null;
-    Button btn;
+    private ImageView mIvSave,mIvBack;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -215,9 +218,7 @@ public class NoteActivity extends Activity {
 
 	// 初始化组件
 	private void initViews() {
-		mLinearLayout_Header = (LinearLayout) findViewById(R.id.note_detail_header);
-		// ImageButton,点击改变便签背景颜色
-		ib_bgcolor = (ImageButton) findViewById(R.id.imagebutton_bgcolor);
+
 		tv_note_title = (TextView) findViewById(R.id.tv_note_date_time);
 		et_content = (EditText) findViewById(R.id.et_content);
 
@@ -327,33 +328,80 @@ public class NoteActivity extends Activity {
 		});
 	}
 	*/
-
+	public void backToMainActivity(String data){
+		Intent intent = new Intent(NoteActivity.this, MainActivity.class);
+		intent.putExtra("extra_data",data);
+		startActivity(intent);
+		finish();
+	}
 	private void initButton(){
-        btn= (Button) findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        mIvSave = (ImageView) findViewById(R.id.iv_save);
+		mIvBack = (ImageView) findViewById(R.id.iv_back);
+		mIvBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				checkSave();
+			}
+		});
+        mIvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String content = et_content.getText().toString();
-                // 判断是更新还是新建便签
-                mGridView.clearAnimation();
-                //if (openType.equals("newNote")) {
-                // 创建主页上的便签(顶级便签)
-                if (!TextUtils.isEmpty(content)) {
-                    ContentValues values = new ContentValues();
-                    values.put(NoteItems.CONTENT, content);
-                    values.put(NoteItems.UPDATE_DATE, DateTimeUtil.getDate());
-                    values.put(NoteItems.UPDATE_TIME, DateTimeUtil.getTime());
-                    //values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
-                    values.put(NoteItems.USER_NAME, getCurrentUser());
-                    //values.put(NoteItems.PARENT_FOLDER, -1);
-                    values.put(NoteItems.PICS,imgs);
-                    Log.e("temp","imgs"+imgs);
-                    getContentResolver().insert(NoteItems.CONTENT_URI, values);
+				saveContent();
 
-                    // TODO: 2017/4/4 向服务器传数据
-                    savePost(content);
-                    //	}
-                }/* else if (openType.equals("newFolderNote")) {
+            }
+        });
+    }
+	public void checkSave(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
+
+		//    指定下拉列表的显示数据
+		final String[] camera = {"取消编辑", "保存"};
+		//    设置一个下拉的列表选择项
+		builder.setItems(camera, new DialogInterface.OnClickListener()
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				switch (which){
+					case 0:
+						String data = "mIvNote";
+						backToMainActivity(data);
+						break;
+					case 1:
+						saveContent();
+						break;
+					default:
+						break;
+
+				}
+				dialog.dismiss();
+			}
+		});
+
+		builder.show();
+	}
+    public void saveContent(){
+		String content = et_content.getText().toString();
+		// 判断是更新还是新建便签
+		mGridView.clearAnimation();
+		//if (openType.equals("newNote")) {
+		// 创建主页上的便签(顶级便签)
+		if (!TextUtils.isEmpty(content)) {
+			ContentValues values = new ContentValues();
+			values.put(NoteItems.CONTENT, content);
+			values.put(NoteItems.UPDATE_DATE, DateTimeUtil.getDate());
+			values.put(NoteItems.UPDATE_TIME, DateTimeUtil.getTime());
+			//values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
+			values.put(NoteItems.USER_NAME, getCurrentUser());
+			//values.put(NoteItems.PARENT_FOLDER, -1);
+			values.put(NoteItems.PICS,imgs);
+			Log.e("temp","imgs"+imgs);
+			getContentResolver().insert(NoteItems.CONTENT_URI, values);
+
+			// TODO: 2017/4/4 向服务器传数据
+			savePost(content);
+			//	}
+		}/* else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
 			if (!TextUtils.isEmpty(content)) {
 				ContentValues values = new ContentValues();
@@ -411,15 +459,12 @@ public class NoteActivity extends Activity {
 				//		+ folderId);
 			}
 		}*/
-                if (!TextUtils.isEmpty(content)) {
-                    oldContent = content;
+		if (!TextUtils.isEmpty(content)) {
+			oldContent = content;
 
-                }
+		}
 
-            }
-        });
-    }
-
+	}
 	public void onBackPressed() {
 	//	MyLog.d(MainActivity.TAG,
 				//"NoteActivity==>onBackPressed()-->用户选择的背景颜色 : "
@@ -428,7 +473,7 @@ public class NoteActivity extends Activity {
 		//	mBackgroud_Color = R.drawable.item_light_blue;
 		//}
 		// 得到EditText中当前的内容
-
+		checkSave();
 		super.onBackPressed();
 
 	}

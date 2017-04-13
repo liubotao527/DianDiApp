@@ -4,55 +4,67 @@
     android:id="@+id/widget40"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/main_background"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:background="@color/bg_gray"
+    >
 
     <!-- 标题栏 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:src="@drawable/back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+        <ImageView
+            android:id="@+id/iv_save"
+            android:src="@drawable/save"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+
 
     <LinearLayout
-        android:id="@+id/note_detail_header"
-        style="@style/TitleBarLinearLayout"
-        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@drawable/item_light_blue"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="5.5dp"
-        android:layout_marginRight="5.5dp"
-         >
-
+        android:layout_weight="16">
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="16"
+            android:gravity="top|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="#ff4b4b4b"
+            android:background="@null"
+            android:textSize="20.0sp" />
         <TextView
             android:id="@+id/tv_note_date_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8.0dip"
-            android:layout_marginRight="8.0dip"
-            android:layout_weight="1"
-            android:textColor="#66333333"
+            android:layout_gravity="end"
+            android:layout_marginRight="19dp"
+            android:layout_marginBottom="10dp"
+            android:text="2017/4/13 17:15"
+            android:textColor="@color/colorPrimary"
             android:textSize="13.0sp"
-            android:textStyle="bold" />
+            />
 
-        <ImageButton
-            android:id="@+id/imagebutton_bgcolor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:layout_marginLeft="8.0dip"
-            android:layout_marginRight="8.0dip"
-            android:background="@drawable/bg_color" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/et_content"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="16"
-        android:background="@drawable/item_light_blue"
-        android:gravity="top|left"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textColor="#ff4b4b4b"
-        android:textSize="20.0sp" />
 
     <GridView
         android:id="@+id/gridview1"
@@ -67,13 +79,7 @@
         android:verticalSpacing="5dp" >
     </GridView>
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.97"
-        android:text="确定"
-        android:background="@color/blue1"/>
+
 
 
 

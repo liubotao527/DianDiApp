@@ -67,6 +67,14 @@
         android:verticalSpacing="5dp" >
     </GridView>
 
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.97"
+        android:text="确定"
+        android:background="@color/blue1"/>
+
 
 
 

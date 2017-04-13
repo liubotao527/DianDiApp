@@ -22,12 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.activity.MainActivity;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil;
@@ -105,6 +108,7 @@ public class NoteActivity extends Activity {
 	public static NoteActivity instance;
 	int imgId=0;
 	MyDdNote oldNote=null;
+    Button btn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +145,7 @@ public class NoteActivity extends Activity {
 			initViews2(oldNote);
 		}
 
-	//	initButton();
+		initButton();
 	}
 
     @Override
@@ -324,36 +328,32 @@ public class NoteActivity extends Activity {
 	}
 	*/
 
+	private void initButton(){
+        btn= (Button) findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = et_content.getText().toString();
+                // 判断是更新还是新建便签
+                mGridView.clearAnimation();
+                //if (openType.equals("newNote")) {
+                // 创建主页上的便签(顶级便签)
+                if (!TextUtils.isEmpty(content)) {
+                    ContentValues values = new ContentValues();
+                    values.put(NoteItems.CONTENT, content);
+                    values.put(NoteItems.UPDATE_DATE, DateTimeUtil.getDate());
+                    values.put(NoteItems.UPDATE_TIME, DateTimeUtil.getTime());
+                    //values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
+                    values.put(NoteItems.USER_NAME, getCurrentUser());
+                    //values.put(NoteItems.PARENT_FOLDER, -1);
+                    values.put(NoteItems.PICS,imgs);
+                    Log.e("temp","imgs"+imgs);
+                    getContentResolver().insert(NoteItems.CONTENT_URI, values);
 
-	public void onBackPressed() {
-	//	MyLog.d(MainActivity.TAG,
-				//"NoteActivity==>onBackPressed()-->用户选择的背景颜色 : "
-					//	+ mBackgroud_Color);
-		//if (mBackgroud_Color == 0) {// 如果mBackgroud_Color==0,我们使用蓝色作为默认背景
-		//	mBackgroud_Color = R.drawable.item_light_blue;
-		//}
-		// 得到EditText中当前的内容
-		String content = et_content.getText().toString();
-		// 判断是更新还是新建便签
-		mGridView.clearAnimation();
-		//if (openType.equals("newNote")) {
-			// 创建主页上的便签(顶级便签)
-			if (!TextUtils.isEmpty(content)) {
-				ContentValues values = new ContentValues();
-				values.put(NoteItems.CONTENT, content);
-				values.put(NoteItems.UPDATE_DATE, DateTimeUtil.getDate());
-				values.put(NoteItems.UPDATE_TIME, DateTimeUtil.getTime());
-				//values.put(NoteItems.BACKGROUND_COLOR, mBackgroud_Color);
-				values.put(NoteItems.USER_NAME, getCurrentUser());
-				//values.put(NoteItems.PARENT_FOLDER, -1);
-				values.put(NoteItems.PICS,imgs);
-				Log.e("temp","imgs"+imgs);
-				getContentResolver().insert(NoteItems.CONTENT_URI, values);
-
-				// TODO: 2017/4/4 向服务器传数据
-				savePost(content);
-		//	}
-		}/* else if (openType.equals("newFolderNote")) {
+                    // TODO: 2017/4/4 向服务器传数据
+                    savePost(content);
+                    //	}
+                }/* else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
 			if (!TextUtils.isEmpty(content)) {
 				ContentValues values = new ContentValues();
@@ -411,9 +411,25 @@ public class NoteActivity extends Activity {
 				//		+ folderId);
 			}
 		}*/
-		if (!TextUtils.isEmpty(content)) {
-			oldContent = content;
-		}
+                if (!TextUtils.isEmpty(content)) {
+                    oldContent = content;
+                }
+                Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
+                startActivity(intent);
+				finish();
+            }
+        });
+    }
+
+	public void onBackPressed() {
+	//	MyLog.d(MainActivity.TAG,
+				//"NoteActivity==>onBackPressed()-->用户选择的背景颜色 : "
+					//	+ mBackgroud_Color);
+		//if (mBackgroud_Color == 0) {// 如果mBackgroud_Color==0,我们使用蓝色作为默认背景
+		//	mBackgroud_Color = R.drawable.item_light_blue;
+		//}
+		// 得到EditText中当前的内容
+
 		super.onBackPressed();
 
 	}
@@ -471,6 +487,7 @@ public class NoteActivity extends Activity {
 						});
 
 					}
+                    Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
 				}
 
 				@Override

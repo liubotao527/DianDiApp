@@ -413,6 +413,7 @@ public class NoteActivity extends Activity {
 		}*/
                 if (!TextUtils.isEmpty(content)) {
                     oldContent = content;
+
                 }
                 Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
                 startActivity(intent);

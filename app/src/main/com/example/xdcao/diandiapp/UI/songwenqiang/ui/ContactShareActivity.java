@@ -193,6 +193,7 @@ public class ContactShareActivity extends AppCompatActivity {
         queries.add(query1);
         BmobQuery<Post> mainQuery=new BmobQuery<>();
         mainQuery.and(queries);
+        mainQuery.order("-createdAt");
         mainQuery.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {

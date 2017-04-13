@@ -521,6 +521,7 @@ public class NoteActivity extends Activity {
 						post.setCreateDate(new BmobDate(new Date()));
 						post.setShared(false);
 
+
 						List<String> imgs=new ArrayList<String>();
 						List<String> names=new ArrayList<String>();
 						for(int i=0;i<oldPics.size();i++){

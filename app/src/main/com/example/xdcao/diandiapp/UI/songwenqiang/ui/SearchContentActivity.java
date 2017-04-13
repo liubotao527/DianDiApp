@@ -21,6 +21,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.MyDdNote;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.Fragment.ShareFragment;
@@ -28,10 +29,18 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 
 public class SearchContentActivity extends AppCompatActivity {
+
+    private static final String TAG = "bmob";
 
     private SearchView mSearchView;
     private RecyclerView mRvSearch;
@@ -43,6 +52,7 @@ public class SearchContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_content);
+        notes=new ArrayList<>();
         mSearchView = (SearchView) findViewById(R.id.searchview);
         mRvSearch = (RecyclerView) findViewById(R.id.rv_search);
 
@@ -50,6 +60,7 @@ public class SearchContentActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // TODO  将包含query的note放入List<Post> notes;
+                queryPostForContainText(query);
                 return false;
             }
 
@@ -57,6 +68,7 @@ public class SearchContentActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText)) {
                     // TODO  将包含newText的note放入List<Post> notes;
+                    queryPostForContainText(newText);
                 }else{
 
                 }
@@ -69,6 +81,37 @@ public class SearchContentActivity extends AppCompatActivity {
 
         mRvSearch.setLayoutManager(mLayoutManager);
 //        mRvSearch.setAdapter(noteAdapter);
+    }
+
+    private void queryPostForContainText(String text) {
+
+        BmobQuery<Post> query1=new BmobQuery<>();
+        query1.addWhereEqualTo("isShared",true);
+        BmobQuery<Post> query2=new BmobQuery<>();
+        query2.addWhereContains("content",text);
+        List<BmobQuery<Post>> queries=new ArrayList<>();
+        queries.add(query1);
+        queries.add(query2);
+        BmobQuery<Post> mainQuery=new BmobQuery<>();
+        mainQuery.and(queries);
+        mainQuery.findObjects(new FindListener<Post>() {
+            @Override
+            public void done(List<Post> list, BmobException e) {
+                if (e==null){
+                    if (list.size()>0){
+                        for (Post post:list){
+                            notes.add(post);
+                            Log.d(TAG, "done:"+notes.size());
+                        }
+                    }else {
+                        Log.d(TAG, "done: 空的");
+                    }
+                }else {
+                    Log.d(TAG, "done: "+e);
+                }
+            }
+        });
+
     }
 
 
@@ -90,19 +133,14 @@ public class SearchContentActivity extends AppCompatActivity {
             holder.tv_content.setText(notes.get(position).getContent());
             holder.tv_time.setText(notes.get(position).getCreatedAt());
 //            holder.iv_content.setImageResource();
-            if (notes.get(position).getImages().size()>0){
-                Log.d("bmob", "onBindViewHolder: "+notes.get(position).getImages().size());
-                Log.d("bmob", "onBindViewHolder: "+notes.get(position).getImages().get(0));
-                Bitmap bitmap= BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+ File.separator+notes.get(position).getFilenames().get(0));
-                if(bitmap!=null){
-                    holder.iv_content.setImageBitmap(bitmap);
-                    Log.d("bmob", "onBindViewHolder: 本地加载");
-                }else {
-                    Log.d("bmob", "onBindViewHolder: 外部加载");
-                    imageLoader.displayImage(notes.get(position).getImages().get(0),holder.iv_content);
-                }
 
+            if (notes.get(position).getImages()!=null){
+                if (notes.get(position).getImages().size()>0){
+
+                    ImageLoaderUtil.displayImage(SearchContentActivity.this,holder.iv_content,notes.get(position).getImages().get(0),ImageLoaderUtil.getPhotoImageOption());
+                }
             }
+
         }
 
         @Override

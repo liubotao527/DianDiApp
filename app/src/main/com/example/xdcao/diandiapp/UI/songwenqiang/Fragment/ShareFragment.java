@@ -28,11 +28,13 @@ import android.widget.TextView;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.MyUser;
 import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.BackUp.caohao.cons.HandlerCons;
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.R;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.SNotes;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ContactShareActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -107,6 +109,7 @@ public class ShareFragment extends Fragment{
                     queries.add(isFirendQuery);
                     BmobQuery<Post> mainQuery=new BmobQuery<Post>();
                     mainQuery.and(queries);
+                    mainQuery.order("-createdAt");
                     mainQuery.findObjects(new FindListener<Post>() {
                         @Override
                         public void done(List<Post> list, BmobException e) {
@@ -222,7 +225,9 @@ public class ShareFragment extends Fragment{
             holder.tv_content.setText(notes.get(position).getContent());
             holder.tv_time.setText(notes.get(position).getCreatedAt());
             //TODO 将用户的头像  holder.mRivPhoto.setImageBitmap();
-
+            if (notes.get(position).getAuthorAvatar()!=null){
+                ImageLoaderUtil.displayImage(context,holder.mRivPhoto,notes.get(position).getAuthorAvatar(),ImageLoaderUtil.getPhotoImageOption());
+            }
 //            holder.iv_content.setImageResource();
             if(notes.get(position).getImages()!=null){
                 if (notes.get(position).getImages().size()>0){

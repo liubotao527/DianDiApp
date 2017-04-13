@@ -33,6 +33,7 @@ import com.example.xdcao.diandiapp.UI.songwenqiang.bean.ContactItem;
 import com.example.xdcao.diandiapp.UI.songwenqiang.bean.SNotes;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ContactShareActivity;
 import com.example.xdcao.diandiapp.UI.songwenqiang.ui.DetailActivity;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView;
 import com.example.xdcao.diandiapp.UI.songwenqiang.utils.SnackbarUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -208,7 +209,7 @@ public class ShareFragment extends Fragment{
 
         @Override
         public NoteAdapter.NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.notes_item_layout,parent,false);
+            View view = LayoutInflater.from(context).inflate(R.layout.share_item_layout,parent,false);
             NoteViewHolder holder = new NoteViewHolder(view);
             view.setOnClickListener(this);
             return holder;
@@ -220,6 +221,8 @@ public class ShareFragment extends Fragment{
             Log.d("bmob", "onBindViewHolder: username"+notes.get(position).getAuthor().getUsername());
             holder.tv_content.setText(notes.get(position).getContent());
             holder.tv_time.setText(notes.get(position).getCreatedAt());
+            //TODO 将用户的头像  holder.mRivPhoto.setImageBitmap();
+
 //            holder.iv_content.setImageResource();
             if(notes.get(position).getImages()!=null){
                 if (notes.get(position).getImages().size()>0){
@@ -257,12 +260,14 @@ public class ShareFragment extends Fragment{
             private ImageView iv_content;
             private TextView tv_content;
             private TextView tv_time;
+            private RoundImageView mRivPhoto;
             public NoteViewHolder(View view){
                 super(view);
                 tv_label = (TextView) view.findViewById(R.id.note_label_text);
                 tv_content = (TextView) view.findViewById(R.id.note_content_text);
                 tv_time = (TextView) view.findViewById(R.id.note_last_edit_text);
                 iv_content = (ImageView) view.findViewById(R.id.note_content_image);
+                mRivPhoto = (RoundImageView)view.findViewById(R.id.riv_photo);
             }
         }
         public void addItem(Post note,int position){

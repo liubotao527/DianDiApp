@@ -1,14 +1,20 @@
 package com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.util;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.xdcao.diandiapp.DdService.liubotao.activity.NoteActivity;
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.R;
 
 import java.io.BufferedInputStream;
@@ -67,9 +73,22 @@ public class ImageDisplayer
 	}
 
 	public void displayBmp(final ImageView iv, final String thumbPath,
-                           final String sourcePath)
+                            String sourcePath)
 	{
-		displayBmp(iv, thumbPath, sourcePath, true);
+        if(sourcePath!=null) {
+			if(!sourcePath.startsWith("http")){
+				sourcePath=getImageContentUri(context,sourcePath).toString();
+				Log.e("sourcepath", sourcePath);
+				displayBmp(iv, thumbPath, sourcePath, true);
+
+			}else {
+				Log.e("sourcepath", sourcePath);
+				//ImageLoaderUtil.getImageLoader(context).displayImage(sourcePath, iv, ImageLoaderUtil.getPhotoImageOption());
+				ImageLoaderUtil.getImageLoader(context).displayImage(sourcePath, iv, ImageLoaderUtil.getPhotoImageOption());
+			}
+        }else{
+			Log.e("sourcepath", "null!!");
+		}
 	}
 
 	public void displayBmp(final ImageView iv, final String thumbPath,
@@ -237,5 +256,26 @@ public class ImageDisplayer
 	{
 		public void imageLoad(ImageView imageView, Bitmap bitmap,
                               Object... params);
+	}
+
+	public static Uri getImageContentUri(Context context, String filePath) {
+		File imageFile=new File(filePath);
+
+		Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+				new String[] { MediaStore.Images.Media._ID }, MediaStore.Images.Media.DATA + "=? ",
+				new String[] { filePath }, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+			Uri baseUri = Uri.parse("content://media/external/images/media");
+			return Uri.withAppendedPath(baseUri, "" + id);
+		} else {
+			if (imageFile.exists()) {
+				ContentValues values = new ContentValues();
+				values.put(MediaStore.Images.Media.DATA, filePath);
+				return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+			} else {
+				return null;
+			}
+		}
 	}
 }

@@ -281,9 +281,9 @@ public class NoteActivity extends Activity {
 				//img.sourcePath=note.urlList.get(i);
 				Log.e("TAG",note.urlList.get(i));
 				Uri realPath=Uri.parse(note.urlList.get(i));
-				Log.e("TAG",com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath));
-				img.sourcePath=com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath);
-				//img.thumbnailPath=note.urlList.get(i);
+//				Log.e("TAG",com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath));
+//				img.sourcePath=com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath);
+				img.sourcePath=note.urlList.get(i);
 				temp.add(img);
 			}
 			mDataList.addAll(temp);
@@ -334,6 +334,7 @@ public class NoteActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
+
 	private void initButton(){
         mIvSave = (ImageView) findViewById(R.id.iv_save);
 		mIvBack = (ImageView) findViewById(R.id.iv_back);
@@ -351,6 +352,7 @@ public class NoteActivity extends Activity {
             }
         });
     }
+
 	public void checkSave(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(NoteActivity.this);
 
@@ -380,6 +382,7 @@ public class NoteActivity extends Activity {
 
 		builder.show();
 	}
+
     public void saveContent(){
 		String content = et_content.getText().toString();
 		// 判断是更新还是新建便签
@@ -492,10 +495,13 @@ public class NoteActivity extends Activity {
 
 		if(pics.size()>0){
 			final String[] filepaths=new String[pics.size()];
+
 			for(int i=0;i<pics.size();i++){
 				filepaths[i]=pics.get(i);
 				Log.d("bmob", "savePost: "+filepaths[i]);
+                Log.e("bmobtt", "savePost: "+filepaths[i]);
 			}
+
 			Log.d("bmob", "savePost: content"+content);
 			BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
 				@Override

@@ -53,7 +53,6 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-
 /**
  * Created by wewarrios on 2017/3/15.
  */
@@ -193,11 +192,9 @@ public class MainFragment extends Fragment {
                                 case R.id.delete:
                                     //添加删除的代码
                                     backupDeleteGivenPost(position);
-                                    deleteFromDb(position);
-                                    updateDisplay();
-                                    NoteAdapter noteAdapter = new NoteAdapter();
-                                    recyclerView.setAdapter(noteAdapter);
-                                    Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
+                                    //deleteFromDb(position);
+
+                                    //Toast.makeText(context,"删除",Toast.LENGTH_LONG).show();
                                     break;
                                 case R.id.edit:
                                     //添加编辑的代码
@@ -447,12 +444,17 @@ public class MainFragment extends Fragment {
                         public void done(BmobException e) {
                             if (e==null){
                                 Log.d(TAG, "done: 删除成功");
+                                //Toast.makeText(context,"sucess!",Toast.LENGTH_SHORT).show();
+                                updateDisplay();
+                                NoteAdapter noteAdapter = new NoteAdapter();
+                                recyclerView.setAdapter(noteAdapter);
                             }
                         }
                     });
                 }
             }
         });
+
     }
 
     /*

@@ -77,7 +77,7 @@ public class ImageDisplayer
 	{
         if(sourcePath!=null) {
 			if(!sourcePath.startsWith("http")){
-				sourcePath=getImageContentUri(context,sourcePath).toString();
+				//sourcePath=getImageContentUri(context,sourcePath).toString();
 				Log.e("sourcepath", sourcePath);
 				displayBmp(iv, thumbPath, sourcePath, true);
 
@@ -86,7 +86,9 @@ public class ImageDisplayer
 				//ImageLoaderUtil.getImageLoader(context).displayImage(sourcePath, iv, ImageLoaderUtil.getPhotoImageOption());
 				ImageLoaderUtil.getImageLoader(context).displayImage(sourcePath, iv, ImageLoaderUtil.getPhotoImageOption());
 			}
-        }else{
+        }else if(thumbPath!=null) {
+			displayBmp(iv, thumbPath, sourcePath, true);
+		}else{
 			Log.e("sourcepath", "null!!");
 		}
 	}

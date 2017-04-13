@@ -41,20 +41,28 @@
         <activity android:name=".BackUp.caohao.activity.LoginActivity" />
         <activity android:name=".BackUp.caohao.activity.RegisterActivity" />
         <activity android:name=".BackUp.caohao.activity.FriendsActivity" />
-        <activity android:name=".DdService.liubotao.activity.MyListActivity" />
-        <activity android:name=".DdService.liubotao.activity.NoteActivity" />
-        <activity android:name=".DdService.liubotao.ninegridlayout.view.ListViewExampleActivity" />
+        <activity android:name=".DdService.liubotao.activity.MyListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DdService.liubotao.activity.NoteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DdService.liubotao.ninegridlayout.view.ListViewExampleActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".BackUp.caohao.activity.MainActivity" />
-        <activity android:name=".UI.songwenqiang.ui.SplashActivity" />
+        <activity android:name=".UI.songwenqiang.ui.SplashActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UI.songwenqiang.ui.SignUpActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:theme="@style/AppTheme.Dark"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UI.songwenqiang.ui.MainActivity"
             android:label="点滴"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".UI.songwenqiang.ui.SearchContentActivity" />
-        <activity android:name=".UI.songwenqiang.ui.DetailActivity" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.songwenqiang.ui.SearchContentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.songwenqiang.ui.DetailActivity"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name=".DdService.liubotao.database.DbInfoProvider"
@@ -67,19 +75,22 @@
             </provider>
         -->
 
-        <activity android:name=".UI.songwenqiang.ui.SearchContactActivity" />
+        <activity android:name=".UI.songwenqiang.ui.SearchContactActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DdService.liubotao.PicsSelect.multiphotopicker.view.ImageChooseActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DdService.liubotao.PicsSelect.multiphotopicker.view.ImageZoomActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -94,11 +105,16 @@
         <activity
             android:name=".UI.songwenqiang.ui.RegisterActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".UI.songwenqiang.ui.ContactShareActivity" />
-        <activity android:name=".UI.songwenqiang.ui.ChangeNickNameActivity" />
-        <activity android:name=".UI.songwenqiang.ui.ChangePassWordActivity" />
-        <activity android:name=".UI.songwenqiang.ui.ChangeSignNameActivity" />
-        <activity android:name=".UI.songwenqiang.ui.NewInformationActivity"></activity>
+        <activity android:name=".UI.songwenqiang.ui.ContactShareActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".UI.songwenqiang.ui.ChangeNickNameActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.songwenqiang.ui.ChangePassWordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.songwenqiang.ui.ChangeSignNameActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.songwenqiang.ui.NewInformationActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -288,6 +288,7 @@ public class MainFragment extends Fragment {
         BmobQuery<Post> query=new BmobQuery<>();
         MyUser me= BmobUser.getCurrentUser(MyUser.class);
         query.addWhereEqualTo("author",me);
+        query.order("-createdAt");
         query.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {

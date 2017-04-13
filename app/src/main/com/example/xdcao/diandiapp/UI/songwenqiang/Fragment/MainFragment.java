@@ -199,7 +199,7 @@ public class MainFragment extends Fragment {
                                 case R.id.edit:
                                     //添加编辑的代码
                                     backupDeleteGivenPost(position);
-                                    deleteFromDb(position);
+                                    //deleteFromDb(position);
                                     MyDdNote note=mList.get(position);
                                     Intent intent = new Intent(getActivity(),NoteActivity.class);
                                     Bundle bundle = new Bundle();

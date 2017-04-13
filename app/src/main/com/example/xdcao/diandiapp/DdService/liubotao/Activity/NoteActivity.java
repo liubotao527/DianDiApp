@@ -104,6 +104,7 @@ public class NoteActivity extends Activity {
 	private static final int MENU_SEND_HOME = Menu.FIRST + 2;
 	private static final int MENU_SHARE = Menu.FIRST + 3;
 	private ArrayList<String> pics=new ArrayList<>();
+	private ArrayList<String> oldPics=new ArrayList<>();
 	private String temp;
 	private String imgs="";
 	int count=0;
@@ -145,6 +146,11 @@ public class NoteActivity extends Activity {
 		oldNote= (MyDdNote) bundle.getSerializable("note");
 		initViews();
 		if(oldNote!=null){
+			if(oldNote.urlList!=null) {
+				for (int i = 0; i < oldNote.urlList.size(); i++) {
+					oldPics.add(oldNote.urlList.get(i));
+				}
+			}
 			initViews2(oldNote);
 		}
 
@@ -517,6 +523,10 @@ public class NoteActivity extends Activity {
 
 						List<String> imgs=new ArrayList<String>();
 						List<String> names=new ArrayList<String>();
+						for(int i=0;i<oldPics.size();i++){
+							imgs.add(oldPics.get(i));
+						}
+
 						for (BmobFile pic:list){
 							imgs.add(pic.getFileUrl());
 							names.add(pic.getFilename());
@@ -651,7 +661,7 @@ public class NoteActivity extends Activity {
 
 		if(resultCode == 1) {
 			List<ImageItem> incomingDataList = (List<ImageItem>) data.getSerializableExtra(IntentConstants.EXTRA_IMAGE_LIST);
-			if(oldNote!=null){
+			/*if(oldNote!=null){
 				for(int i=0;i<oldNote.urlList.size();i++){
 					pics.add(oldNote.urlList.get(i));
 					Log.d("bmob", "onActivityResult: "+oldNote.urlList.get(i));
@@ -659,7 +669,7 @@ public class NoteActivity extends Activity {
 					imgs=imgs+oldNote.urlList.get(i)+"\n";
 
 				}
-			}
+			}*/
 
 			if (incomingDataList != null)
 			{
@@ -673,7 +683,7 @@ public class NoteActivity extends Activity {
 
 					pics.add(String.valueOf(Uri.parse(incomingDataList.get(i).sourcePath)));
 
-					Log.d("bmob", "onActivityResult: "+Uri.parse(incomingDataList.get(i).sourcePath));
+					Log.e("bmob", "onActivityResult: "+Uri.parse(incomingDataList.get(i).sourcePath));
 
 					imgs=imgs+getImageContentUri(NoteActivity.this,incomingDataList.get(i).sourcePath)+"\n";
 

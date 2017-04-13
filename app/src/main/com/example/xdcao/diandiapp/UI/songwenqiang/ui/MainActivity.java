@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImNotes, mImShare, mImContact, mImSettings;
     private TextView mTvNotes, mTvShare, mTvContact, mTvSettings,mTvNickname,mTvSignName;
     private FloatingActionButton mFab;
-    private ListView mDrawerList;
+//    private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private LinearLayout mLLDrawer;
     private RoundImageView mRivPhoto;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Uri imageUri;
 
-    private String[] mTitles = {"DianDi","衣","食","住","行"};
+//    private String[] mTitles = {"DianDi","衣","食","住","行"};
     private String outputImagePath;
     private MenuItem actionInformation;
 
@@ -179,8 +179,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,GravityCompat.START);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item,mTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item,mTitles));
+//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
         mTvSignName = (TextView) findViewById(R.id.tv_sign_name);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+//        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mLLDrawer = (LinearLayout) findViewById(R.id.ll_drawer);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mFab.setVisibility(View.VISIBLE);
@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        actionInformation = menu.getItem(2);
+        actionInformation = menu.getItem(1);
         Log.d(TAG, "onCreateOptionsMenu: "+ actionInformation.getItemId());
         return true;
     }
@@ -401,10 +401,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         System.out.println(id);
         switch (id){
-            case R.id.action_search:
-                intent = new Intent(this,SearchContentActivity.class);
-                startActivity(intent);
-                break;
             case R.id.action_add:
                 intent = new Intent(this,SearchContactActivity.class);
                 startActivity(intent);
@@ -418,25 +414,25 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+//
+//    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            selectItem(position);
+//        }
+//    }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
-    private void selectItem(int position) {
-        FragmentManager fm= getFragmentManager();
-        FragmentTransaction ft= fm.beginTransaction();
-        MainFragment mf1 = new MainFragment();
-        ft.replace(R.id.content_main2,mf1);
-        ft.commit();
-        mDrawerList.setItemChecked(position, true);
-        mToolBar.setTitle(mTitles[position]);
-        mDrawerLayout.closeDrawer(mLLDrawer);
-
-    }
+//    private void selectItem(int position) {
+//        FragmentManager fm= getFragmentManager();
+//        FragmentTransaction ft= fm.beginTransaction();
+//        MainFragment mf1 = new MainFragment();
+//        ft.replace(R.id.content_main2,mf1);
+//        ft.commit();
+//        mDrawerList.setItemChecked(position, true);
+//        mToolBar.setTitle(mTitles[position]);
+//        mDrawerLayout.closeDrawer(mLLDrawer);
+//
+//    }
 
     private void openAlbumStart(){
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

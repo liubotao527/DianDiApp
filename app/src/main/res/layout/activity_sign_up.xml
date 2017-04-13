@@ -64,14 +64,7 @@
             android:gravity="center"
             android:textSize="16dip"/>
 
-        <TextView android:id="@+id/tv_skip"
-            android:clickable="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="跳过 如未搭建后台"
-            android:gravity="center"
-            android:textSize="16dip"/>
+
 
     </LinearLayout>
 </ScrollView>

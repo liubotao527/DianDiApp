@@ -49,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void initView() {
 
         mTvNewAccount = (TextView) findViewById(R.id.tv_new_account);
-        mTvSkip = (TextView) findViewById(R.id.tv_skip);
+
 
 
         mEtAccount = (EditText) findViewById(R.id.et_input_account);
@@ -68,14 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mTvSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this,MainActivity.class));
-                finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
+
 
         mAcbLogin.setOnClickListener(new View.OnClickListener() {
             @Override

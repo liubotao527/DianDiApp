@@ -32,6 +32,7 @@ public class DetailActivity extends AppCompatActivity {
     private NineGridTestLayout nineGridTestLayout;
     private TextView name,text,time;
     private ImageView img;
+    private String user_name,url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +41,23 @@ public class DetailActivity extends AppCompatActivity {
         name= (TextView) findViewById(R.id.name);
         img= (ImageView) findViewById(R.id.myHeadPic);
         MyUser me= BmobUser.getCurrentUser(MyUser.class);
-        name.setText(me.getNickName());
-        if(img==null){
-            Log.e("ddd","ddddd");
-        }
-        ImageLoaderUtil.getImageLoader(DetailActivity.this).displayImage(me.getAvatar().getFileUrl(), img, ImageLoaderUtil.getPhotoImageOption());
+
+
         Intent intent=this.getIntent();
         final Bundle bundle = intent.getExtras();
         Post note= (Post) bundle.getSerializable("note");
+        MyUser user= (MyUser) bundle.getSerializable("user");
+        if(user==null){
+            user_name=me.getNickName();
+            url=me.getAvatar().getFileUrl();
+        }else{
+
+        }
+
+        name.setText(user_name);
+        ImageLoaderUtil.getImageLoader(DetailActivity.this).displayImage(url, img, ImageLoaderUtil.getPhotoImageOption());
+
+
 
         Handler myHandler=new Handler(){
             public void handleMessage(Message msg){

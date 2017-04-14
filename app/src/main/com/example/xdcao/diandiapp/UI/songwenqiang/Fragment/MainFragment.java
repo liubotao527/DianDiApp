@@ -239,7 +239,6 @@ public class MainFragment extends Fragment {
 
             Bundle bundle = new Bundle();
             bundle.putSerializable("note", note);
-
             intent.putExtras(bundle);
             //将数据传到DetailActivity
             startActivity(intent);

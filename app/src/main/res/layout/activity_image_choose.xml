@@ -9,7 +9,6 @@
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/finish_btn"
         android:layout_below="@+id/title_bar"
         android:layout_margin="8dp"
         android:horizontalSpacing="3dp"

@@ -160,10 +160,7 @@ public class NewInformationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     final int position = holder.getAdapterPosition();
-                    holder.mBtAdd.setText("已添加");
-                    holder.mBtAdd.setTextColor(getResources().getColor(R.color.colorPrimary));
-                    holder.mBtAdd.setBackground(getDrawable(R.color.white));
-                    holder.mBtAdd.setClickable(false);
+
                     Supply supply=requests.get(position);
                     supply.setAccepted(true);
                     supply.update(supply.getObjectId(), new UpdateListener() {
@@ -191,6 +188,10 @@ public class NewInformationActivity extends AppCompatActivity {
                                                     @Override
                                                     public void done(BmobException e) {
                                                         if(e==null){
+                                                            holder.mBtAdd.setText("已添加");
+                                                            holder.mBtAdd.setTextColor(getResources().getColor(R.color.colorPrimary));
+                                                            holder.mBtAdd.setBackground(getDrawable(R.color.white));
+                                                            holder.mBtAdd.setClickable(false);
                                                             Log.d("bmob", "done: 更新联系人列表成功");
                                                         }
                                                     }

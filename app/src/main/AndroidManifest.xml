@@ -28,11 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TempActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".BackUp.caohao.activity.SubmitActivity" />
         <activity android:name=".BackUp.caohao.activity.ScanActivity" />
@@ -49,7 +45,13 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".BackUp.caohao.activity.MainActivity" />
         <activity android:name=".UI.songwenqiang.ui.SplashActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
         <activity
             android:name=".UI.songwenqiang.ui.SignUpActivity"
             android:theme="@style/AppTheme.Dark"

@@ -81,7 +81,10 @@ public class ContactFragment extends Fragment{
                     break;
                 case QUERY_SWIPE:
                     swipeRefreshLayout.setRefreshing(false);
-                    contactAdapter.notifyDataSetChanged();
+                    if(contactAdapter!=null){
+                        contactAdapter.notifyDataSetChanged();
+                    }
+
             }
             super.handleMessage(msg);
         }

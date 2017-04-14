@@ -83,7 +83,10 @@ public class ShareFragment extends Fragment{
                     break;
                 case QUERY_SWIPE:
                     swipeRefreshLayout.setRefreshing(false);
-                    noteAdapter.notifyDataSetChanged();
+                    if (noteAdapter!=null){
+                        noteAdapter.notifyDataSetChanged();
+                    }
+
             }
             super.handleMessage(msg);
         }

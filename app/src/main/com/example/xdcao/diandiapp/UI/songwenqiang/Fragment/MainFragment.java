@@ -64,7 +64,7 @@ public class MainFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
-    private List<MyDdNote> mList;
+    private List<Post> mList;
     private Cursor mCursor;
     static final String TAG="TAG";
 
@@ -165,13 +165,16 @@ public class MainFragment extends Fragment {
         //    Log.e("temp",mList.get(position).note+"--"+mList.get(position).time);
 
             System.out.println(mList.size());
-            holder.tv_content.setText(mList.get(position).getNote());
-            holder.tv_time.setText(mList.get(position).getTime());
+            holder.tv_content.setText(mList.get(position).getContent());
+            holder.tv_time.setText(mList.get(position).getContent());
 
-            if(mList.get(position).urlList.size()>0) {
-                Log.e("tem",mList.get(position).getUrlList().get(0));
-                ImageLoaderUtil.getImageLoader(context).displayImage(mList.get(position).getUrlList().get(0), holder.iv_content, ImageLoaderUtil.getPhotoImageOption());
+            if(mList.get(position).getImages()!=null){
+                if(mList.get(position).getImages().size()>0) {
+                    Log.e("tem",mList.get(position).getImages().get(0));
+                    ImageLoaderUtil.getImageLoader(context).displayImage(mList.get(position).getImages().get(0), holder.iv_content, ImageLoaderUtil.getPhotoImageOption());
+                }
             }
+
             holder.iv_more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -200,7 +203,7 @@ public class MainFragment extends Fragment {
                                     //添加编辑的代码
                                     backupDeleteGivenPost(position);
                                     //deleteFromDb(position);
-                                    MyDdNote note=mList.get(position);
+                                    Post note=mList.get(position);
                                     Intent intent = new Intent(getActivity(),NoteActivity.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putSerializable("note", note);
@@ -231,7 +234,7 @@ public class MainFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-            MyDdNote note=mList.get(position);
+            Post note=mList.get(position);
             Intent intent = new Intent(getActivity(),DetailActivity.class);
 
             Bundle bundle = new Bundle();
@@ -259,24 +262,24 @@ public class MainFragment extends Fragment {
             }
         }
 
-        public void addItem(SNotes note,int position){
-            notes.add(position,note);
-            notifyItemInserted(position);
-            recyclerView.scrollToPosition(position);
-        }
-
-        public void removeItem(final int position){
-            final SNotes removed = notes.get(position);
-            notes.remove(position);
-            notifyItemRemoved(position);
-            SnackbarUtil.ShortSnackbar(coordinatorLayout,"你删除了第"+position+"个item",SnackbarUtil.Warning).setAction("撤销", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addItem(removed,position);
-                    SnackbarUtil.ShortSnackbar(coordinatorLayout,"撤销了删除第"+position+"个item", SnackbarUtil.Confirm).show();
-                }
-            }).setActionTextColor(Color.WHITE).show();
-        }
+//        public void addItem(SNotes note,int position){
+//            notes.add(position,note);
+//            notifyItemInserted(position);
+//            recyclerView.scrollToPosition(position);
+//        }
+//
+//        public void removeItem(final int position){
+//            final SNotes removed = notes.get(position);
+//            notes.remove(position);
+//            notifyItemRemoved(position);
+//            SnackbarUtil.ShortSnackbar(coordinatorLayout,"你删除了第"+position+"个item",SnackbarUtil.Warning).setAction("撤销", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    addItem(removed,position);
+//                    SnackbarUtil.ShortSnackbar(coordinatorLayout,"撤销了删除第"+position+"个item", SnackbarUtil.Confirm).show();
+//                }
+//            }).setActionTextColor(Color.WHITE).show();
+//        }
     }
 
     //查询用户发过的状态
@@ -293,15 +296,8 @@ public class MainFragment extends Fragment {
                 if(e==null){
                     Log.d(TAG, "done: "+"拿到数据"+"size: "+list.size());
                     for(Post post:list){
-                        MyDdNote model=new MyDdNote();
-                        model.note=post.getContent();
-                        Log.d(TAG, "Content: "+post.getContent());
-                        model.time=post.getCreatedAt();
-                        Log.e("ddd",model.time);
-                        if (post.getImages()!=null){
-                            model.urlList=post.getImages();
-                        }
-                        mList.add(model);
+
+                        mList.add(post);
                         Log.d(TAG, "done: "+"mlist.size: "+mList.size());
 //                        add2Db(model);
                     }
@@ -403,7 +399,7 @@ public class MainFragment extends Fragment {
     private void shareGivenPost(int position) {
 
         BmobQuery<Post> query=new BmobQuery();
-        query.addWhereEqualTo("content",mList.get(position).getNote());
+        query.addWhereEqualTo("content",mList.get(position).getContent());
         query.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
@@ -432,7 +428,7 @@ public class MainFragment extends Fragment {
     private void backupDeleteGivenPost(int position) {
 
         BmobQuery<Post> query=new BmobQuery();
-        query.addWhereEqualTo("content",mList.get(position).getNote());
+        query.addWhereEqualTo("content",mList.get(position).getContent());
         query.findObjects(new FindListener<Post>() {
             @Override
             public void done(List<Post> list, BmobException e) {
@@ -460,12 +456,12 @@ public class MainFragment extends Fragment {
     /*
     从数据库删除
      */
-    private void deleteFromDb(int position){
-
-        String selection = "_id" + "=" + mList.get(position).getId();
-        context.getContentResolver().delete(DbInfo.NoteItems.CONTENT_URI,selection,null);
-
-    }
+//    private void deleteFromDb(int position){
+//
+//        String selection = "_id" + "=" + mList.get(position).getId();
+//        context.getContentResolver().delete(DbInfo.NoteItems.CONTENT_URI,selection,null);
+//
+//    }
 
 
 

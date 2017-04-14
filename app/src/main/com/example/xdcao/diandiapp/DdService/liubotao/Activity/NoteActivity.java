@@ -384,13 +384,13 @@ public class NoteActivity extends Activity {
 			{
 				switch (which){
 					case 0:
-						String data = "mIvNote";
+
 						saveContent(true);
 						//backToMainActivity(data);
 						//Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
 						//startActivity(intent);
 
-						finish();
+
 						break;
 					case 1:
 						saveContent(false);

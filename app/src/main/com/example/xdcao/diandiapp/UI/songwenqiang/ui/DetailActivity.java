@@ -53,9 +53,9 @@ public class DetailActivity extends AppCompatActivity {
 
 
         name.setText(user_name);
-        ImageLoaderUtil.getImageLoader(DetailActivity.this).displayImage(url, img, ImageLoaderUtil.getPhotoImageOption());
-
-
+        if(url!=null){
+            ImageLoaderUtil.getImageLoader(DetailActivity.this).displayImage(url, img, ImageLoaderUtil.getPhotoImageOption());
+        }
 
         Handler myHandler=new Handler(){
             public void handleMessage(Message msg){

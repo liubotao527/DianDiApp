@@ -60,6 +60,7 @@
             android:name=".UI.songwenqiang.ui.MainActivity"
             android:label="点滴"
             android:theme="@style/AppTheme"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".UI.songwenqiang.ui.SearchContentActivity"
             android:screenOrientation="portrait"/>

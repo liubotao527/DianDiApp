@@ -310,6 +310,10 @@ public class NoteActivity extends Activity {
 				{
 					Intent intent = new Intent(NoteActivity.this, com.example.xdcao.diandiapp.DdService.liubotao.PicsSelect.multiphotopicker.view.ImageChooseActivity.class);
 					intent.putExtra(IntentConstants.EXTRA_CAN_ADD_IMAGE_SIZE, CustomConstants.MAX_IMAGE_SIZE);
+					Bundle bundle=new Bundle();
+					int picCount=oldPics.size()+pics.size();
+					bundle.putInt("picCount",picCount);
+					intent.putExtras(bundle);
 					startActivityForResult(intent, 0);
 				}
 
@@ -508,7 +512,7 @@ public class NoteActivity extends Activity {
 			for(int i=0;i<pics.size();i++){
 				filepaths[i]=pics.get(i);
 				Log.d("bmob", "savePost: "+filepaths[i]);
-                Log.e("bmobtt", "savePost: "+filepaths[i]);
+               // Log.e("bmobtt", "savePost: "+filepaths[i]);
 			}
 
 			Log.d("bmob", "savePost: content"+content);
@@ -553,7 +557,7 @@ public class NoteActivity extends Activity {
 
 									finish();
 								}else {
-									Log.d("bmob", "done: 什么也不用做");
+									Log.d("bmob", "done: 什么也不用做"+e);
 								}
 							}
 						});
@@ -692,7 +696,7 @@ public class NoteActivity extends Activity {
 
 					pics.add(String.valueOf(Uri.parse(incomingDataList.get(i).sourcePath)));
 
-					Log.e("bmob", "onActivityResult: "+Uri.parse(incomingDataList.get(i).sourcePath));
+					//Log.e("bmob", "onActivityResult: "+Uri.parse(incomingDataList.get(i).sourcePath));
 
 					imgs=imgs+getImageContentUri(NoteActivity.this,incomingDataList.get(i).sourcePath)+"\n";
 

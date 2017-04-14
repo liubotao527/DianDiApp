@@ -48,7 +48,7 @@ public class ImageChooseActivity extends Activity implements ImageGridAdapter.Se
 	private ImageFetcher mHelper;
 	private List<ImageItem> mDataList = new ArrayList<ImageItem>();
 	private String mBucketName;
-	private int availableSize;
+	private int availableSize,picCount;
 	private GridView mGridView;
 	private Button backBtn;
 	private TextView headerTitleTv;
@@ -71,8 +71,13 @@ public class ImageChooseActivity extends Activity implements ImageGridAdapter.Se
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_choose);
-
+		Intent intent=this.getIntent();
+		final Bundle bundle = intent.getExtras();
+		picCount=bundle.getInt("picCount");
+		Log.e("picCount",picCount+"");
 		showFirstBucketDefault();
+
+
 		initView();
 		initListener();
 	}
@@ -89,7 +94,8 @@ public class ImageChooseActivity extends Activity implements ImageGridAdapter.Se
 		mDataList = imageBucket.imageList;
 
 		mBucketName = imageBucket.bucketName;
-		availableSize = CustomConstants.MAX_IMAGE_SIZE;
+		availableSize = CustomConstants.MAX_IMAGE_SIZE-picCount;
+		Log.e("picCount-a",availableSize+"");
 		if (mDataList == null) mDataList = new ArrayList<ImageItem>();
 		if (TextUtils.isEmpty(mBucketName))
 		{
@@ -354,7 +360,7 @@ public class ImageChooseActivity extends Activity implements ImageGridAdapter.Se
 		} else {
 			if (selectedImgs.size() >= availableSize) {
 				Toast.makeText(ImageChooseActivity.this,
-						"最多选择" + availableSize + "张图片",
+						"图片数量已达上限",
 						Toast.LENGTH_SHORT).show();
 				return;
 			}

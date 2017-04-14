@@ -318,7 +318,13 @@ public class ShareFragment extends Fragment{
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
+            Post note=notes.get(position);
             Intent intent = new Intent(getActivity(),DetailActivity.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("note", note);
+
+            intent.putExtras(bundle);
             //将数据传到DetailActivity
             startActivity(intent);
         }

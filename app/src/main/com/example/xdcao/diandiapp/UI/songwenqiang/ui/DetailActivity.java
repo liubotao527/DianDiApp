@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xdcao.diandiapp.BackUp.caohao.bean.Post;
 import com.example.xdcao.diandiapp.DdService.liubotao.activity.NoteActivity;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.adapter.NineGridTestAdapter;
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.view.NineGridTestLayout;
@@ -32,7 +33,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.mynote_detail);
         Intent intent=this.getIntent();
         final Bundle bundle = intent.getExtras();
-        MyDdNote note= (MyDdNote) bundle.getSerializable("note");
+        Post note= (Post) bundle.getSerializable("note");
         Handler myHandler=new Handler(){
             public void handleMessage(Message msg){
                 if(msg.what==0x123){
@@ -50,10 +51,10 @@ public class DetailActivity extends AppCompatActivity {
         nineGridTestLayout.setHandler(myHandler);
         text= (TextView) findViewById(R.id.note_text);
         time= (TextView) findViewById(R.id.note_time);
-        text.setText(note.getNote());
-        time.setText(note.getTime());
+        text.setText(note.getContent());
+        time.setText(note.getCreatedAt());
         nineGridTestLayout.setIsShowAll(true);
-        nineGridTestLayout.setUrlList(note.getUrlList());
+        nineGridTestLayout.setUrlList(note.getImages());
 
 
 

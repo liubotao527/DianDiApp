@@ -110,7 +110,7 @@ public class NoteActivity extends Activity {
 	int count=0;
 	public static NoteActivity instance;
 	int imgId=0;
-	MyDdNote oldNote=null;
+	Post oldNote=null;
     private ImageView mIvSave,mIvBack;
 
 
@@ -143,12 +143,12 @@ public class NoteActivity extends Activity {
 			//noteAlarm(_id);
 		}
 		Bundle bundle = intent.getExtras();
-		oldNote= (MyDdNote) bundle.getSerializable("note");
+		oldNote= (Post) bundle.getSerializable("note");
 		initViews();
 		if(oldNote!=null){
-			if(oldNote.urlList!=null) {
-				for (int i = 0; i < oldNote.urlList.size(); i++) {
-					oldPics.add(oldNote.urlList.get(i));
+			if(oldNote.getImages()!=null) {
+				for (int i = 0; i < oldNote.getImages().size(); i++) {
+					oldPics.add(oldNote.getImages().get(i));
 				}
 			}
 			initViews2(oldNote);
@@ -274,25 +274,27 @@ public class NoteActivity extends Activity {
 	}
 
 
-	public void initViews2(MyDdNote note)
+	public void initViews2(Post note)
 	{
 		if(note!=null){
-			et_content.setText(note.getNote());
+			et_content.setText(note.getContent());
 			List<ImageItem> temp=new ArrayList<ImageItem>() ;
-			for(int i=0;i<note.urlList.size();i++){
-				ImageItem img=new ImageItem();
-				img.imageId=imgId+"";
-				imgId++;
-				img.isSelected=true;
-				//img.sourcePath=note.urlList.get(i);
-				Log.e("TAG",note.urlList.get(i));
-				Uri realPath=Uri.parse(note.urlList.get(i));
+			if(note.getImages()!=null) {
+				for (int i = 0; i < note.getImages().size(); i++) {
+					ImageItem img = new ImageItem();
+					img.imageId = imgId + "";
+					imgId++;
+					img.isSelected = true;
+					//img.sourcePath=note.urlList.get(i);
+					Log.e("TAG", note.getImages().get(i));
+					Uri realPath = Uri.parse(note.getImages().get(i));
 //				Log.e("TAG",com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath));
 //				img.sourcePath=com.example.xdcao.diandiapp.BackUp.caohao.util.uriUtil.getImageAbsolutePath(NoteActivity.this,realPath);
-				img.sourcePath=note.urlList.get(i);
-				temp.add(img);
+					img.sourcePath = note.getImages().get(i);
+					temp.add(img);
+				}
+				mDataList.addAll(temp);
 			}
-			mDataList.addAll(temp);
 		}
 
 
@@ -506,7 +508,7 @@ public class NoteActivity extends Activity {
 	private void savePost(final String content) {
 		Log.d("bmob", "onBackPressed: "+pics.size());
 
-		if(pics.size()>0){
+		if((pics.size()>0)||(oldPics.size()>0)){
 			final String[] filepaths=new String[pics.size()];
 
 			for(int i=0;i<pics.size();i++){
@@ -516,66 +518,94 @@ public class NoteActivity extends Activity {
 			}
 
 			Log.d("bmob", "savePost: content"+content);
-			BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
-				@Override
-				public void onSuccess(List<BmobFile> list, List<String> list1) {
-					if (list.size()==filepaths.length){
+			if(pics.size()>0){
+				BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
+					@Override
+					public void onSuccess(List<BmobFile> list, List<String> list1) {
+						if (list.size()==filepaths.length){
 
-						Log.d("bmob", "onSuccess: ");
-						final Post post=new Post();
-						if(content!=null){
-							post.setContent(content);
-						}
-
-						post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-						post.setCreateDate(new BmobDate(new Date()));
-						post.setShared(false);
-
-
-						List<String> imgs=new ArrayList<String>();
-						List<String> names=new ArrayList<String>();
-						for(int i=0;i<oldPics.size();i++){
-							imgs.add(oldPics.get(i));
-						}
-
-						for (BmobFile pic:list){
-							imgs.add(pic.getFileUrl());
-							names.add(pic.getFilename());
-						}
-
-						post.setImages(imgs);
-						post.setFilenames(names);
-
-						post.save(new SaveListener<String>() {
-							@Override
-							public void done(String s, BmobException e) {
-								if(e==null){
-									Log.d("bmob", "done: "+"状态发送成功");
-									Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
-									Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
-									startActivity(intent);
-
-									finish();
-								}else {
-									Log.d("bmob", "done: 什么也不用做"+e);
-								}
+							Log.d("bmob", "onSuccess: ");
+							final Post post=new Post();
+							if(content!=null){
+								post.setContent(content);
 							}
-						});
+
+							post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+							post.setCreateDate(new BmobDate(new Date()));
+							post.setShared(false);
+
+
+							List<String> imgs=new ArrayList<String>();
+							List<String> names=new ArrayList<String>();
+							for(int i=0;i<oldPics.size();i++){
+								imgs.add(oldPics.get(i));
+							}
+
+							for (BmobFile pic:list){
+								imgs.add(pic.getFileUrl());
+								names.add(pic.getFilename());
+							}
+
+							post.setImages(imgs);
+							post.setFilenames(names);
+
+							post.save(new SaveListener<String>() {
+								@Override
+								public void done(String s, BmobException e) {
+									if(e==null){
+										Log.d("bmob", "done: "+"状态发送成功");
+										Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
+										Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
+										startActivity(intent);
+
+										finish();
+									}else {
+										Log.d("bmob", "done: 什么也不用做"+e);
+									}
+								}
+							});
+
+						}
 
 					}
 
-				}
+					@Override
+					public void onProgress(int i, int i1, int i2, int i3) {
+						Log.d(TAG, "onProgress: ");
+					}
 
-				@Override
-				public void onProgress(int i, int i1, int i2, int i3) {
-					Log.d(TAG, "onProgress: ");
+					@Override
+					public void onError(int i, String s) {
+						Log.d(TAG, "onError: ");
+					}
+				});
+			}else {
+				Post post=new Post();
+				post.setContent(content);
+				post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
+				post.setCreateDate(new BmobDate(new Date()));
+				post.setShared(false);
+				List<String> imgs=new ArrayList<String>();
+				for(int i=0;i<oldPics.size();i++){
+					imgs.add(oldPics.get(i));
 				}
+				post.setImages(imgs);
+				post.save(new SaveListener<String>() {
+					@Override
+					public void done(String s, BmobException e) {
+						if(e==null){
+							Log.d("bmob", "done: "+"状态发送成功");
+							Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
 
-				@Override
-				public void onError(int i, String s) {
-					Log.d(TAG, "onError: ");
-				}
-			});
+							Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
+							startActivity(intent);
+							finish();
+						}else {
+							Log.d("bmob", "done: 什么也不用做");
+						}
+					}
+				});
+			}
 		}else {
 			Post post=new Post();
 			post.setContent(content);

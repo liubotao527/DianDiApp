@@ -107,6 +107,7 @@ public class NoteActivity extends Activity {
 	private ArrayList<String> oldPics=new ArrayList<>();
 	private String temp;
 	private String imgs="";
+	private String oldText="";
 	int count=0;
 	public static NoteActivity instance;
 	int imgId=0;
@@ -146,6 +147,7 @@ public class NoteActivity extends Activity {
 		oldNote= (Post) bundle.getSerializable("note");
 		initViews();
 		if(oldNote!=null){
+			oldText=oldNote.getContent();
 			if(oldNote.getImages()!=null) {
 				for (int i = 0; i < oldNote.getImages().size(); i++) {
 					oldPics.add(oldNote.getImages().get(i));
@@ -363,7 +365,7 @@ public class NoteActivity extends Activity {
 					Toast.makeText(NoteActivity.this,"您没有输入任何文字",Toast.LENGTH_SHORT).show();
 				}
 
-				saveContent();
+				saveContent(false);
 
             }
         });
@@ -383,10 +385,15 @@ public class NoteActivity extends Activity {
 				switch (which){
 					case 0:
 						String data = "mIvNote";
-						backToMainActivity(data);
+						saveContent(true);
+						//backToMainActivity(data);
+						//Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
+						//startActivity(intent);
+
+						finish();
 						break;
 					case 1:
-						saveContent();
+						saveContent(false);
 						break;
 					default:
 						break;
@@ -399,7 +406,7 @@ public class NoteActivity extends Activity {
 		builder.show();
 	}
 
-    public void saveContent(){
+    public void saveContent(boolean cancel){
 		String content = et_content.getText().toString();
 		// 判断是更新还是新建便签
 		mGridView.clearAnimation();
@@ -417,8 +424,14 @@ public class NoteActivity extends Activity {
 			Log.e("temp","imgs"+imgs);
 			getContentResolver().insert(NoteItems.CONTENT_URI, values);
 
+			if(cancel){
+				pics.clear();
+				content=oldText;
+			}
+
+
 			// TODO: 2017/4/4 向服务器传数据
-			savePost(content);
+			savePost(content,cancel);
 			//	}
 		}/* else if (openType.equals("newFolderNote")) {
 			// 创建文件夹下的便签
@@ -505,8 +518,9 @@ public class NoteActivity extends Activity {
 	/*
 	将刚编辑好的状态上传到后台，默认其他用户不可见
 	 */
-	private void savePost(final String content) {
+	private void savePost(final String content, final boolean cancel) {
 		Log.d("bmob", "onBackPressed: "+pics.size());
+
 
 		if((pics.size()>0)||(oldPics.size()>0)){
 			final String[] filepaths=new String[pics.size()];
@@ -554,7 +568,9 @@ public class NoteActivity extends Activity {
 								public void done(String s, BmobException e) {
 									if(e==null){
 										Log.d("bmob", "done: "+"状态发送成功");
-										Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
+										if(!cancel) {
+											Toast.makeText(NoteActivity.this, "上传成功！", Toast.LENGTH_SHORT).show();
+										}
 										Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
 										startActivity(intent);
 

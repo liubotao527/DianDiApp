@@ -209,7 +209,6 @@ public class MainFragment extends Fragment {
                                     bundle.putSerializable("note", note);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
-
                                     break;
                                 default:
                                     break;

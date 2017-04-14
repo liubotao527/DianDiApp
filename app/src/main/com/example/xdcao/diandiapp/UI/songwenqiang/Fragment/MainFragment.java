@@ -166,7 +166,7 @@ public class MainFragment extends Fragment {
 
             System.out.println(mList.size());
             holder.tv_content.setText(mList.get(position).getContent());
-            holder.tv_time.setText(mList.get(position).getContent());
+            holder.tv_time.setText(mList.get(position).getCreatedAt());
 
             if(mList.get(position).getImages()!=null){
                 if(mList.get(position).getImages().size()>0) {

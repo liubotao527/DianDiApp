@@ -35,20 +35,7 @@
             android:hint="请输入旧密码" />
     </android.support.design.widget.TextInputLayout>
 
-    <!--  Password Label -->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/et_reenter_old_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:theme="@style/MyEditText"
-            android:textColorHint="@color/colorPrimary"
-            android:hint="请确认旧密码"/>
-    </android.support.design.widget.TextInputLayout>
+
 
 
     <android.support.design.widget.TextInputLayout

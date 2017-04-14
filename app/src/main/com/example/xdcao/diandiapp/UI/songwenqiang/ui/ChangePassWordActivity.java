@@ -19,7 +19,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class ChangePassWordActivity extends AppCompatActivity {
 
-    private EditText mEtOldPassWord,mEtReOldPassWord,mEtNewPassWord,mEtReNewPassWord;
+    private EditText mEtOldPassWord,mEtNewPassWord,mEtReNewPassWord;
 
     private ImageView mIvBack;
 
@@ -31,7 +31,6 @@ public class ChangePassWordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_pass_word);
 
         mEtOldPassWord = (EditText) findViewById(R.id.et_old_password);
-        mEtReOldPassWord = (EditText) findViewById(R.id.et_reenter_old_password);
         mEtNewPassWord = (EditText) findViewById(R.id.et_new_password);
         mEtReNewPassWord = (EditText) findViewById(R.id.et_reenter_new_password);
 
@@ -54,17 +53,13 @@ public class ChangePassWordActivity extends AppCompatActivity {
                 //Todo 保存并返回设置界面
 
                 String old=mEtOldPassWord.getText().toString();
-                String confirmOld=mEtReOldPassWord.getText().toString();
                 String newPass=mEtNewPassWord.getText().toString();
                 String confirmNew=mEtReNewPassWord.getText().toString();
                 if(newPass.length()<6){
                     mEtNewPassWord.setError("密码的长度至少为6位");
                     return;
                 }
-                if (!old.equals(confirmOld)){
-                    Toast.makeText(ChangePassWordActivity.this,"请确认旧密码输入一致",Toast.LENGTH_SHORT).show();
-                    return;
-                }else if (!newPass.equals(confirmNew)){
+                if (!newPass.equals(confirmNew)){
                     Toast.makeText(ChangePassWordActivity.this,"请确认新密码输入一致",Toast.LENGTH_SHORT).show();
                 }else {
                     updateCurrentUserPwd(old,newPass);

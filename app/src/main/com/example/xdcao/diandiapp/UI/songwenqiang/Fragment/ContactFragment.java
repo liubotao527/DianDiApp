@@ -150,8 +150,32 @@ public class ContactFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mContactList=new ArrayList<ContactItem>();
                 //TODO 开启一个线程刷新数据
-                handler.sendEmptyMessage(QUERY_SWIPE);
+                BmobQuery<MyUser> query=new BmobQuery<MyUser>();
+                MyUser me=MyUser.getCurrentUser(MyUser.class);
+                query.addWhereRelatedTo("friends",new BmobPointer(me));
+                query.findObjects(new FindListener<MyUser>() {
+                    @Override
+                    public void done(final List<MyUser> list, BmobException e) {
+                        if(e==null){
+                            Log.d("bmob", "done: "+"success, size:"+list.size());
+                            for (MyUser myUser:list){
+                                ContactItem contactItem=new ContactItem();
+                                contactItem.setId(myUser.getObjectId());
+                                contactItem.setNickName(myUser.getNickName());
+                                contactItem.setAvatar(myUser.getAvatar());
+                                contactItem.setMyUser(myUser);
+                                mContactList.add(contactItem);
+                            }
+
+                            handler.sendEmptyMessage(QUERY_SWIPE);
+
+                        }
+
+                    }
+                });
+
             }
         });
 //        recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));

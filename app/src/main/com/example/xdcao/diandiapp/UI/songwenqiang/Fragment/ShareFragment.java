@@ -58,6 +58,8 @@ import cn.bmob.v3.listener.FindListener;
 
 public class ShareFragment extends Fragment{
 
+    private static final String TAG = "bmob";
+
     private final static int QUERY_SWIPE = 23;
     private RecyclerView recyclerView;
     private CoordinatorLayout coordinatorLayout;
@@ -208,8 +210,55 @@ public class ShareFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                frindCounter=0;
+                postCounter=0;
+                friendSize=0;
+                postSize=0;
                 //TODO 开启一个线程刷新数据
-                handler.sendEmptyMessage(QUERY_SWIPE);
+                notes=new ArrayList<Post>();
+                Log.d("bmob", "onRefresh: ");
+                MyUser me=MyUser.getCurrentUser(MyUser.class);
+                BmobQuery<MyUser> userQuery=new BmobQuery<>();
+                userQuery.addWhereRelatedTo("friends",new BmobPointer(me));
+                userQuery.findObjects(new FindListener<MyUser>() {
+                    @Override
+                    public void done(List<MyUser> list, BmobException e) {
+                        friendSize=list.size();
+                        Log.d(TAG, "done: friendSize"+list.size());
+                        for (MyUser friend:list){
+                            frindCounter++;
+                            BmobQuery<Post> isShareQuery=new BmobQuery<>();
+                            isShareQuery.addWhereEqualTo("isShared",true);
+                            BmobQuery<Post> isFirendQuery=new BmobQuery<Post>();
+                            isFirendQuery.addWhereEqualTo("author",friend);
+                            List<BmobQuery<Post>> queries=new ArrayList<BmobQuery<Post>>();
+                            queries.add(isShareQuery);
+                            queries.add(isFirendQuery);
+                            BmobQuery<Post> mainQuery=new BmobQuery<Post>();
+                            mainQuery.and(queries);
+                            mainQuery.order("-createdAt");
+                            mainQuery.findObjects(new FindListener<Post>() {
+                                @Override
+                                public void done(List<Post> list, BmobException e) {
+                                    if(e==null){
+                                        if (list.size()>0){
+                                            postSize=list.size();
+                                            Log.d(TAG, "done: postSize"+list.size());
+                                            for (Post post:list){
+                                                notes.add(post);
+                                                postCounter++;
+                                                if ((postCounter==postSize)&&(frindCounter==friendSize)){
+                                                    handler.sendEmptyMessage(QUERY_SWIPE);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
 
 
             }
@@ -238,7 +287,7 @@ public class ShareFragment extends Fragment{
             Log.d("bmob", "onBindViewHolder: username"+notes.get(position).getAuthor().getUsername());
             holder.tv_content.setText(notes.get(position).getContent());
             holder.tv_time.setText(notes.get(position).getCreatedAt());
-            //TODO 将用户的头像  holder.mRivPhoto.setImageBitmap();
+
             if (notes.get(position).getAuthorAvatar()!=null){
                 ImageLoaderUtil.displayImage(context,holder.mRivPhoto,notes.get(position).getAuthorAvatar(),ImageLoaderUtil.getPhotoImageOption());
             }

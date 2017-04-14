@@ -42,7 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         initView();
-        BmobInit();
         autoLogin();
     }
 
@@ -164,13 +163,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void BmobInit() {
-//        Bmob.initialize(this,"2e17b59fa1eb4f65250b5e02abc93c31");
-        BmobConfig config=new BmobConfig.Builder(this).setApplicationId("2e17b59fa1eb4f65250b5e02abc93c31")
-                .build();
-        Bmob.initialize(config);
 
-    }
 
 
 }

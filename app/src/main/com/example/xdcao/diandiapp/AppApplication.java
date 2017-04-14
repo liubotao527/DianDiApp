@@ -9,12 +9,16 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
+
 public class AppApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
         initImageLoader();
+        BmobInit();
     }
 
     private void initImageLoader() {
@@ -24,4 +28,13 @@ public class AppApplication extends Application {
         ImageLoader.getInstance().init(configuration);
 
     }
+
+    private void BmobInit() {
+//        Bmob.initialize(this,"2e17b59fa1eb4f65250b5e02abc93c31");
+        BmobConfig config=new BmobConfig.Builder(this).setApplicationId("2e17b59fa1eb4f65250b5e02abc93c31")
+                .build();
+        Bmob.initialize(config);
+
+    }
+
 }

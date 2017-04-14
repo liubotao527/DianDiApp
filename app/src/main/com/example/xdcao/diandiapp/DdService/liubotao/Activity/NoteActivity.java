@@ -108,6 +108,7 @@ public class NoteActivity extends Activity {
 	private String temp;
 	private String imgs="";
 	private String oldText="";
+	private BmobDate oldTime;
 	int count=0;
 	public static NoteActivity instance;
 	int imgId=0;
@@ -148,6 +149,8 @@ public class NoteActivity extends Activity {
 		initViews();
 		if(oldNote!=null){
 			oldText=oldNote.getContent();
+			oldTime=oldNote.getCreateDate();
+			Log.e("ddd",oldTime.getDate());
 			if(oldNote.getImages()!=null) {
 				for (int i = 0; i < oldNote.getImages().size(); i++) {
 					oldPics.add(oldNote.getImages().get(i));
@@ -385,14 +388,21 @@ public class NoteActivity extends Activity {
 				switch (which){
 					case 0:
 
-						saveContent(true);
+
 						//backToMainActivity(data);
-						//Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
-						//startActivity(intent);
+						if(oldNote==null) {
+							Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
+							startActivity(intent);
+						}else{
+							saveContent(true);
+						}
 
 
 						break;
 					case 1:
+						if(et_content.getText().toString().equals("")){
+							Toast.makeText(NoteActivity.this,"您没有输入任何文字",Toast.LENGTH_SHORT).show();
+						}
 						saveContent(false);
 						break;
 					default:
@@ -545,7 +555,12 @@ public class NoteActivity extends Activity {
 							}
 
 							post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-							post.setCreateDate(new BmobDate(new Date()));
+							if(cancel){
+								post.setCreateDate(oldTime);
+								//Toast.makeText(NoteActivity.this, "取消1"+oldTime.getDate(), Toast.LENGTH_SHORT).show();
+							}else {
+								post.setCreateDate(new BmobDate(new Date()));
+							}
 							post.setShared(false);
 
 
@@ -569,6 +584,7 @@ public class NoteActivity extends Activity {
 									if(e==null){
 										Log.d("bmob", "done: "+"状态发送成功");
 										if(!cancel) {
+											Log.e("cancel","cancel");
 											Toast.makeText(NoteActivity.this, "上传成功！", Toast.LENGTH_SHORT).show();
 										}
 										Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
@@ -599,7 +615,12 @@ public class NoteActivity extends Activity {
 				Post post=new Post();
 				post.setContent(content);
 				post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-				post.setCreateDate(new BmobDate(new Date()));
+				if(cancel){
+					post.setCreateDate(oldTime);
+					//Toast.makeText(NoteActivity.this, "取消2"+oldTime.getDate(), Toast.LENGTH_SHORT).show();
+				}else {
+					post.setCreateDate(new BmobDate(new Date()));
+				}
 				post.setShared(false);
 				List<String> imgs=new ArrayList<String>();
 				for(int i=0;i<oldPics.size();i++){
@@ -611,7 +632,9 @@ public class NoteActivity extends Activity {
 					public void done(String s, BmobException e) {
 						if(e==null){
 							Log.d("bmob", "done: "+"状态发送成功");
-							Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
+							if(!cancel) {
+								Toast.makeText(NoteActivity.this, "上传成功！", Toast.LENGTH_SHORT).show();
+							}
 
 							Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
 							startActivity(intent);
@@ -626,15 +649,21 @@ public class NoteActivity extends Activity {
 			Post post=new Post();
 			post.setContent(content);
 			post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
-			post.setCreateDate(new BmobDate(new Date()));
+			if(cancel){
+				post.setCreateDate(oldTime);
+				//Toast.makeText(NoteActivity.this, "取消3"+oldTime.getDate(), Toast.LENGTH_SHORT).show();
+			}else {
+				post.setCreateDate(new BmobDate(new Date()));
+			}
 			post.setShared(false);
 			post.save(new SaveListener<String>() {
 				@Override
 				public void done(String s, BmobException e) {
 					if(e==null){
 						Log.d("bmob", "done: "+"状态发送成功");
-						Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
-
+						if(!cancel) {
+							Toast.makeText(NoteActivity.this, "上传成功！", Toast.LENGTH_SHORT).show();
+						}
 						String data = "mIvNote";
 						backToMainActivity(data);
 					}else {

@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
 import com.example.xdcao.diandiapp.R;
 
 import java.io.File;
@@ -28,43 +29,9 @@ public class ImageDetail extends Activity {
         setContentView(R.layout.one_image);
 
         Bundle bundle = this.getIntent().getExtras();
-        int num=bundle.getInt("num");
+        String oneImg=bundle.getString("img");
         imageView= (ImageView) findViewById(R.id.img);
-        imageView.setImageBitmap(getLoacalBitmap(num+10+".jpg"));
+        ImageLoaderUtil.getImageLoader(ImageDetail.this).displayImage(oneImg, imageView , ImageLoaderUtil.getPhotoImageOption());
     }
 
-
-    public static Bitmap getLoacalBitmap(String name) {
-        try {
-            File f=getFileFromSd(name,"A1206");
-            FileInputStream fis = new FileInputStream(f);
-            return BitmapFactory.decodeStream(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    static File getFileFromSd(String filename, String path) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            // 获取SD卡的目录
-            File sdcardDir = Environment.getExternalStorageDirectory();//get sdcard path
-            File baseDir = new File(sdcardDir, path);
-            File file = new File(baseDir, filename);
-            if (!baseDir.exists()) {
-                baseDir.mkdir();
-            }
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return file;
-        } else {
-            Log.w("data2", "SD卡不存在！");
-            return null;
-        }
-    }
 }

@@ -544,6 +544,7 @@ public class NoteActivity extends Activity {
 									Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
 									Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
 									startActivity(intent);
+
 									finish();
 								}else {
 									Log.d("bmob", "done: 什么也不用做");
@@ -577,6 +578,7 @@ public class NoteActivity extends Activity {
 					if(e==null){
 						Log.d("bmob", "done: "+"状态发送成功");
 						Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
+
 						Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
 						startActivity(intent);
 						finish();

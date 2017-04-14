@@ -1,21 +1,29 @@
 package com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.xdcao.diandiapp.DdService.liubotao.ninegridlayout.util.ImageLoaderUtil;
+import com.example.xdcao.diandiapp.UI.songwenqiang.ui.ImageDetail;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
+import android.os.Handler;
+import java.util.logging.LogRecord;
 
 
 public class NineGridTestLayout extends NineGridLayout {
 
     protected static final int MAX_W_H_RATIO = 3;
+    private Handler handler;
 
     public NineGridTestLayout(Context context) {
         super(context);
@@ -24,6 +32,9 @@ public class NineGridTestLayout extends NineGridLayout {
     public NineGridTestLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+
+
 
     @Override
     protected boolean displayOneImage(final RatioImageView imageView, String url, final int parentWidth) {
@@ -74,6 +85,18 @@ public class NineGridTestLayout extends NineGridLayout {
 
     @Override
     protected void onClickImage(int i, String url, List<String> urlList) {
-        Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();
+
+        Message msg=new Message();
+        msg.what=0x123;
+        Bundle bundle=new Bundle();
+        bundle.putString("img",url);
+        msg.setData(bundle);
+        handler.sendMessage(msg);
+
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
     }
 }

@@ -46,13 +46,11 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent=this.getIntent();
         final Bundle bundle = intent.getExtras();
         Post note= (Post) bundle.getSerializable("note");
-        MyUser user= (MyUser) bundle.getSerializable("user");
-        if(user==null){
-            user_name=me.getNickName();
-            url=me.getAvatar().getFileUrl();
-        }else{
+        boolean isMe=bundle.getBoolean("user");
 
-        }
+        user_name=note.getAuthorName();
+        url=note.getAuthorAvatar();
+
 
         name.setText(user_name);
         ImageLoaderUtil.getImageLoader(DetailActivity.this).displayImage(url, img, ImageLoaderUtil.getPhotoImageOption());

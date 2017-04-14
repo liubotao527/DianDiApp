@@ -222,11 +222,11 @@ public class MainFragment extends Fragment {
             });
             //holder.tv_content.setText("今天天气真好");
             //holder.tv_time.setText("Time");
+
 //            holder.iv_content.setImageResource();
 
         }
 
-        @Override
         public int getItemCount() {
             return mList.size();
         }
@@ -239,6 +239,7 @@ public class MainFragment extends Fragment {
 
             Bundle bundle = new Bundle();
             bundle.putSerializable("note", note);
+            bundle.putBoolean("user",true);
             intent.putExtras(bundle);
             //将数据传到DetailActivity
             startActivity(intent);

@@ -152,6 +152,7 @@ public class ContactShareActivity extends AppCompatActivity {
 
             Bundle bundle = new Bundle();
             bundle.putSerializable("note", note);
+            bundle.putBoolean("user",false);
 
             intent.putExtras(bundle);
             //将数据传到DetailActivity

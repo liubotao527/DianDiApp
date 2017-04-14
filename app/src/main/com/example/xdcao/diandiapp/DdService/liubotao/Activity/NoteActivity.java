@@ -353,6 +353,10 @@ public class NoteActivity extends Activity {
         mIvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+				if(et_content.getText().toString().equals("")){
+					Toast.makeText(NoteActivity.this,"您没有输入任何文字",Toast.LENGTH_SHORT).show();
+				}
+
 				saveContent();
 
             }
@@ -470,7 +474,6 @@ public class NoteActivity extends Activity {
 		}*/
 		if (!TextUtils.isEmpty(content)) {
 			oldContent = content;
-
 		}
 
 	}

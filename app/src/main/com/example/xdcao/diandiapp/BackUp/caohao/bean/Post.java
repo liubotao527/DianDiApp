@@ -77,7 +77,7 @@ public class Post extends BmobObject {
     public void setAuthor(MyUser author) {
         this.author = author;
         this.authorName=author.getNickName();
-        if (author.getAvatar().getFileUrl()!=null){
+        if (author.getAvatar()!=null){
             this.authorAvatar=author.getAvatar().getFileUrl();
         }
 

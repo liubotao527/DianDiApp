@@ -63,8 +63,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".UI.songwenqiang.ui.DetailActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".UI.songwenqiang.ui.ImageDetail"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".UI.songwenqiang.ui.ImageDetail"/>
 
         <provider
             android:name=".DdService.liubotao.database.DbInfoProvider"

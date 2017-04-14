@@ -57,6 +57,8 @@ import cn.bmob.v3.listener.FindListener;
  */
 
 public class ShareFragment extends Fragment{
+
+    private final static int QUERY_SWIPE = 23;
     private RecyclerView recyclerView;
     private CoordinatorLayout coordinatorLayout;
     private List<Post> notes;
@@ -68,6 +70,7 @@ public class ShareFragment extends Fragment{
     private int friendSize=0;
     private int postSize=0;
     private ImageLoader imageLoader;
+    private NoteAdapter noteAdapter;
 
     Handler handler=new Handler() {
         @Override
@@ -75,12 +78,17 @@ public class ShareFragment extends Fragment{
             switch (msg.what){
                 case HandlerCons.QUERY_ALL_SHARE:
                     Log.d("bmob", "handleMessage: "+"get handler mList.size: "+notes.size());
-                    NoteAdapter noteAdapter=new NoteAdapter();
+                    noteAdapter = new NoteAdapter();
                     recyclerView.setAdapter(noteAdapter);
+                    break;
+                case QUERY_SWIPE:
+                    swipeRefreshLayout.setRefreshing(false);
+                    noteAdapter.notifyDataSetChanged();
             }
             super.handleMessage(msg);
         }
     };
+
 
     class QueryForSharesThread extends Thread{
         @Override
@@ -197,6 +205,9 @@ public class ShareFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                //TODO 开启一个线程刷新数据
+                handler.sendEmptyMessage(QUERY_SWIPE);
+
 
             }
         });

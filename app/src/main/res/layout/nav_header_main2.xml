@@ -7,28 +7,11 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <com.example.xdcao.diandiapp.UI.songwenqiang.ui.widget.RoundImageView
         android:id="@+id/iv_photo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/guanggao1"/>
-    <TextView
-        android:id="@+id/tv_nickname"
-        android:layout_below="@+id/iv_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        android:text="DianDi"/>
 
-    <TextView
-        android:id="@+id/tv_sign_name"
-        android:layout_below="@+id/tv_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:text="点滴--记录生活的美好"/>
 
 </RelativeLayout>

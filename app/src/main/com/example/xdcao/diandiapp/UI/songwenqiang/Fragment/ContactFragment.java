@@ -13,9 +13,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +59,12 @@ public class ContactFragment extends Fragment{
     private CoordinatorLayout coordinatorLayout;
     private List<ContactItem> mContactList;
     private LinearLayoutManager mLayoutManager;
-    //    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Context context;
     private ImageLoader imageLoader;
-
+    private final static int QUERY_SWIPE = 23;
+    private static final String TAG = "ContactFragment";
+    private ContactAdapter contactAdapter;
 
 
 
@@ -72,14 +76,18 @@ public class ContactFragment extends Fragment{
                     new QueryForUsersThread().start();
                 case HandlerCons.QUERY_ALL_USER:
                     Log.d(TAG, "handleMessage: "+"get handler mList.size: "+mContactList.size());
-                    ContactAdapter ContactAdapter = new ContactAdapter();
-                    recyclerView.setAdapter(ContactAdapter);
+                    contactAdapter = new ContactAdapter();
+                    recyclerView.setAdapter(contactAdapter);
+                    break;
+                case QUERY_SWIPE:
+                    swipeRefreshLayout.setRefreshing(false);
+                    contactAdapter.notifyDataSetChanged();
             }
             super.handleMessage(msg);
         }
     };
 
-    private static final String TAG = "ContactFragment";
+
 
     public ContactFragment(){
 
@@ -129,19 +137,20 @@ public class ContactFragment extends Fragment{
         mLayoutManager = new LinearLayoutManager(context);
 
         recyclerView.setLayoutManager(mLayoutManager);
-//        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.line_swipe_refresh);
-//        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,R.color.colorPrimaryDark,R.color.colorAccent);
-//        swipeRefreshLayout.setProgressViewOffset(false,0,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,24,getResources().getDisplayMetrics()));
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.line_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,R.color.colorPrimaryDark,R.color.colorAccent);
+        swipeRefreshLayout.setProgressViewOffset(false,0,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,24,getResources().getDisplayMetrics()));
         setListener();
     }
 
     private void setListener() {
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//            }
-//        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //TODO 开启一个线程刷新数据
+                handler.sendEmptyMessage(QUERY_SWIPE);
+            }
+        });
 //        recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
         ContactAdapter ContactAdapter = new ContactAdapter();
         recyclerView.setAdapter(ContactAdapter);

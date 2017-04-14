@@ -21,20 +21,41 @@
         android:layout_gravity="start"
         android:orientation="vertical"
         android:choiceMode="singleChoice"
-        android:background="@color/colorPrimary"
+        android:background="@color/white"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         >
         <include layout="@layout/nav_header_main2"/>
-        <!--
-        <ListView
-
-            android:id="@+id/left_drawer"
+        <TextView
+            android:id="@+id/tv_nickname"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:text="DianDi"/>
 
-        </ListView>
-        -->
+        <TextView
+            android:id="@+id/tv_sign_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="点滴--记录生活的美好"/>
+
+
+        <TextView
+            android:layout_width="187dp"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="200dp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="    您可以用这款软件记录生活的美好点滴，并将这些点滴分享给您的好友。"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

@@ -655,6 +655,7 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("Open_Type", "newNote");
         i.setClass(MainActivity.this, NoteActivity.class);
         startActivity(i);
+        finish();
     }
 
 }

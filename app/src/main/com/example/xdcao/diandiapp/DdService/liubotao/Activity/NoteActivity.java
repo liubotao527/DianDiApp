@@ -492,7 +492,7 @@ public class NoteActivity extends Activity {
 		//}
 		// 得到EditText中当前的内容
 		checkSave();
-		super.onBackPressed();
+
 
 	}
 
@@ -619,9 +619,8 @@ public class NoteActivity extends Activity {
 						Log.d("bmob", "done: "+"状态发送成功");
 						Toast.makeText(NoteActivity.this,"上传成功！",Toast.LENGTH_SHORT).show();
 
-						Intent intent=new Intent(NoteActivity.this, com.example.xdcao.diandiapp.UI.songwenqiang.ui.MainActivity.class);
-						startActivity(intent);
-						finish();
+						String data = "mIvNote";
+						backToMainActivity(data);
 					}else {
 						Log.d("bmob", "done: 什么也不用做");
 					}

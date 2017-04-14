@@ -516,7 +516,10 @@ public class NoteActivity extends Activity {
 
 						Log.d("bmob", "onSuccess: ");
 						final Post post=new Post();
-						post.setContent(content);
+						if(content!=null){
+							post.setContent(content);
+						}
+
 						post.setAuthor(BmobUser.getCurrentUser(MyUser.class));
 						post.setCreateDate(new BmobDate(new Date()));
 						post.setShared(false);
